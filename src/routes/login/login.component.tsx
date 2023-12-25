@@ -57,19 +57,18 @@ export default function Login() {
   }
   return (
     <Center minH={'100vh'}>
-      <Container maxWidth={'450'}>
+      <Container maxWidth={'350'}>
         <Center>
           <Heading size={'4xl'} marginBottom={10} fontWeight={'500'}>
             Catsta
           </Heading>
         </Center>
 
-        <Stack spacing={5}>
+        <Stack spacing={3}>
           <FormControl isInvalid={isEmailInvalid}>
             <Input
               type='email'
               placeholder='Email'
-              size={'lg'}
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />
@@ -77,7 +76,7 @@ export default function Login() {
           </FormControl>
 
           <FormControl isInvalid={isPasswordInvalid}>
-            <InputGroup size={'lg'}>
+            <InputGroup>
               <Input
                 type={`${show ? 'text' : 'password'}`}
                 placeholder='Password'
@@ -85,7 +84,7 @@ export default function Login() {
               />
               <InputRightElement
                 textAlign={'center'}
-                fontSize='1.5em'
+                fontSize='1.2em'
                 onClick={() => setShow((show) => !show)}
                 _hover={{ cursor: 'pointer' }}
               >
@@ -95,16 +94,14 @@ export default function Login() {
             <FormErrorMessage>{pwErrorMsg}</FormErrorMessage>
           </FormControl>
 
-          <Button size={'lg'} onClick={login}>
-            Log in
-          </Button>
+          <Button onClick={login}>Log in</Button>
 
-          <Box position='relative' paddingY='10'>
-            <Divider size={'xl'} />
+          <Box position='relative' paddingY='7'>
+            <Divider />
             <AbsoluteCenter>OR</AbsoluteCenter>
           </Box>
 
-          <Button size={'lg'} type='submit' leftIcon={<FcGoogle />}>
+          <Button type='submit' leftIcon={<FcGoogle />}>
             Log in with Google
           </Button>
         </Stack>
