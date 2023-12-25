@@ -65,14 +65,11 @@ export default function Post({
               as={FaHeart}
               fontSize={25}
               color={liked ? 'red' : 'gray.600'}
-              _hover={{ color: liked ? 'gray' : 'red', cursor: 'pointer' }}
+              cursor={'pointer'}
+              _hover={{ color: liked ? 'gray' : 'red' }}
               size={25}
             />
-            <Icon
-              as={IoChatbubbleOutline}
-              _hover={{ cursor: 'pointer' }}
-              fontSize={25}
-            />
+            <Icon as={IoChatbubbleOutline} cursor={'pointer'} fontSize={25} />
           </Flex>
         </Box>
         <Stack>
@@ -84,8 +81,8 @@ export default function Post({
 
           <Box
             color={'gray.500'}
+            cursor={'pointer'}
             _hover={{
-              cursor: 'pointer',
               color: 'gray.600',
               textDecoration: 'underline',
             }}
@@ -95,8 +92,9 @@ export default function Post({
           <InputGroup variant={'flushed'}>
             <Input placeholder='Add a comment...' />
             <InputRightElement
+              cursor={'pointer'}
               color={'blue.500'}
-              _hover={{ cursor: 'pointer', color: 'blue.200' }}
+              _hover={{ color: 'blue.200' }}
             >
               Post
             </InputRightElement>

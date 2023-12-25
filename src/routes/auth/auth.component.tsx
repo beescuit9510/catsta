@@ -141,7 +141,7 @@ export default function Auth() {
                 textAlign={'center'}
                 fontSize='1.2em'
                 onClick={() => setShow((show) => !show)}
-                _hover={{ cursor: 'pointer' }}
+                cursor={'pointer'}
               >
                 {show ? <GrFormView /> : <GrHide />}
               </InputRightElement>
