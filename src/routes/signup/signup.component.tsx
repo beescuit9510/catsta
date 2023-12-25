@@ -16,20 +16,25 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react'
 import { FcGoogle } from 'react-icons/fc'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { GrHide } from 'react-icons/gr'
 import { GrFormView } from 'react-icons/gr'
 import { useState } from 'react'
 
 export default function SignUp() {
+  const navigate = useNavigate()
   const [show, setShow] = useState(false)
 
   const [password, setPassword] = useState('')
-  const [isPasswordIvalid, setIsPasswordInvalid] = useState(false)
+  const [isPasswordInvalid, setIsPasswordInvalid] = useState(false)
   const [pwErrorMsg, setPwErrorMsg] = useState('')
 
+  const [confirm, setConfirm] = useState('')
+  const [isConfirmInvalid, setIsConfirmInvalid] = useState(false)
+  const [confirmErrorMsg, setConfirmErrorMsg] = useState('')
+
   const [email, setEmail] = useState('')
-  const [isEmailIvalid, setIsEmailInvalid] = useState(false)
+  const [isEmailInvalid, setIsEmailInvalid] = useState(false)
   const [emailErrorMsg, setEmailErrorMsg] = useState('')
 
   const [username, setUsername] = useState('')
@@ -40,32 +45,52 @@ export default function SignUp() {
     if (email === '') {
       setIsEmailInvalid(true)
       setEmailErrorMsg('Email is required')
+      return
     } else if (!email.includes('@')) {
       setIsEmailInvalid(true)
       setEmailErrorMsg('Given email address is invalid')
+      return
     } else {
       setIsEmailInvalid(false)
       setEmailErrorMsg('')
     }
 
+    if (username === '') {
+      setIsUsernameInvalid(true)
+      setUsernameErrorMsg('Username is required.')
+      return
+    } else {
+      setIsUsernameInvalid(false)
+      setUsernameErrorMsg('')
+    }
+
     if (password === '') {
       setIsPasswordInvalid(true)
       setPwErrorMsg('Password is required')
+      return
     } else if (password.length < 6) {
       setIsPasswordInvalid(true)
       setPwErrorMsg('Password must be at least 6 characters')
+      return
     } else {
       setIsPasswordInvalid(false)
       setPwErrorMsg('')
     }
 
-    if (username === '') {
-      setIsUsernameInvalid(true)
-      setUsernameErrorMsg('Username is required.')
+    if (confirm === '') {
+      setIsConfirmInvalid(true)
+      setConfirmErrorMsg('Confirm your password')
+      return
+    } else if (confirm !== password) {
+      setIsConfirmInvalid(true)
+      setConfirmErrorMsg('Those passwords must match')
+      return
     } else {
-      setIsUsernameInvalid(false)
-      setUsernameErrorMsg('')
+      setIsConfirmInvalid(false)
+      setConfirmErrorMsg('')
     }
+
+    navigate('/')
   }
   return (
     <Center minH={'100vh'}>
@@ -77,7 +102,7 @@ export default function SignUp() {
         </Center>
 
         <Stack spacing={3}>
-          <FormControl isInvalid={isEmailIvalid}>
+          <FormControl isInvalid={isEmailInvalid}>
             <Input
               type='email'
               placeholder='Email'
@@ -97,7 +122,7 @@ export default function SignUp() {
             <FormErrorMessage>{usernameErrorMsg}</FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={isPasswordIvalid}>
+          <FormControl isInvalid={isPasswordInvalid}>
             <InputGroup>
               <Input
                 type={`${show ? 'text' : 'password'}`}
@@ -115,7 +140,18 @@ export default function SignUp() {
             </InputGroup>
             <FormErrorMessage>{pwErrorMsg}</FormErrorMessage>
           </FormControl>
-          <Button onClick={signUp}>Log in</Button>
+
+          <FormControl isInvalid={isConfirmInvalid}>
+            <Input
+              type={`${show ? 'text' : 'password'}`}
+              placeholder='Confirm Password'
+              value={confirm}
+              onChange={(event) => setConfirm(event.target.value)}
+            />
+            <FormErrorMessage>{confirmErrorMsg}</FormErrorMessage>
+          </FormControl>
+
+          <Button onClick={signUp}>Sign up</Button>
 
           <Box position='relative' paddingY='10'>
             <Divider />
@@ -125,9 +161,9 @@ export default function SignUp() {
           <Button leftIcon={<FcGoogle />}>Log in with Google</Button>
         </Stack>
         <Flex justifyContent={'center'} rounded={'md'} paddingY={5} gap={1}>
-          <Text>Don't have an account?</Text>
+          <Text>Already have an account?</Text>
           <Text color={'blue.500'} _hover={{ textDecoration: 'underline' }}>
-            <Link to={'/login'}>Sign up</Link>
+            <Link to={'/login'}>Log in</Link>
           </Text>
         </Flex>
       </Container>
