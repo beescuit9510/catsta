@@ -101,9 +101,7 @@ export default function Login() {
             <AbsoluteCenter>OR</AbsoluteCenter>
           </Box>
 
-          <Button type='submit' leftIcon={<FcGoogle />}>
-            Log in with Google
-          </Button>
+          <Button leftIcon={<FcGoogle />}>Log in with Google</Button>
         </Stack>
         <Flex justifyContent={'center'} rounded={'md'} paddingY={5} gap={1}>
           <Text>Don't have an account?</Text>
