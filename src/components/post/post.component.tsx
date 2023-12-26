@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   Flex,
   Icon,
   Image,
@@ -16,6 +15,16 @@ import { IoChatbubbleOutline } from 'react-icons/io5'
 import { FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
+export type PostProps = {
+  postRef: string
+  imageURL: string
+  photoURL: string
+  displayName: string
+  caption: string
+  likes: number
+  liked: boolean
+}
+
 export default function Post({
   postRef,
   imageURL,
@@ -24,17 +33,9 @@ export default function Post({
   caption,
   likes,
   liked,
-}: {
-  postRef: string
-  imageURL: string
-  photoURL: string
-  displayName: string
-  caption: string
-  likes: number
-  liked: boolean
-}) {
+}: PostProps) {
   return (
-    <Container>
+    <>
       <Stack>
         <Box>
           <Flex justifyContent={'space-between'} alignItems={'center'}>
@@ -56,9 +57,11 @@ export default function Post({
             </Button>
           </Flex>
         </Box>
+
         <Box>
           <Image src={imageURL} />
         </Box>
+
         <Box>
           <Flex gap={3}>
             <Icon
@@ -72,6 +75,7 @@ export default function Post({
             <Icon as={IoChatbubbleOutline} cursor={'pointer'} fontSize={25} />
           </Flex>
         </Box>
+
         <Stack>
           <Text>{likes} likes</Text>
           <Flex gap={2}>
@@ -101,6 +105,6 @@ export default function Post({
           </InputGroup>
         </Stack>
       </Stack>
-    </Container>
+    </>
   )
 }
