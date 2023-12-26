@@ -17,7 +17,7 @@ export default function Sidebar() {
       position={'sticky'}
       top={0}
       left={0}
-      px={{ base: 2, md: 4 }}
+      px={{ base: 2, lg: 4 }}
       direction={'column'}
     >
       <Flex
@@ -31,7 +31,7 @@ export default function Sidebar() {
           size={'xl'}
           marginBottom={5}
           fontWeight={'500'}
-          display={{ base: 'none', md: 'block' }}
+          display={{ base: 'none', lg: 'block' }}
         >
           Catsta
         </Heading>

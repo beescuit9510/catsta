@@ -6,10 +6,10 @@ export default function Layout() {
   return (
     <>
       <Flex>
-        <Box w={{ base: '70px', md: '240px' }}>
+        <Box w={{ base: '70px', lg: '240px' }}>
           <Sidebar />
         </Box>
-        <Box flex={1} w={{ base: 'calc(100%-70px)', md: 'calc(100%-240px)' }}>
+        <Box flex={1} w={{ base: 'calc(100%-70px)', lg: 'calc(100%-240px)' }}>
           <Outlet />
         </Box>
       </Flex>

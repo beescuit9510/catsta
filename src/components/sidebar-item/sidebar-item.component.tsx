@@ -20,11 +20,11 @@ export default function SidebarItem({
       _hover={{ bg: bg }}
       borderRadius={6}
       p={2}
-      w={{ base: 10, md: 'full' }}
-      justifyContent={{ base: 'center', md: 'flex-start' }}
+      w={{ base: 10, lg: 'full' }}
+      justifyContent={{ base: 'center', lg: 'flex-start' }}
     >
       {Icon}
-      <Box display={{ base: 'none', md: 'block' }}>{text}</Box>
+      <Box display={{ base: 'none', lg: 'block' }}>{text}</Box>
     </Link>
   )
 }
