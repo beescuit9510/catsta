@@ -95,12 +95,15 @@ export default function Post({
           </Box>
           <InputGroup variant={'flushed'}>
             <Input placeholder='Add a comment...' />
-            <InputRightElement
-              cursor={'pointer'}
-              color={'blue.500'}
-              _hover={{ color: 'blue.200' }}
-            >
-              Post
+            <InputRightElement>
+              <Button
+                variant={'ghost'}
+                cursor={'link'}
+                color={'blue.500'}
+                _hover={{ color: 'blue.700' }}
+              >
+                Post
+              </Button>
             </InputRightElement>
           </InputGroup>
         </Stack>
