@@ -56,6 +56,9 @@ export default function SignUpForm() {
     setFormErrorMsg('')
     signUp(email, password, username)
   }
+  const onKeyDown = (event: React.KeyboardEvent) =>
+    event.key === ' ' && event.preventDefault()
+
   return (
     <>
       <Input
@@ -63,6 +66,7 @@ export default function SignUpForm() {
         placeholder='Email'
         value={email}
         onChange={(event) => setEmail(event.target.value)}
+        onKeyDown={onKeyDown}
       />
 
       <Input
@@ -70,6 +74,7 @@ export default function SignUpForm() {
         placeholder='Username'
         value={username}
         onChange={(event) => setUsername(event.target.value)}
+        onKeyDown={onKeyDown}
       />
 
       <InputGroup>
@@ -77,6 +82,7 @@ export default function SignUpForm() {
           type={`${show ? 'text' : 'password'}`}
           placeholder='Password'
           onChange={(event) => setPassword(event.target.value)}
+          onKeyDown={onKeyDown}
         />
         <InputRightElement
           textAlign={'center'}
@@ -93,6 +99,7 @@ export default function SignUpForm() {
         placeholder='Confirm Password'
         value={confirm}
         onChange={(event) => setConfirm(event.target.value)}
+        onKeyDown={onKeyDown}
       />
 
       <FormControl isInvalid={isInvalid || error}>

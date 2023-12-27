@@ -40,6 +40,9 @@ export default function LoginForm() {
     signIn(email, password)
   }
 
+  const onKeyDown = (event: React.KeyboardEvent) =>
+    event.key === ' ' && event.preventDefault()
+
   return (
     <>
       <Stack>
@@ -48,12 +51,14 @@ export default function LoginForm() {
           placeholder='Email'
           value={email}
           onChange={(event) => setEmail(event.target.value)}
+          onKeyDown={onKeyDown}
         />
         <InputGroup>
           <Input
             type={`${show ? 'text' : 'password'}`}
             placeholder='Password'
             onChange={(event) => setPassword(event.target.value)}
+            onKeyDown={onKeyDown}
           />
           <InputRightElement
             textAlign={'center'}
