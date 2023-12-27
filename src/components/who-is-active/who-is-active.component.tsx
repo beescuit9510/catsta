@@ -3,7 +3,7 @@ import ActiveUser from '../who-active-user/who-active-user.component'
 
 export default function WhoIsActive() {
   return (
-    <Flex display={{ base: 'none', md: 'block' }}>
+    <Flex display={{ base: 'none', lg: 'block' }}>
       <Flex
         width={'full'}
         direction={'column'}
