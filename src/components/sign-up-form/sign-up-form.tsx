@@ -9,20 +9,11 @@ import {
 import { GrHide } from 'react-icons/gr'
 import { GrFormView } from 'react-icons/gr'
 import { useState } from 'react'
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { auth } from '../../utils/firebase'
-import { AuthErrorCodes } from 'firebase/auth'
-
-const errorMessages: { [key: string]: string } = {
-  [AuthErrorCodes.INVALID_EMAIL]: 'Given email is not valid',
-  [AuthErrorCodes.EMAIL_EXISTS]: 'Given email is already in use',
-  [AuthErrorCodes.INVALID_LOGIN_CREDENTIALS]:
-    'Given email or password is wrong. Please try again',
-}
+import useSignUpWithEmailAndPassword from '../../hooks/useSignUpWithEmailAndPassword'
 
 export default function SignUpForm() {
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth)
+  const { signUp, loading, error, errorMessage } =
+    useSignUpWithEmailAndPassword()
 
   const [show, setShow] = useState(false)
 
@@ -34,7 +25,7 @@ export default function SignUpForm() {
   const [isInvalid, setIsInavlid] = useState(false)
   const [formErrorMsg, setFormErrorMsg] = useState('')
 
-  const signUp = () => {
+  const onClickSignUp = () => {
     if (email === '') {
       setIsInavlid(true)
       setFormErrorMsg('Email is required')
@@ -63,7 +54,7 @@ export default function SignUpForm() {
 
     setIsInavlid(false)
     setFormErrorMsg('')
-    createUserWithEmailAndPassword(email, password)
+    signUp(email, password, username)
   }
   return (
     <>
@@ -104,17 +95,11 @@ export default function SignUpForm() {
         onChange={(event) => setConfirm(event.target.value)}
       />
 
-      <FormControl isInvalid={isInvalid || error != undefined}>
-        <FormErrorMessage>
-          {isInvalid
-            ? formErrorMsg
-            : error
-            ? errorMessages[error.code] || error.code
-            : ''}
-        </FormErrorMessage>
+      <FormControl isInvalid={isInvalid || error}>
+        <FormErrorMessage>{formErrorMsg || errorMessage}</FormErrorMessage>
       </FormControl>
 
-      <Button isLoading={loading} onClick={signUp}>
+      <Button isLoading={loading} onClick={onClickSignUp}>
         Sign up
       </Button>
     </>

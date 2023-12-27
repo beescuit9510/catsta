@@ -1,14 +1,9 @@
 import { Button } from '@chakra-ui/react'
-import { useSignInWithGoogle } from 'react-firebase-hooks/auth'
 import { FcGoogle } from 'react-icons/fc'
-import { auth } from '../../utils/firebase'
+import useLoginWithGoogle from '../../hooks/useLoginWithGoogle'
 
 export default function GoogleLoginForm() {
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth)
-
-  const signIn = () => {
-    signInWithGoogle()
-  }
+  const { signIn, loading } = useLoginWithGoogle()
 
   return (
     <Button onClick={signIn} isLoading={loading} leftIcon={<FcGoogle />}>

@@ -10,28 +10,18 @@ import {
 import { GrHide } from 'react-icons/gr'
 import { GrFormView } from 'react-icons/gr'
 import { useState } from 'react'
-import { auth } from '../../utils/firebase'
-import { AuthErrorCodes } from 'firebase/auth'
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
-
-const errorMessages: { [key: string]: string } = {
-  [AuthErrorCodes.INVALID_EMAIL]: 'Given email is not valid',
-  [AuthErrorCodes.EMAIL_EXISTS]: 'Given email is already in use',
-  [AuthErrorCodes.INVALID_LOGIN_CREDENTIALS]:
-    'Given email or password is wrong. Please try again',
-}
+import useLoginWithEmailAndPassword from '../../hooks/useLoginWithEmailAndPassword'
 
 export default function LoginForm() {
   const [show, setShow] = useState(false)
 
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth)
+  const { signIn, loading, error, errorMessage } =
+    useLoginWithEmailAndPassword()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isInvalid, setIsInvalid] = useState(false)
   const [formErrorMsg, setFormErrorMsg] = useState('')
-  console.log(error?.code)
 
   const login = () => {
     if (email === '') {
@@ -47,7 +37,7 @@ export default function LoginForm() {
 
     setIsInvalid(false)
     setFormErrorMsg('')
-    signInWithEmailAndPassword(email, password)
+    signIn(email, password)
   }
 
   return (
@@ -74,14 +64,8 @@ export default function LoginForm() {
             {show ? <GrFormView /> : <GrHide />}
           </InputRightElement>
         </InputGroup>
-        <FormControl isInvalid={isInvalid || error !== undefined}>
-          <FormErrorMessage>
-            {isInvalid
-              ? formErrorMsg
-              : error
-              ? errorMessages[error.code] || error.code
-              : ''}
-          </FormErrorMessage>
+        <FormControl isInvalid={isInvalid || error}>
+          <FormErrorMessage>{formErrorMsg || errorMessage}</FormErrorMessage>
         </FormControl>
       </Stack>
 
