@@ -18,7 +18,7 @@ function App() {
         </ProtectedRoute>
       ),
       children: [
-        { path: '/home', element: <Home /> },
+        { path: '/', element: <Home /> },
         { path: '/profile', element: <Profile /> },
       ],
     },
