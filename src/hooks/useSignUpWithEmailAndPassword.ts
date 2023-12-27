@@ -31,6 +31,9 @@ export default function useSignUpWithEmailAndPassword() {
     user,
     loading,
     error: error !== undefined,
-    errorMessage: error !== undefined ? ErrorMessage[error.code] : undefined,
+    errorMessage:
+      error !== undefined
+        ? ErrorMessage[error.code] ?? error.message
+        : undefined,
   }
 }
