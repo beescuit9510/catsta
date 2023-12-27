@@ -5,20 +5,35 @@ import Auth from './routes/auth/auth.component'
 import Layout from './routes/layout/layout.component'
 import Home from './components/home/home.component'
 import Profile from './routes/profile/profile'
+import RedirectTo from './routes/redirect-to/redirect-to.component'
+import ProtectedRoute from './routes/protected-route/protected-route.component'
 
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Layout />,
+      element: (
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      ),
       children: [
         { path: '/home', element: <Home /> },
         { path: '/profile', element: <Profile /> },
       ],
     },
-    { path: '/auth', element: <Auth /> },
-    { path: '/login', element: <Login /> },
-    { path: '/signup', element: <SignUp /> },
+    {
+      path: '/auth',
+      element: (
+        <RedirectTo to='/'>
+          <Auth />
+        </RedirectTo>
+      ),
+      children: [
+        { path: '/auth', element: <Login /> },
+        { path: '/auth/signup', element: <SignUp /> },
+      ],
+    },
   ])
   return <RouterProvider router={router}></RouterProvider>
 }
