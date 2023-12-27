@@ -8,6 +8,7 @@ import SidebarItem from '../sidebar-item/sidebar-item.component'
 
 export default function Sidebar() {
   const borderColor = useColorModeValue('gray.100', 'whiteAlpha.300')
+
   return (
     <Flex
       minHeight={'100vh'}
@@ -25,24 +26,33 @@ export default function Sidebar() {
         direction={'column'}
         alignItems={'center'}
         gap={15}
-        padding={5}
+        paddingY={5}
+        paddingX={2}
       >
         <Heading
-          size={'xl'}
+          marginRight={'auto'}
+          marginLeft={2}
+          size={'lg'}
           marginBottom={5}
           fontWeight={'500'}
           display={{ base: 'none', lg: 'block' }}
         >
           Catsta
         </Heading>
-        <SidebarItem Icon={<AiFillHome size={25} />} text='Home' />
-        <SidebarItem Icon={<FaSearch size={25} />} text='Search' />
-        <SidebarItem Icon={<FaRegSquarePlus size={25} />} text='Create' />
-        <SidebarItem Icon={<FaRegHeart size={25} />} text='Notification' />
+        <SidebarItem Icon={<AiFillHome size={20} />} text='Home' />
+        <SidebarItem Icon={<FaSearch size={20} />} text='Search' />
+        <SidebarItem Icon={<FaRegSquarePlus size={20} />} text='Create' />
+        <SidebarItem Icon={<FaRegHeart size={20} />} text='Notification' />
         <SidebarItem Icon={<Avatar src={''} size={'sm'} />} text='Profile' />
       </Flex>
-      <Flex direction={'column'} alignItems={'center'} gap={15} padding={5}>
-        <SidebarItem Icon={<BiLogOut size={24} />} text='Logout' />
+      <Flex
+        direction={'column'}
+        alignItems={'center'}
+        gap={15}
+        paddingY={5}
+        paddingX={2}
+      >
+        <SidebarItem Icon={<BiLogOut size={20} />} text='Logout' />
       </Flex>
     </Flex>
   )
