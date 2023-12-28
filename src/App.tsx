@@ -6,7 +6,6 @@ import Layout from './routes/layout/layout.component'
 import Home from './components/home/home.component'
 import RedirectTo from './routes/redirect-to/redirect-to.component'
 import ProtectedRoute from './routes/protected-route/protected-route.component'
-import Error from './routes/error/error'
 import Profile from './routes/profile/profile'
 
 function App() {
