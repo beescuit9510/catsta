@@ -1,15 +1,14 @@
 import { Suspense } from 'react'
 import { useParams } from 'react-router-dom'
-import ProfileSkeleton from './profile-skeleton'
-import ProfileDetail from './profile-detail'
+import UserLoader from './user-loader'
+import UserProfile from './user-profile'
 
 export default function Profile() {
   const { userId } = useParams()
-  if (!userId) throw new Error(`User ${userId}'s ID is not found`)
 
   return (
-    <Suspense fallback={<ProfileSkeleton />}>
-      <ProfileDetail userId={userId} />
+    <Suspense fallback={<UserLoader />}>
+      <UserProfile userId={userId} />
     </Suspense>
   )
 }

@@ -13,17 +13,19 @@ import { doc, getDoc } from 'firebase/firestore'
 import { firestore } from '../../utils/firebase'
 import { useQuery } from '@tanstack/react-query'
 
-export default function ProfileDetail({ userId }: { userId: string }) {
-  // FIXME: FIX profile is possibly undefined error without .! operator
-  // TODO: abstract react query code from component
+// TODO: abstract react query code from component
+// TODO find firebase + typescript example
+// TODO: ERRORBOUNDARY FOR USER NOT FOUND
 
-  const { data: profile } = useQuery({
+export default function UserProfile({ userId }: { userId?: string }) {
+  const { data: user } = useQuery({
     queryKey: ['users', userId],
-    queryFn: () =>
-      getDoc(doc(firestore, 'users', userId)).then((snap) => {
-        if (snap.exists()) return snap.data()
-        else throw new Error('User not found')
-      }),
+    queryFn: ({ queryKey }) =>
+      getDoc(doc(firestore, 'users', queryKey[1]!)).then((snap) => snap.data()),
+    select: (data) => {
+      if (!data) throw new Error('User not found')
+      return { ...data }
+    },
   })
 
   return (
@@ -44,30 +46,30 @@ export default function ProfileDetail({ userId }: { userId: string }) {
                     direction={{ base: 'column', md: 'row' }}
                     gap={3}
                   >
-                    <Text>{profile!.displayName}</Text>
+                    <Text>{user?.displayName}</Text>
                     <Button>Edit Profile</Button>
                   </Flex>
                   <Flex gap={5}>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {profile!.posts}
+                        {user?.posts}
                       </Text>{' '}
                       Posts
                     </Text>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {profile!.followers.length}
+                        {user?.followers.length}
                       </Text>{' '}
                       Followers
                     </Text>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {profile!.followings.length}
+                        {user?.followings.length}
                       </Text>{' '}
                       Following
                     </Text>
                   </Flex>
-                  <Text>{profile!.bio}</Text>
+                  <Text>{user?.bio}</Text>
                 </Stack>
               </Flex>
             </Flex>
