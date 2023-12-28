@@ -6,6 +6,8 @@ import { mode } from '@chakra-ui/theme-tools'
 import type { GlobalStyleProps } from '@chakra-ui/theme-tools'
 import { extendTheme } from '@chakra-ui/react'
 import '@fontsource/rubik-scribble/400.css'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const theme = extendTheme({
   config: {
@@ -18,17 +20,28 @@ const theme = extendTheme({
   styles: {
     global: (props: GlobalStyleProps) => ({
       body: {
-        bg: mode('gray.100', '#000')(props),
+        bg: mode('whiteAlpha.900', '#000')(props),
         color: mode('gray.800', 'whiteAlpha.900')(props),
       },
     }),
   },
 })
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
+})
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <App />
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={theme}>
+        <App />
+        <ReactQueryDevtools />
+      </ChakraProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 )

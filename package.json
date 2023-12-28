@@ -19,6 +19,8 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/rubik-doodle-shadow": "^5.0.1",
     "@fontsource/rubik-scribble": "^5.0.1",
+    "@tanstack/react-query": "^5.15.0",
+    "@tanstack/react-query-devtools": "^5.15.0",
     "firebase": "^10.7.1",
     "framer-motion": "^10.16.16",
     "react": "^18.2.0",
