@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Center,
   Container,
   Flex,
@@ -10,13 +9,27 @@ import {
 } from '@chakra-ui/react'
 import ProfileGrid from '../../components/profile-grid/profile-grid.component'
 import { doc, getDoc } from 'firebase/firestore'
-import { firestore } from '../../utils/firebase'
+import { auth, firestore } from '../../utils/firebase'
 import { useQuery } from '@tanstack/react-query'
+import Follow from '../../components/follow/follow'
+import { queryClient } from '../../main'
 
 // TODO: abstract react query code from component
 // TODO find firebase + typescript example
+// TODO: extract type.
 
 export default function UserProfile({ userId }: { userId?: string }) {
+  const currentUser = queryClient.getQueryData<{
+    id: string
+    displayName: string
+    photoURL: string
+    bio: string
+    posts: number
+    followers: string[]
+    followings: string[]
+    createdAt: string
+  }>(['users', auth.currentUser!.uid])
+
   const { data: user } = useQuery({
     queryKey: ['users', userId],
     queryFn: ({ queryKey }) =>
@@ -46,7 +59,11 @@ export default function UserProfile({ userId }: { userId?: string }) {
                     gap={3}
                   >
                     <Text>{user?.displayName}</Text>
-                    <Button>Follow</Button>
+                    <Follow
+                      userId={currentUser!.id}
+                      followingUserId={user?.id}
+                      following={currentUser!.followings.includes(user?.id)}
+                    />
                   </Flex>
                   <Flex gap={5}>
                     <Text>
