@@ -1,4 +1,11 @@
-import { Heading, Flex, useColorModeValue, Avatar } from '@chakra-ui/react'
+import {
+  Heading,
+  Flex,
+  useColorModeValue,
+  Avatar,
+  useColorMode,
+  Icon,
+} from '@chakra-ui/react'
 import { BiLogOut } from 'react-icons/bi'
 import { AiFillHome } from 'react-icons/ai'
 import { FaSearch } from 'react-icons/fa'
@@ -7,10 +14,13 @@ import { FaRegHeart } from 'react-icons/fa'
 import SidebarItem from '../sidebar-item/sidebar-item.component'
 import { useSignOut } from 'react-firebase-hooks/auth'
 import { auth } from '../../utils/firebase'
+import { MdDarkMode } from 'react-icons/md'
+import { IoIosSunny } from 'react-icons/io'
 
 export default function Sidebar() {
   const borderColor = useColorModeValue('gray.100', 'whiteAlpha.300')
   const [logout] = useSignOut(auth)
+  const { colorMode, toggleColorMode } = useColorMode()
 
   return (
     <Flex
@@ -63,13 +73,28 @@ export default function Sidebar() {
       </Flex>
       <Flex
         direction={'column'}
+        gap={'15'}
         alignItems={'center'}
-        gap={15}
         paddingY={5}
         paddingX={2}
-        onClick={logout}
       >
-        <SidebarItem Icon={<BiLogOut size={20} />} to='/auth' text='Logout' />
+        <Icon
+          marginLeft={'0.5rem'}
+          alignSelf={'flex-start'}
+          onClick={toggleColorMode}
+          as={colorMode === 'light' ? MdDarkMode : IoIosSunny}
+          cursor={'pointer'}
+          _hover={{
+            color: colorMode === 'light' ? '#FFCC33' : '#D14009',
+          }}
+          fontSize={'xl'}
+        />
+        <SidebarItem
+          Icon={<BiLogOut size={20} on />}
+          to='/auth'
+          text='Logout'
+          onClick={logout}
+        />
       </Flex>
     </Flex>
   )
