@@ -16,7 +16,7 @@ import { useQuery } from '@tanstack/react-query'
 // TODO: abstract react query code from component
 // TODO find firebase + typescript example
 
-export default function UserProfile({ userId }: { userId?: string }) {
+export default function MyProfile({ userId }: { userId?: string }) {
   const { data: user } = useQuery({
     queryKey: ['users', userId],
     queryFn: ({ queryKey }) =>
@@ -37,7 +37,7 @@ export default function UserProfile({ userId }: { userId?: string }) {
               alignItems={'center'}
               gap={3}
             >
-              <Avatar size={{ base: 'xl', md: '2xl' }} />
+              <Avatar size={{ base: 'xl', md: '2xl' }} src={user?.photoURL} />
               <Flex>
                 <Stack>
                   <Flex
@@ -46,7 +46,7 @@ export default function UserProfile({ userId }: { userId?: string }) {
                     gap={3}
                   >
                     <Text>{user?.displayName}</Text>
-                    <Button>Follow</Button>
+                    <Button>Edit Profile</Button>
                   </Flex>
                   <Flex gap={5}>
                     <Text>

@@ -7,9 +7,9 @@ import Home from './components/home/home.component'
 import RedirectTo from './routes/redirect-to/redirect-to.component'
 import ProtectedRoute from './routes/protected-route/protected-route.component'
 import Profile from './routes/profile/profile'
+import Me from './routes/profile/me'
 
 function App() {
-  // TODO: add error boundary or erro element for pages.
   const router = createBrowserRouter([
     {
       path: '/',
@@ -20,6 +20,10 @@ function App() {
       ),
       children: [
         { path: '/', element: <Home /> },
+        {
+          path: '/profile',
+          element: <Me />,
+        },
         {
           path: '/profile/:userId',
           element: <Profile />,
@@ -39,6 +43,7 @@ function App() {
       ],
     },
   ])
+
   return <RouterProvider router={router}></RouterProvider>
 }
 
