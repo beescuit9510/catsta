@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Center,
   Container,
   Flex,
@@ -12,6 +11,7 @@ import ProfileGrid from '../../components/profile-grid/profile-grid.component'
 import { doc, getDoc } from 'firebase/firestore'
 import { firestore } from '../../utils/firebase'
 import { useQuery } from '@tanstack/react-query'
+import EditProfile from './edit-profile'
 
 // TODO: abstract react query code from component
 // TODO find firebase + typescript example
@@ -46,7 +46,12 @@ export default function MyProfile({ userId }: { userId?: string }) {
                     gap={3}
                   >
                     <Text>{user?.displayName}</Text>
-                    <Button>Edit Profile</Button>
+                    <EditProfile
+                      userId={user?.id}
+                      photoURL={user?.photoURL}
+                      displayName={user?.displayName}
+                      bio={user?.bio}
+                    />
                   </Flex>
                   <Flex gap={5}>
                     <Text>
