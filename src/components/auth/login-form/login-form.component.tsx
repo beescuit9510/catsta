@@ -10,38 +10,16 @@ import {
 import { GrHide } from 'react-icons/gr'
 import { GrFormView } from 'react-icons/gr'
 import { useState } from 'react'
-import useLoginWithEmailAndPassword from '../../hooks/useLoginWithEmailAndPassword'
+import { useLogin } from '../../../hooks/mutations/useLogin'
 
 export default function LoginForm() {
   const [show, setShow] = useState(false)
 
-  const { signIn, loading, error, errorMessage } =
-    useLoginWithEmailAndPassword()
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isInvalid, setIsInvalid] = useState(false)
-  const [formErrorMsg, setFormErrorMsg] = useState('')
 
-  const login = () => {
-    if (email === '') {
-      setIsInvalid(true)
-      setFormErrorMsg('Email is required')
-      return
-    }
-    if (password === '') {
-      setIsInvalid(true)
-      setFormErrorMsg('Password is required')
-      return
-    }
-
-    setIsInvalid(false)
-    setFormErrorMsg('')
-    signIn(email, password)
-  }
-
-  const onKeyDown = (event: React.KeyboardEvent) =>
-    event.key === ' ' && event.preventDefault()
+  const { mutate, isPending, isError, error } = useLogin({ email, password })
+  const login = () => mutate()
 
   return (
     <>
@@ -51,14 +29,12 @@ export default function LoginForm() {
           placeholder='Email'
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          onKeyDown={onKeyDown}
         />
         <InputGroup>
           <Input
             type={`${show ? 'text' : 'password'}`}
             placeholder='Password'
             onChange={(event) => setPassword(event.target.value)}
-            onKeyDown={onKeyDown}
           />
           <InputRightElement
             textAlign={'center'}
@@ -69,12 +45,13 @@ export default function LoginForm() {
             {show ? <GrFormView /> : <GrHide />}
           </InputRightElement>
         </InputGroup>
-        <FormControl isInvalid={isInvalid || error}>
-          <FormErrorMessage>{formErrorMsg || errorMessage}</FormErrorMessage>
+
+        <FormControl isInvalid={isError}>
+          <FormErrorMessage>{error?.message}</FormErrorMessage>
         </FormControl>
       </Stack>
 
-      <Button isLoading={loading} onClick={login}>
+      <Button isLoading={isPending} isDisabled={isPending} onClick={login}>
         Log in
       </Button>
     </>

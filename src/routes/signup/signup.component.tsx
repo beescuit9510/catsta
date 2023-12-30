@@ -1,14 +1,14 @@
 import { Flex, Stack, Text } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import GoogleLoginForm from '../../components/google-login-form/google-login-form.component'
-import SignUpForm from '../../components/sign-up-form/sign-up-form'
-import { BiLogoGit } from 'react-icons/bi'
+import GoogleLoginForm from '../../components/auth/google-login-form/google-login-form.component'
+import SignUpForm from '../../components/auth/sign-up-form/sign-up-form'
 import AuthFormDivider from '../../components/auth/auth-form-divider/auth-form-divider.component'
+import Logo from '../../components/auth/logo/logo.component'
 
 export default function SignUp() {
   return (
     <>
-      <BiLogoGit />
+      <Logo />
 
       <Stack spacing={3}>
         <SignUpForm />
