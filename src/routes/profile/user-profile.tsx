@@ -8,37 +8,13 @@ import {
   Text,
 } from '@chakra-ui/react'
 import ProfileGrid from '../../components/profile-grid/profile-grid.component'
-import { doc, getDoc } from 'firebase/firestore'
-import { auth, firestore } from '../../utils/firebase'
-import { useQuery } from '@tanstack/react-query'
+import { auth } from '../../utils/firebase'
 import Follow from '../../components/follow/follow'
-import { queryClient } from '../../main'
-
-// TODO: abstract react query code from component
-// TODO find firebase + typescript example
-// TODO: extract type.
+import { useCachedUser, useUser } from '../../hooks/queries/useUser'
 
 export default function UserProfile({ userId }: { userId?: string }) {
-  const currentUser = queryClient.getQueryData<{
-    id: string
-    displayName: string
-    photoURL: string
-    bio: string
-    posts: number
-    followers: string[]
-    followings: string[]
-    createdAt: string
-  }>(['users', auth.currentUser!.uid])
-
-  const { data: user } = useQuery({
-    queryKey: ['users', userId],
-    queryFn: ({ queryKey }) =>
-      getDoc(doc(firestore, 'users', queryKey[1]!)).then((snap) => snap.data()),
-    select: (data) => {
-      if (!data) throw new Error('User not found')
-      return { ...data }
-    },
-  })
+  const { data: user } = useUser(userId!)
+  const currentUser = useCachedUser(auth.currentUser!.uid)
 
   return (
     <>
@@ -58,34 +34,34 @@ export default function UserProfile({ userId }: { userId?: string }) {
                     direction={{ base: 'column', md: 'row' }}
                     gap={3}
                   >
-                    <Text>{user?.displayName}</Text>
+                    <Text>{user!.displayName}</Text>
                     <Follow
                       userId={currentUser!.id}
-                      followingUserId={user?.id}
-                      following={currentUser!.followings.includes(user?.id)}
+                      followingUserId={user!.id}
+                      following={currentUser!.followings.includes(user!.id)}
                     />
                   </Flex>
                   <Flex gap={5}>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {user?.posts}
+                        {user!.posts}
                       </Text>{' '}
                       Posts
                     </Text>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {user?.followers.length}
+                        {user!.followers.length}
                       </Text>{' '}
                       Followers
                     </Text>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {user?.followings.length}
+                        {user!.followings.length}
                       </Text>{' '}
                       Following
                     </Text>
                   </Flex>
-                  <Text>{user?.bio}</Text>
+                  <Text>{user!.bio}</Text>
                 </Stack>
               </Flex>
             </Flex>

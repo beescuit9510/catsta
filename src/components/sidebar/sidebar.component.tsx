@@ -16,11 +16,13 @@ import { useSignOut } from 'react-firebase-hooks/auth'
 import { auth } from '../../utils/firebase'
 import { MdDarkMode } from 'react-icons/md'
 import { IoIosSunny } from 'react-icons/io'
+import { useUser } from '../../hooks/queries/useUser'
 
 export default function Sidebar() {
   const borderColor = useColorModeValue('gray.100', 'whiteAlpha.300')
   const [logout] = useSignOut(auth)
   const { colorMode, toggleColorMode } = useColorMode()
+  const { data: currentUser } = useUser(auth.currentUser!.uid)
 
   return (
     <Flex
@@ -66,7 +68,7 @@ export default function Sidebar() {
           text='Notification'
         />
         <SidebarItem
-          Icon={<Avatar src={''} size={'sm'} />}
+          Icon={<Avatar src={currentUser!.photoURL} size={'sm'} />}
           to='/profile'
           text='Profile'
         />

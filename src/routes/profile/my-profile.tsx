@@ -8,24 +8,14 @@ import {
   Text,
 } from '@chakra-ui/react'
 import ProfileGrid from '../../components/profile-grid/profile-grid.component'
-import { doc, getDoc } from 'firebase/firestore'
-import { firestore } from '../../utils/firebase'
-import { useQuery } from '@tanstack/react-query'
 import EditProfile from './edit-profile'
+import { useUser } from '../../hooks/queries/useUser'
+import { auth } from '../../utils/firebase'
 
-// TODO: abstract react query code from component
 // TODO find firebase + typescript example
 
-export default function MyProfile({ userId }: { userId?: string }) {
-  const { data: user } = useQuery({
-    queryKey: ['users', userId],
-    queryFn: ({ queryKey }) =>
-      getDoc(doc(firestore, 'users', queryKey[1]!)).then((snap) => snap.data()),
-    select: (data) => {
-      if (!data) throw new Error('User not found')
-      return { ...data }
-    },
-  })
+export default function MyProfile() {
+  const { data: user } = useUser(auth.currentUser!.uid)
 
   return (
     <>
@@ -37,7 +27,8 @@ export default function MyProfile({ userId }: { userId?: string }) {
               alignItems={'center'}
               gap={3}
             >
-              <Avatar size={{ base: 'xl', md: '2xl' }} src={user?.photoURL} />
+              {/* FIXME: image dose not appear right away after skeleton. */}
+              <Avatar size={{ base: 'xl', md: '2xl' }} src={user!.photoURL} />
               <Flex>
                 <Stack>
                   <Flex
@@ -45,35 +36,35 @@ export default function MyProfile({ userId }: { userId?: string }) {
                     direction={{ base: 'column', md: 'row' }}
                     gap={3}
                   >
-                    <Text>{user?.displayName}</Text>
+                    <Text>{user!.displayName}</Text>
                     <EditProfile
-                      userId={user?.id}
-                      photoURL={user?.photoURL}
-                      displayName={user?.displayName}
-                      bio={user?.bio}
+                      userId={user!.id}
+                      photoURL={user!.photoURL}
+                      displayName={user!.displayName}
+                      bio={user!.bio}
                     />
                   </Flex>
                   <Flex gap={5}>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {user?.posts}
+                        {user!.posts}
                       </Text>{' '}
                       Posts
                     </Text>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {user?.followers.length}
+                        {user!.followers.length}
                       </Text>{' '}
                       Followers
                     </Text>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {user?.followings.length}
+                        {user!.followings.length}
                       </Text>{' '}
                       Following
                     </Text>
                   </Flex>
-                  <Text>{user?.bio}</Text>
+                  <Text>{user!.bio}</Text>
                 </Stack>
               </Flex>
             </Flex>
