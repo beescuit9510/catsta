@@ -30,22 +30,22 @@ export default function UserProfile({ userId }: { userId?: string }) {
                   >
                     <Text>{user!.displayName}</Text>
                     {currentUser!.followings.includes(user!.id) ? (
-                      <FollowingBtn
+                      <UnfollowingBtn
                         userId={currentUser!.id}
                         followingUserId={user!.id}
                       />
                     ) : (
-                      <UnfollowingBtn
+                      <FollowingBtn
                         userId={currentUser!.id}
                         followingUserId={user!.id}
                       />
                     )}
                   </Flex>
                   <ProfileInfo
-                    posts={currentUser!.posts}
-                    followers={currentUser!.followers.length}
-                    followings={currentUser!.followings.length}
-                    bio={currentUser!.bio}
+                    posts={user!.posts}
+                    followers={user!.followers.length}
+                    followings={user!.followings.length}
+                    bio={user!.bio}
                   />
                 </Stack>
               </Flex>
