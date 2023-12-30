@@ -21,11 +21,11 @@ import {
 } from '@chakra-ui/react'
 import { useRef, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
-import { useCachedUser } from '../../hooks/queries/useUser'
-import { useUpdateUser } from '../../hooks/mutations/useUpdateUser'
-import useShowToast from '../../hooks/useShowToast'
+import { useCachedUser } from '../../../hooks/queries/useUser'
+import { useUpdateUser } from '../../../hooks/mutations/useUpdateUser'
+import useShowToast from '../../../hooks/useShowToast'
 
-export default function EditProfile({ userId }: { userId: string }) {
+export default function ProfileEdit({ userId }: { userId: string }) {
   //TODO: extract modal code
   //TODO: extract preview code
   // TODO: limit the photo size under 2mb(2*1024*1024)

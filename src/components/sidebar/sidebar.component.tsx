@@ -69,7 +69,7 @@ export default function Sidebar() {
         />
         <SidebarItem
           Icon={<Avatar src={currentUser!.photoURL} size={'sm'} />}
-          to='/profile'
+          to={`/${currentUser?.id}`}
           text='Profile'
         />
       </Flex>

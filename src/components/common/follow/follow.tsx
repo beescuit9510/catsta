@@ -5,9 +5,9 @@ import {
   doc,
   runTransaction,
 } from 'firebase/firestore'
-import { firestore } from '../../utils/firebase'
+import { firestore } from '../../../utils/firebase'
 import { useMutation } from '@tanstack/react-query'
-import { queryClient } from '../../main'
+import { queryClient } from '../../../main'
 
 type FollowProps = {
   userId: string

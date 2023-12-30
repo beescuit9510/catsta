@@ -92,8 +92,9 @@ export default function ProfileGrid() {
 
   return (
     <Grid templateColumns='repeat(3, 1fr)' gap={3}>
-      {posts.map((post) => (
+      {posts.map((post, idx) => (
         <ProfileGridItem
+          key={idx}
           imageURL={post.imageURL}
           likes={post.likes}
           comments={post.comments}

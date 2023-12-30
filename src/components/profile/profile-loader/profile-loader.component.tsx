@@ -9,7 +9,9 @@ import {
   VStack,
 } from '@chakra-ui/react'
 
-export default function UserLoader() {
+// FIXME: the media query styling to be replaced with Show/Hide componenet.
+
+export default function ProfileLoader() {
   return (
     <Center marginTop={10}>
       <Container maxW='container.lg'>
