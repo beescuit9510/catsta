@@ -2,8 +2,8 @@ import { Suspense, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import UserLoader from './user-loader'
 import UserProfile from './user-profile'
-import ErrorBoundary from '../error-boundary/error-boundary'
-import Error from '../error-boundary/error'
+import ErrorBoundary from '../error-boundary/error-boundary.component'
+import Error from '../error-boundary/error.component'
 import { auth } from '../../utils/firebase'
 
 export default function Profile() {

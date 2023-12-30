@@ -1,8 +1,8 @@
 import { Box, Flex } from '@chakra-ui/react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../../components/sidebar/sidebar.component'
-import ErrorBoundary from '../error-boundary/error-boundary'
-import Error from '../error-boundary/error'
+import ErrorBoundary from '../error-boundary/error-boundary.component'
+import Error from '../error-boundary/error.component'
 
 export default function Layout() {
   return (
@@ -20,3 +20,29 @@ export default function Layout() {
     </>
   )
 }
+
+// <Flex overflow={'hidden'}>
+//   <Outlet />
+// </Flex>
+// <Flex
+//   height={'10'}
+//   bg={'white'}
+//   position={'sticky'}
+//   bottom={0}
+//   px={{ base: 2, lg: 4 }}
+//   direction={'row'}
+// >
+//   <Flex
+//     flex={1}
+//     alignItems={'center'}
+//     justifyContent={'space-around'}
+//     padding={5}
+//   >
+//     <SidebarItem Icon={<AiFillHome size={25} />} text='Home' />
+//     <SidebarItem Icon={<FaSearch size={25} />} text='Search' />
+//     <SidebarItem Icon={<FaRegSquarePlus size={25} />} text='Create' />
+//     {/* <SidebarItem Icon={<FaRegHeart size={25} />} text='Notification' /> */}
+//     <SidebarItem Icon={<Avatar src={''} size={'sm'} />} text='Profile' />
+//     <SidebarItem Icon={<BiLogOut size={24} />} text='Logout' />
+//   </Flex>
+// </Flex>
