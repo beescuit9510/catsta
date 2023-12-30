@@ -9,11 +9,11 @@ import {
 } from '@chakra-ui/react'
 import ProfileGrid from '../../components/profile-grid/profile-grid.component'
 import EditProfile from './edit-profile'
-import { useUser } from '../../hooks/queries/useUser'
+import { useCachedUser } from '../../hooks/queries/useUser'
 import { auth } from '../../utils/firebase'
 
 export default function MyProfile() {
-  const { data: user } = useUser(auth.currentUser!.uid)
+  const currentUser = useCachedUser(auth.currentUser!.uid)
 
   return (
     <>
@@ -26,7 +26,10 @@ export default function MyProfile() {
               gap={3}
             >
               {/* FIXME: image dose not appear right away after skeleton. */}
-              <Avatar size={{ base: 'xl', md: '2xl' }} src={user!.photoURL} />
+              <Avatar
+                size={{ base: 'xl', md: '2xl' }}
+                src={currentUser!.photoURL}
+              />
               <Flex>
                 <Stack>
                   <Flex
@@ -34,30 +37,30 @@ export default function MyProfile() {
                     direction={{ base: 'column', md: 'row' }}
                     gap={3}
                   >
-                    <Text>{user!.displayName}</Text>
-                    <EditProfile userId={user!.id} />
+                    <Text>{currentUser!.displayName}</Text>
+                    <EditProfile userId={currentUser!.id} />
                   </Flex>
                   <Flex gap={5}>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {user!.posts}
+                        {currentUser!.posts}
                       </Text>{' '}
                       Posts
                     </Text>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {user!.followers.length}
+                        {currentUser!.followers.length}
                       </Text>{' '}
                       Followers
                     </Text>
                     <Text>
                       <Text as={'span'} fontWeight={'900'}>
-                        {user!.followings.length}
+                        {currentUser!.followings.length}
                       </Text>{' '}
                       Following
                     </Text>
                   </Flex>
-                  <Text>{user!.bio}</Text>
+                  <Text>{currentUser!.bio}</Text>
                 </Stack>
               </Flex>
             </Flex>

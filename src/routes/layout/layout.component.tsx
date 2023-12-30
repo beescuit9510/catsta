@@ -3,8 +3,14 @@ import { Outlet } from 'react-router-dom'
 import Sidebar from '../../components/sidebar/sidebar.component'
 import ErrorBoundary from '../error-boundary/error-boundary.component'
 import Error from '../error-boundary/error.component'
+import { useUser } from '../../hooks/queries/useUser'
+import { auth } from '../../utils/firebase'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 export default function Layout() {
+  const [user] = useAuthState(auth)
+  useUser(user!.uid)
+
   return (
     <>
       <Flex>
