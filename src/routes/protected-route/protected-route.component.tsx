@@ -2,6 +2,8 @@ import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../utils/firebase'
 import { useNavigate } from 'react-router-dom'
+import { Flex, Spinner } from '@chakra-ui/react'
+import Error from '../error-boundary/error.component'
 
 export default function ProtectedRoute({
   children,
@@ -14,17 +16,14 @@ export default function ProtectedRoute({
 
   if (loading) {
     return (
-      <div>
-        <p>Initialising User...</p>
-      </div>
+      <Flex minHeight={'100vh'} justifyContent={'center'} alignItems={'center'}>
+        <Spinner size='xl' />
+      </Flex>
     )
   }
+
   if (error) {
-    return (
-      <div>
-        <p>Error: {error.name}</p>
-      </div>
-    )
+    return <Error errorMessage={error.message} />
   }
   if (!user) {
     navigate('/auth')
