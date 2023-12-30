@@ -1,9 +1,10 @@
 import { Avatar, Center, Container, Flex, Stack, Text } from '@chakra-ui/react'
 import { auth } from '../../utils/firebase'
-import Follow from '../../components/common/follow/follow'
 import { useCachedUser, useUser } from '../../hooks/queries/useUser'
 import ProfileTabs from '../../components/profile/profile-tab/profile-tabs.component'
 import ProfileInfo from '../../components/profile/profile-info/profile-info.component'
+import FollowingBtn from '../../components/common/following-btn/following-btn.component'
+import UnfollowingBtn from '../../components/common/unfollowing-btn/unfollowing-btn.component'
 
 export default function UserProfile({ userId }: { userId?: string }) {
   const { data: user } = useUser(userId!)
@@ -28,11 +29,17 @@ export default function UserProfile({ userId }: { userId?: string }) {
                     gap={3}
                   >
                     <Text>{user!.displayName}</Text>
-                    <Follow
-                      userId={currentUser!.id}
-                      followingUserId={user!.id}
-                      following={currentUser!.followings.includes(user!.id)}
-                    />
+                    {currentUser!.followings.includes(user!.id) ? (
+                      <FollowingBtn
+                        userId={currentUser!.id}
+                        followingUserId={user!.id}
+                      />
+                    ) : (
+                      <UnfollowingBtn
+                        userId={currentUser!.id}
+                        followingUserId={user!.id}
+                      />
+                    )}
                   </Flex>
                   <ProfileInfo
                     posts={currentUser!.posts}
