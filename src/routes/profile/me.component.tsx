@@ -1,12 +1,12 @@
 import { Avatar, Center, Container, Flex, Stack, Text } from '@chakra-ui/react'
-import { useCachedUser } from '../../hooks/queries/useUser'
+import { useUser } from '../../hooks/queries/useUser'
 import { auth } from '../../utils/firebase'
 import ProfileEdit from '../../components/profile/profile-edit/profile-edit.component'
 import ProfileTabs from '../../components/profile/profile-tab/profile-tabs.component'
 import ProfileInfo from '../../components/profile/profile-info/profile-info.component'
 
 export default function Me() {
-  const currentUser = useCachedUser(auth.currentUser!.uid)
+  const { data: currentUser } = useUser(auth.currentUser!.uid)
 
   return (
     <>
