@@ -12,8 +12,6 @@ import EditProfile from './edit-profile'
 import { useUser } from '../../hooks/queries/useUser'
 import { auth } from '../../utils/firebase'
 
-// TODO find firebase + typescript example
-
 export default function MyProfile() {
   const { data: user } = useUser(auth.currentUser!.uid)
 
@@ -37,12 +35,7 @@ export default function MyProfile() {
                     gap={3}
                   >
                     <Text>{user!.displayName}</Text>
-                    <EditProfile
-                      userId={user!.id}
-                      photoURL={user!.photoURL}
-                      displayName={user!.displayName}
-                      bio={user!.bio}
-                    />
+                    <EditProfile userId={user!.id} />
                   </Flex>
                   <Flex gap={5}>
                     <Text>

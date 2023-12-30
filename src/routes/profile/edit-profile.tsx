@@ -21,59 +21,40 @@ import {
 } from '@chakra-ui/react'
 import { useRef, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
-import { useUploadFile } from 'react-firebase-hooks/storage'
-import { doc, updateDoc } from 'firebase/firestore'
-import { firestore, storage } from '../../utils/firebase'
-import { getDownloadURL, ref } from 'firebase/storage'
+import { useCachedUser } from '../../hooks/queries/useUser'
+import { useUpdateUser } from '../../hooks/mutations/useUpdateUser'
 import useShowToast from '../../hooks/useShowToast'
 
-export default function EditProfile({
-  userId,
-  photoURL: _photoURL,
-  displayName: _displayName,
-  bio: _bio,
-}: {
-  userId: string
-  photoURL: string
-  displayName: string
-  bio: string
-}) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+export default function EditProfile({ userId }: { userId: string }) {
+  //TODO: extract modal code
+  //TODO: extract preview code
+  // TODO: limit the photo size under 2mb(2*1024*1024)
+  // FIXME: after saving the empty avatar dose not show up in the light mode.
 
-  const [photoURL, setPhotoURL] = useState(_photoURL)
-  const [displayName, setDisplayName] = useState(_displayName)
-  const [bio, setBio] = useState(_bio)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const user = useCachedUser(userId)
+  const [photoURL, setPhotoURL] = useState(user!.photoURL)
+  const [displayName, setDisplayName] = useState(user!.displayName)
+  const [bio, setBio] = useState(user!.bio)
 
   const [file, setFile] = useState<File | null | undefined>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
-  const [uploadFile, uploading] = useUploadFile()
   const toast = useShowToast()
 
-  //TODO: extract firebase code
-  //TODO: extract modal code
-  //TODO: extract file saving code
-  //TODO: extract previe code
+  const { mutate, isPending } = useUpdateUser({
+    onSuccess: () => {
+      toast('success', 'Successfully saved.')
+    },
+    onError: () => {
+      toast('error', 'Sorry, unexpected error has occured.')
+    },
+  })
 
-  const onSave = () =>
-    Promise.resolve()
-      .then(
-        () =>
-          file &&
-          uploadFile(ref(storage, `users/${userId}`), file!, {
-            contentType: 'image/jpeg',
-          })
-      )
-      .then((snapshot) => (snapshot ? getDownloadURL(snapshot.ref) : photoURL))
-      .then((photoURL) =>
-        updateDoc(doc(firestore, `users/${userId}`), {
-          photoURL,
-          displayName,
-          bio,
-        })
-      )
-      .then(() => toast('success', 'Successfully saved.'))
-      .catch(() => toast('error', 'Sorry, unexpected error has occured.'))
+  const onSave = () => {
+    if (file) mutate({ userId, file, displayName, bio })
+    else mutate({ userId, photoURL, displayName, bio })
+  }
 
   return (
     <>
@@ -83,22 +64,25 @@ export default function EditProfile({
         blockScrollOnMount={false}
         isOpen={isOpen}
         onClose={() => {
-          setPhotoURL(_photoURL)
-          setDisplayName(_displayName)
-          setBio(_bio)
+          setPhotoURL(user!.photoURL)
+          setDisplayName(user!.displayName)
+          setBio(user!.bio)
           onClose()
         }}
       >
         <Flex>
           <ModalOverlay />
-          <ModalContent w={'90%'} bg={useColorModeValue('gray.50', 'gray.900')}>
+          <ModalContent
+            width={'90%'}
+            bg={useColorModeValue('gray.50', 'gray.900')}
+          >
             <ModalCloseButton />
 
             <ModalHeader>Edit profile</ModalHeader>
             <ModalBody>
               <Stack spacing={4}>
-                <FormControl id='userName'>
-                  <FormLabel>User Icon</FormLabel>
+                <FormControl>
+                  <FormLabel>User photo</FormLabel>
                   <Stack
                     alignItems={'center'}
                     direction={['column', 'row']}
@@ -124,16 +108,19 @@ export default function EditProfile({
                     <Input
                       hidden
                       type='file'
+                      accept='image/*'
                       onChange={(event) => {
                         const file = event.target.files?.[0]
-                        console.log(file)
                         if (!file) return
                         setFile(file)
                         setPhotoURL(URL.createObjectURL(file))
                       }}
                       ref={inputRef}
                     />
-                    <Button w='full' onClick={() => inputRef.current?.click()}>
+                    <Button
+                      width='full'
+                      onClick={() => inputRef.current?.click()}
+                    >
                       Change profile photo
                     </Button>
                   </Stack>
@@ -163,7 +150,8 @@ export default function EditProfile({
             <ModalFooter>
               <Button
                 onClick={onSave}
-                isLoading={uploading}
+                isLoading={isPending}
+                disabled={isPending}
                 bg={'blue.400'}
                 color={'white'}
                 _hover={{
