@@ -20,7 +20,7 @@ export default function UserProfile({ userId }: { userId?: string }) {
               alignItems={'center'}
               gap={3}
             >
-              <Avatar size={{ base: 'xl', md: '2xl' }} />
+              <Avatar src={user!.photoURL} size={{ base: 'xl', md: '2xl' }} />
               <Flex>
                 <Stack>
                   <Flex
