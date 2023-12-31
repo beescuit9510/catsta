@@ -3,7 +3,7 @@ import { Flex, Skeleton, SkeletonCircle, VStack } from '@chakra-ui/react'
 export default function SearchLoader() {
   return (
     <>
-      {Array(10)
+      {Array(3)
         .fill(0)
         .map((v, idx) => (
           <Flex

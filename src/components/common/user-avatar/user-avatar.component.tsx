@@ -28,10 +28,14 @@ export default function UserAvatar({
         </Flex>
       </Flex>
       {/* TODO: refactor shared code */}
-      {currentUser!.followings.includes(userId) ? (
-        <UnfollowingBtn userId={currentUser!.id} followingUserId={userId} />
-      ) : (
-        <FollowingBtn userId={currentUser!.id} followingUserId={userId} />
+      {currentUser?.id !== userId && (
+        <>
+          {currentUser!.followings.includes(userId) ? (
+            <UnfollowingBtn userId={currentUser!.id} followingUserId={userId} />
+          ) : (
+            <FollowingBtn userId={currentUser!.id} followingUserId={userId} />
+          )}
+        </>
       )}
     </Flex>
   )
