@@ -18,7 +18,7 @@ async function user(userId: string): Promise<User> {
 export function useUser(userId: string) {
   const query = useQuery({
     queryKey: ['users', userId],
-    queryFn: ({ queryKey }) => user(queryKey[1]),
+    queryFn: () => user(userId),
   })
   return query
 }
