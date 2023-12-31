@@ -1,5 +1,5 @@
 import { Button, Flex, Text } from '@chakra-ui/react'
-import ActiveUser from '../who-active-user/who-active-user.component'
+import UserAvatar from '../common/user-avatar/user-avatar.component'
 
 export default function WhoIsActive() {
   return (
@@ -22,9 +22,9 @@ export default function WhoIsActive() {
             See More
           </Button>
         </Flex>
-        <ActiveUser displayName='Byunduck' userRef='ABC' />
-        <ActiveUser displayName='Byunduck' userRef='ABC' />
-        <ActiveUser displayName='Byunduck' userRef='ABC' />
+        <UserAvatar displayName='Byunduck' userId='ABC' photoURL='' />
+        <UserAvatar displayName='Byunduck' userId='ABC' photoURL='' />
+        <UserAvatar displayName='Byunduck' userId='ABC' photoURL='' />
       </Flex>
     </Flex>
   )

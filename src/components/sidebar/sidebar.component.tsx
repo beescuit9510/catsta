@@ -56,7 +56,7 @@ export default function Sidebar() {
           Catsta
         </Heading>
         <SidebarItem Icon={<AiFillHome size={20} />} to='/' text='Home' />
-        <SidebarItem Icon={<FaSearch size={20} />} to='/' text='Search' />
+        <SidebarItem Icon={<FaSearch size={20} />} to='/search' text='Search' />
         <SidebarItem
           Icon={<FaRegSquarePlus size={20} />}
           to='/create'
