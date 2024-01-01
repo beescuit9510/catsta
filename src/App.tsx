@@ -8,6 +8,7 @@ import RedirectTo from './routes/redirect-to/redirect-to.component'
 import ProtectedRoute from './routes/protected-route/protected-route.component'
 import Profile from './routes/profile/profile.component'
 import Search from './routes/search/search.component'
+import Create from './routes/create/create.component'
 
 function App() {
   const router = createBrowserRouter([
@@ -21,6 +22,7 @@ function App() {
       children: [
         { path: '/', element: <Home /> },
         { path: '/search', element: <Search /> },
+        { path: '/create', element: <Create /> },
         {
           path: '/:userId',
           element: <Profile />,

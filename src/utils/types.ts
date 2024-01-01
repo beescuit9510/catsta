@@ -1,5 +1,18 @@
 import { QueryDocumentSnapshot } from 'firebase/firestore'
 
+// posts/:postsId
+export type Post = {
+  id: string
+  userId: string
+  photoURL: string
+  content: string
+  createdAt: string
+}
+export type CreatePost = {
+  userId: string
+  content: string
+  file: File
+}
 // user/:userid
 export type User = {
   id: string
