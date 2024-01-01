@@ -24,6 +24,7 @@ async function searchUser(
   let lastDoc
   // FIXME: cannot search words in between or words at the end, when T is typed, Hell_KITTY, and kitkat is not showing up.
   // FIXME: case-sensitive search => case-insensitive
+  // FIXME: cannot search korean words
   const results = await Promise.all([
     getCountFromServer(
       query(
@@ -69,7 +70,7 @@ export function useIntiniteSearchUser(searchKeyword: string) {
       const currentTotal = allPages.reduce((p, c) => p + c.users.length, 0)
       const { total } = lastPage
 
-      if (currentTotal === total) {
+      if (currentTotal >= total) {
         return undefined
       }
       return lastPage.lastDoc
