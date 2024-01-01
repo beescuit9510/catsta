@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { addDoc, collection, updateDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
 import { firestore, storage } from '../../utils/firebase'
 import { CreatePost } from '../../utils/types'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
@@ -25,7 +25,10 @@ async function createPost({ userId, content, file }: CreatePost) {
   const photoURL = results[0]
   const docRef = results[1]
 
-  await updateDoc(docRef, { id: docRef.id, photoURL })
+  await updateDoc(doc(firestore, 'posts', docRef.id), {
+    id: docRef.id,
+    photoURL,
+  })
 
   return docRef.id
 }
