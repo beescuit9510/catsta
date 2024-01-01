@@ -12,16 +12,16 @@ export default function ProfileGrid() {
   return (
     <Stack spacing={5}>
       <Grid templateColumns='repeat(3, 1fr)' gap={3}>
-        {data?.pages.map((group) =>
-          group.posts.map((post) => (
+        {data?.pages
+          .flatMap((page) => page.posts)
+          .map((post) => (
             <ProfileGridItem
               key={post.id}
               imageURL={post.photoURL}
               likes={0}
               comments={0}
             />
-          ))
-        )}
+          ))}
       </Grid>
       {hasNextPage && (
         <Button
