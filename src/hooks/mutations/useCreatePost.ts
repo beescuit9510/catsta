@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
+import { addDoc, collection, updateDoc } from 'firebase/firestore'
 import { firestore, storage } from '../../utils/firebase'
 import { CreatePost } from '../../utils/types'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
@@ -14,25 +14,22 @@ const uploadImage = async ({ file, path }: { file: File; path: string }) => {
 }
 
 async function createPost({ userId, content, file }: CreatePost) {
-  const results = await Promise.all([
-    uploadImage({ file, path: `posts/${userId}` }),
-    addDoc(collection(firestore, 'posts'), {
-      userId,
-      content,
-      createdAt: Date.now(),
-      likes: [],
-      comments: [],
-    }),
-  ])
-  const photoURL = results[0]
-  const docRef = results[1]
+  const doc = await addDoc(collection(firestore, 'posts'), {
+    userId,
+    content,
+    createdAt: Date.now(),
+    likes: [],
+    comments: [],
+  })
 
-  await updateDoc(doc(firestore, 'posts', docRef.id), {
-    id: docRef.id,
+  const photoURL = await uploadImage({ file, path: `posts/${doc.id}` })
+
+  await updateDoc(doc, {
+    id: doc.id,
     photoURL,
   })
 
-  return docRef.id
+  return doc.id
 }
 
 export default function useCreatePost({
