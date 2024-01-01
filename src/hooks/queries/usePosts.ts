@@ -29,7 +29,7 @@ async function posts(
   let lastDoc
   const results = await Promise.all([
     getCountFromServer(
-      query(collection(firestore, 'users'), where('userId', '==', userId))
+      query(collection(firestore, 'posts'), where('userId', '==', userId))
     ).then((snapshot) => snapshot.data().count),
     getDocs(
       query(
