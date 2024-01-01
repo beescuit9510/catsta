@@ -26,11 +26,6 @@ export default function useUnfollowing({
     mutationFn: () => unfollowing(userId, followingUserId),
 
     onSuccess: ({ userId, followingUserId }) => {
-      // TODO: this causes all queries with 'search', 'users' to refetched.
-      queryClient.invalidateQueries({
-        queryKey: ['search', 'users'],
-      })
-
       queryClient.setQueryData(['users', userId], (oldQueryData: User) => {
         return {
           ...oldQueryData,

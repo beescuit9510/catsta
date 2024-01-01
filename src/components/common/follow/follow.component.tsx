@@ -1,10 +1,10 @@
 import FollowingBtn from '../following-btn/following-btn.component'
 import UnfollowingBtn from '../unfollowing-btn/unfollowing-btn.component'
-import { useCachedUser } from '../../../hooks/queries/useUser'
+import { useUser } from '../../../hooks/queries/useUser'
 import { auth } from '../../../utils/firebase'
 
 export default function Follow({ userId }: { userId: string }) {
-  const currentUser = useCachedUser(auth.currentUser!.uid)
+  const { data: currentUser } = useUser(auth.currentUser!.uid)
 
   return (
     <>
