@@ -2,8 +2,7 @@ import { Avatar, Flex, Text } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { useCachedUser } from '../../../hooks/queries/useUser'
 import { auth } from '../../../utils/firebase'
-import UnfollowingBtn from '../unfollowing-btn/unfollowing-btn.component'
-import FollowingBtn from '../following-btn/following-btn.component'
+import Follow from '../follow/follow.component'
 
 export default function UserAvatar({
   userId,
@@ -27,16 +26,7 @@ export default function UserAvatar({
           <Text fontSize={12}>Active 6h ago</Text>
         </Flex>
       </Flex>
-      {/* TODO: refactor shared code */}
-      {currentUser?.id !== userId && (
-        <>
-          {currentUser!.followings.includes(userId) ? (
-            <UnfollowingBtn userId={currentUser!.id} followingUserId={userId} />
-          ) : (
-            <FollowingBtn userId={currentUser!.id} followingUserId={userId} />
-          )}
-        </>
-      )}
+      {currentUser?.id !== userId && <Follow userId={userId} />}
     </Flex>
   )
 }
