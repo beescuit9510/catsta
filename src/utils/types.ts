@@ -6,7 +6,9 @@ export type Post = {
   userId: string
   photoURL: string
   content: string
-  createdAt: string
+  createdAt: number
+  likes: []
+  comments: []
 }
 export type CreatePost = {
   userId: string
@@ -22,7 +24,7 @@ export type User = {
   posts: number
   followers: string[]
   followings: string[]
-  createdAt: string
+  createdAt: number
 }
 
 export type InfiniteSearchUser = {

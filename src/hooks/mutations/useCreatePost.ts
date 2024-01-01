@@ -20,6 +20,8 @@ async function createPost({ userId, content, file }: CreatePost) {
       userId,
       content,
       createdAt: Date.now(),
+      likes: [],
+      comments: [],
     }),
   ])
   const photoURL = results[0]
