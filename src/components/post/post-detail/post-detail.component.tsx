@@ -7,6 +7,7 @@ import Like from '../like/like.component'
 import CreateComment from '../create-comment/create-comment'
 import CommentList from '../comment-list/comment-list.component'
 import { Suspense } from 'react'
+import CommentLisLoader from '../comment-list/comment-list-loader.component'
 
 export default function PostDetail() {
   const { postId } = useParams()
@@ -42,10 +43,9 @@ export default function PostDetail() {
           <Text fontWeight={'700'}>{data!.user!.displayName}</Text>
           <Text>{data!.post!.content}</Text>
         </Flex>
-
         <CreateComment />
 
-        <Suspense fallback={<>Loading...</>}>
+        <Suspense fallback={<CommentLisLoader />}>
           <CommentList />
         </Suspense>
       </Stack>
