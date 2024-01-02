@@ -46,6 +46,14 @@ export type CreatePost = {
   content: string
   file: File
 }
+
+export type InfinitePost = {
+  limit: number
+  lastDoc?: QueryDocumentSnapshot
+  total: number
+  posts: Post[]
+}
+
 // user/:userid
 export type User = {
   id: string

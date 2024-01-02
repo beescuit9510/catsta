@@ -11,15 +11,9 @@ import {
   where,
 } from 'firebase/firestore'
 import { firestore } from '../../utils/firebase'
-import { Post } from '../../utils/types'
+import { InfinitePost, Post } from '../../utils/types'
 
 // TODO: extract shared infiniate query code
-type InfinitePost = {
-  limit: number
-  lastDoc?: QueryDocumentSnapshot
-  total: number
-  posts: Post[]
-}
 
 async function posts(
   userId: string,
