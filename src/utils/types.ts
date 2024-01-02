@@ -10,6 +10,37 @@ export type Post = {
   likes: []
   comments: []
 }
+
+export type Comment = {
+  id: string
+  postId: string
+  userId: string
+  content: string
+  createdAt: number
+}
+
+export type UserComment = {
+  id: string
+  postId: string
+  userId: string
+  content: string
+  createdAt: number
+  user: User
+}
+
+export type CreateComment = {
+  postId: string
+  userId: string
+  content: string
+}
+
+export type InfiniteComment = {
+  limit: number
+  lastDoc?: QueryDocumentSnapshot
+  total: number
+  comments: UserComment[]
+}
+
 export type CreatePost = {
   userId: string
   content: string
