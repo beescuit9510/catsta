@@ -7,8 +7,8 @@ export type Post = {
   photoURL: string
   content: string
   createdAt: number
-  likes: []
-  comments: []
+  likes: string[]
+  comments: number
 }
 
 export type Comment = {

@@ -19,7 +19,7 @@ async function createPost({ userId, content, file }: CreatePost) {
     content,
     createdAt: Date.now(),
     likes: [],
-    comments: [],
+    comments: 0,
   })
 
   const photoURL = await uploadImage({ file, path: `posts/${doc.id}` })

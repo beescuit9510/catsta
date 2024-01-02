@@ -9,7 +9,6 @@ export default function ProfileGrid() {
     userId!
   )
 
-  // TODO: likes, comments
   return (
     <Stack spacing={5}>
       <Grid templateColumns='repeat(3, 1fr)' gap={3}>
@@ -20,8 +19,8 @@ export default function ProfileGrid() {
               key={post.id}
               postId={post.id}
               imageURL={post.photoURL}
-              likes={0}
-              comments={0}
+              likes={post.likes.length}
+              comments={post.comments}
             />
           ))}
       </Grid>
