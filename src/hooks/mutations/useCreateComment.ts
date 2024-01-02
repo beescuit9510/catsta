@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { addDoc, collection, updateDoc } from 'firebase/firestore'
 import { firestore } from '../../utils/firebase'
 import { CreateComment } from '../../utils/types'
+import { queryClient } from '../../main'
 
 async function createComment({ postId, userId, content }: CreateComment) {
   const comment = {
@@ -35,20 +36,12 @@ export default function useCreateComment({
 }: CreateComment) {
   return useMutation({
     mutationFn: () => createComment({ postId, userId, content }),
-    // onSuccess: (comment) => {
-    // queryClient.setQueryData(
-    //   ['users', comment.postId, 'comments', comment],
-    //   (oldQueryData: Comment) => {
-    //     return {
-    //       ...oldQueryData,
-    //       comments: [...oldQueryData.comments, post],
-    //     }
-    //   }
-    // )
-    // onSuccess(postId)
-    // },
-    // onError: (error: Error) => {
-    // onError(error)
-    // },
+    onSuccess: (comment) => {
+      // TODO:setQuery instead of invalidating
+      queryClient.invalidateQueries({
+        queryKey: ['posts', comment.postId, 'comments'],
+        exact: true,
+      })
+    },
   })
 }
