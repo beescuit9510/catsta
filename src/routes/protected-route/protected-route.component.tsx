@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../utils/firebase'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +13,9 @@ export default function ProtectedRoute({
   const [user, loading, error] = useAuthState(auth)
 
   const navigate = useNavigate()
+  useEffect(() => {
+    if (!user) navigate('/auth')
+  }, [user])
 
   if (loading) {
     return (
@@ -24,9 +27,6 @@ export default function ProtectedRoute({
 
   if (error) {
     return <Error errorMessage={error.message} />
-  }
-  if (!user) {
-    navigate('/auth')
   }
 
   return <>{children}</>

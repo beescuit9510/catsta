@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../utils/firebase'
 import { useNavigate } from 'react-router-dom'
@@ -16,6 +16,10 @@ export default function RedirectTo({
 
   const navigate = useNavigate()
 
+  useEffect(() => {
+    if (user) navigate(to)
+  }, [user])
+
   if (loading) {
     return (
       <Flex minHeight={'100vh'} justifyContent={'center'} alignItems={'center'}>
@@ -25,9 +29,6 @@ export default function RedirectTo({
   }
   if (error) {
     return <Error errorMessage={error.message} />
-  }
-  if (user) {
-    navigate(to)
   }
 
   return <>{children}</>
