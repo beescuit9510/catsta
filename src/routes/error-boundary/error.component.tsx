@@ -1,4 +1,5 @@
 import { Center, Flex, Heading, Text } from '@chakra-ui/react'
+import '@fontsource/rubik-scribble/400.css'
 
 export default function Error({
   errorMessage = 'Sorry, an unexpected error has occurred.',
@@ -6,7 +7,7 @@ export default function Error({
   return (
     <Center>
       <Flex minHeight={'100vh'} direction={'column'} justifyContent={'center'}>
-        <Heading>Oops!</Heading>
+        <Heading fontFamily={'Rubik Scribble'}>Oops!</Heading>
         <Text>{errorMessage}</Text>
       </Flex>
     </Center>
