@@ -92,7 +92,7 @@ export default function Sidebar() {
           fontSize={'xl'}
         />
         <SidebarItem
-          Icon={<BiLogOut size={20} on />}
+          Icon={<BiLogOut size={20} />}
           to='/auth'
           text='Logout'
           onClick={logout}
