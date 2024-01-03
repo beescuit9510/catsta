@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Image, Stack, Text } from '@chakra-ui/react'
-import useFeed from '../../hooks/queries/useFeed'
-import { auth } from '../../utils/firebase'
-import UserAvatar from '../common/user-avatar/user-avatar.component'
-import Like from '../post/like/like.component'
+import useFeed from '../../../hooks/queries/useFeed'
+import { auth } from '../../../utils/firebase'
+import UserAvatar from '../../common/user-avatar/user-avatar.component'
+import Like from '../../post/like/like.component'
 import { IoChatbubbleOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 

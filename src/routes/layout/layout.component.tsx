@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react'
 import { Outlet } from 'react-router-dom'
-import Sidebar from '../../components/sidebar/sidebar.component'
+import Sidebar from '../../components/layout/sidebar/sidebar.component'
 import ErrorBoundary from '../error-boundary/error-boundary.component'
 import Error from '../error-boundary/error.component'
 import { useUser } from '../../hooks/queries/useUser'
@@ -9,6 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 export default function Layout() {
   const [user] = useAuthState(auth)
+  // TODO: change to Prefetch
   useUser(user!.uid)
 
   return (

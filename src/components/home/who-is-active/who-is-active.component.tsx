@@ -1,5 +1,5 @@
 import { Button, Flex, Text } from '@chakra-ui/react'
-import UserAvatar from '../common/user-avatar/user-avatar.component'
+import UserAvatar from '../../common/user-avatar/user-avatar.component'
 
 export default function WhoIsActive() {
   return (
@@ -17,14 +17,29 @@ export default function WhoIsActive() {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Text fontWeight={'800'}>Who is active?</Text>
+          <Text fontWeight={'600'}>Suggested for you</Text>
           <Button size={'sm'} variant={'ghost'}>
             See More
           </Button>
         </Flex>
-        <UserAvatar displayName='Byunduck' userId='ABC' photoURL='' />
-        <UserAvatar displayName='Byunduck' userId='ABC' photoURL='' />
-        <UserAvatar displayName='Byunduck' userId='ABC' photoURL='' />
+        <UserAvatar
+          displayName='Byunduck'
+          userId='ABC'
+          photoURL=''
+          bio='Byunduck'
+        />
+        <UserAvatar
+          displayName='Byunduck'
+          userId='ABC'
+          photoURL=''
+          bio='Byunduck'
+        />
+        <UserAvatar
+          displayName='Byunduck'
+          userId='ABC'
+          photoURL=''
+          bio='Byunduck'
+        />
       </Flex>
     </Flex>
   )
