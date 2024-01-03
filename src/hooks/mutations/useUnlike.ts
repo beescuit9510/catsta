@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { arrayRemove, doc, updateDoc } from 'firebase/firestore'
-import { firestore } from '../../utils/firebase'
+import { auth, firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { Post, User } from '../../utils/types'
 
@@ -18,16 +18,42 @@ export default function useUnlike({
 }: {
   userId: string
   postId: string
-  onSuccess: () => void
-  onError: () => void
+  onSuccess?: () => void
+  onError?: () => void
 }) {
   return useMutation({
     mutationFn: () => unlike(postId, userId),
     onSuccess: () => {
       // TODO: clean up code and re-define shared code
+
+      queryClient.setQueryData(['users', 'feed'], (oldQueryData) => {
+        if (!oldQueryData) return
+
+        return {
+          ...oldQueryData,
+          pages: oldQueryData!.pages!.map((page) => {
+            return {
+              ...page,
+              posts: page.posts.map((data) => {
+                if (postId !== data.post.id) return data
+                const newPost = {
+                  ...data.post,
+                  likes: data.post.likes.filter(
+                    (userId) => userId !== auth.currentUser!.uid
+                  ),
+                }
+                return { ...data, post: newPost }
+              }),
+            }
+          }),
+        }
+      })
+
       queryClient.setQueryData(
         ['posts', postId],
         (oldQueryData: { post: Post; user: User }) => {
+          if (!oldQueryData) return
+
           const updatedPost = {
             ...oldQueryData.post,
             likes: oldQueryData.post.likes.filter((user) => user !== userId),
@@ -39,10 +65,11 @@ export default function useUnlike({
         }
       )
 
-      onSuccess()
+      onSuccess && onSuccess()
     },
-    onError: () => {
-      onError()
+    onError: (erorr) => {
+      console.error(erorr)
+      onError && onError()
     },
   })
 }

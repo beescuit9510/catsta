@@ -1,42 +1,79 @@
-import { Stack } from '@chakra-ui/react'
-import Post, { PostProps } from '../post/post.component'
-import { useEffect, useState } from 'react'
+import { Box, Button, Flex, Image, Stack, Text } from '@chakra-ui/react'
+import useFeed from '../../hooks/queries/useFeed'
+import { auth } from '../../utils/firebase'
+import UserAvatar from '../common/user-avatar/user-avatar.component'
+import Like from '../post/like/like.component'
+import { IoChatbubbleOutline } from 'react-icons/io5'
+import { Link } from 'react-router-dom'
 
 export default function Feed() {
-  const [posts, setPosts] = useState<PostProps[]>([])
-
-  useEffect(() => {
-    setPosts([
-      {
-        postRef: '1ASDFGQ45EV2V15X1',
-        imageURL:
-          'https://images.unsplash.com/photo-1682687982141-0143020ed57a?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        photoURL:
-          'https://images.unsplash.com/photo-1682687982141-0143020ed57a?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        displayName: 'Byunduck',
-        caption: 'GOOD DAY!',
-        likes: 20,
-        liked: true,
-      },
-    ])
-  }, [])
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useFeed()
 
   return (
     <Stack spacing={10}>
-      {posts.map((post) => {
-        return (
-          <Post
-            key={post.postRef}
-            postRef={post.postRef}
-            imageURL={post.imageURL}
-            photoURL={post.photoURL}
-            displayName={post.displayName}
-            caption={post.caption}
-            likes={post.likes}
-            liked={post.liked}
-          />
-        )
-      })}
+      <Stack spacing={10}>
+        {data?.pages
+          .flatMap((page) => page.posts)
+          .map(({ post, user }) => {
+            return (
+              <>
+                <Stack>
+                  <UserAvatar
+                    userId={user.id}
+                    displayName={user.displayName}
+                    photoURL={user.photoURL}
+                  />
+
+                  <Box>
+                    {/* TODO: fallback image since its too slow */}
+                    {/* TODO: fixed image size like insta */}
+                    {/* TODO: image +box and extract shared image code */}
+                    <Image
+                      src={post.photoURL}
+                      objectFit={'cover'}
+                      fallbackSrc={'https://placehold.co/600x500?text=...'}
+                    />
+                  </Box>
+
+                  <Box>
+                    <Flex gap={2}>
+                      <Like
+                        liked={post.likes.includes(auth.currentUser!.uid)}
+                        userId={auth.currentUser!.uid}
+                        postId={post.id}
+                      />
+                      <Link to={`/posts/${post.id}`}>
+                        <IoChatbubbleOutline size={25} />
+                      </Link>
+                    </Flex>
+                    <Text>{post.likes.length} likes</Text>
+                  </Box>
+
+                  <Stack>
+                    <Flex gap={2}>
+                      <Text fontWeight={'700'}>{user.displayName}</Text>
+                      <Text>{post.content}</Text>
+                    </Flex>
+                    {/* <CreateComment /> */}
+
+                    {/* <Suspense fallback={<CommentLisLoader />}>
+                    <CommentList />
+                  </Suspense> */}
+                  </Stack>
+                </Stack>
+              </>
+            )
+          })}
+      </Stack>
+      {hasNextPage && (
+        <Button
+          disabled={isFetchingNextPage}
+          isLoading={isFetchingNextPage}
+          onClick={() => fetchNextPage()}
+        >
+          Load more
+        </Button>
+      )}
     </Stack>
   )
 }
