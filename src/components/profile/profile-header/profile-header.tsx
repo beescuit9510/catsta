@@ -1,9 +1,12 @@
-import { Avatar, Flex, Stack, Text } from '@chakra-ui/react'
+import { Avatar, Flex, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
 import { useUser } from '../../../hooks/queries/useUser'
 import { auth } from '../../../utils/firebase'
 import ProfileEdit from '../profile-edit/profile-edit.component'
 import Follow from '../../common/follow/follow.component'
+import { useFollowers } from '../../../hooks/queries/useFollowers'
+import { useFollowings } from '../../../hooks/queries/useFollowings'
+import UserListModal from '../user-list-modal/user-list-modal.component'
 
 export default function ProfileHeader() {
   const { userId } = useParams()
@@ -32,24 +35,29 @@ export default function ProfileHeader() {
 
           <>
             <Flex gap={5}>
-              <Text>
+              <Text
+                display={'flex'}
+                variant={'link'}
+                fontWeight={'400'}
+                color={useColorModeValue('black', 'whiteAlpha.900')}
+              >
                 <Text as={'span'} fontWeight={'900'} mr={'0.25em'}>
                   {user!.posts}
                 </Text>
                 Posts
               </Text>
-              <Text>
-                <Text as={'span'} fontWeight={'900'} mr={'0.25em'}>
-                  {user!.followers.length}
-                </Text>
-                Followers
-              </Text>
-              <Text>
-                <Text as={'span'} fontWeight={'900'} mr={'0.25em'}>
-                  {user!.followings.length}
-                </Text>
-                Following
-              </Text>
+              <UserListModal
+                counts={user!.followers.length}
+                caption={'followers'}
+                title={'Follwers'}
+                query={useFollowers}
+              />
+              <UserListModal
+                counts={user!.followings.length}
+                caption={'followings'}
+                title={'Followings'}
+                query={useFollowings}
+              />
             </Flex>
             <Text>{user!.bio}</Text>
           </>

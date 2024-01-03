@@ -5,6 +5,8 @@ export const UserKeys = {
   POSTS: (userId: string) => ['users', userId, 'posts'] as const,
   SEARCH: (searchKeyword: string) =>
     ['search', 'users', searchKeyword] as const,
+  FOLLOWINGS: (userId: string) => ['users', userId, 'followings'] as const,
+  FOLLOWERS: (userId: string) => ['users', userId, 'followers'] as const,
 }
 
 export const PostKeys = {
