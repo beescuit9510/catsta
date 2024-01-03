@@ -1,6 +1,5 @@
 import { Flex, Icon } from '@chakra-ui/react'
 import { FaHeart } from 'react-icons/fa'
-// import { IoChatbubbleOutline } from 'react-icons/io5'
 import useLike from '../../../hooks/mutations/useLike'
 import useUnlike from '../../../hooks/mutations/useUnlike'
 import useShowToast from '../../../hooks/useShowToast'
@@ -20,14 +19,14 @@ export default function Like({
   const onUnlikeSuccess = () => toast('success', 'Successfully unliked.')
   const onError = () => toast('error', 'Sorry, unexpected error has occured.')
 
-  const { mutate: like } = useLike({
+  const { mutate: like, isPending: isLikePengding } = useLike({
     userId,
     postId,
     onSuccess: onLikeSuccess,
     onError,
   })
 
-  const { mutate: unlike } = useUnlike({
+  const { mutate: unlike, isPending: isUnlikePengding } = useUnlike({
     userId,
     postId,
     onSuccess: onUnlikeSuccess,
@@ -45,7 +44,11 @@ export default function Like({
           _hover={{
             color: liked ? 'gray' : 'red',
           }}
-          onClick={() => (liked ? unlike() : like())}
+          onClick={() => {
+            if (isLikePengding) return
+            if (isUnlikePengding) return
+            liked ? unlike() : like()
+          }}
           size={25}
         />
       </Flex>
