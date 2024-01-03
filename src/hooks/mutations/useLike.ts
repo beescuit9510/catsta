@@ -3,6 +3,7 @@ import { arrayUnion, doc, updateDoc } from 'firebase/firestore'
 import { auth, firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { Post, User } from '../../utils/types'
+import { PostKeys, UserKeys } from '../../utils/query-key'
 
 async function like(postId: string, userId: string) {
   return updateDoc(doc(firestore, `/posts/${postId}`), {
@@ -25,7 +26,7 @@ export default function useLike({
     mutationFn: () => like(postId, userId),
     onSuccess: () => {
       // TODO: clean up code and re-define shared code
-      queryClient.setQueryData(['users', 'feed'], (oldQueryData) => {
+      queryClient.setQueryData(UserKeys.FEED, (oldQueryData) => {
         if (!oldQueryData) return
 
         return {
@@ -47,7 +48,7 @@ export default function useLike({
       })
 
       queryClient.setQueryData(
-        ['posts', postId],
+        PostKeys.POST(postId),
         (oldQueryData: { post: Post; user: User }) => {
           if (!oldQueryData) return
 

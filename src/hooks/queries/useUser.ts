@@ -3,6 +3,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
 import { queryClient } from '../../main'
 import { User } from '../../utils/types'
+import { UserKeys } from '../../utils/query-key'
 
 // TODO find firebase + typescript example
 async function user(userId: string): Promise<User> {
@@ -17,14 +18,14 @@ async function user(userId: string): Promise<User> {
 // TODO: return undefined, find out why it returns undefined
 export function useUser(userId: string) {
   const query = useQuery({
-    queryKey: ['users', userId],
+    queryKey: UserKeys.USER(userId),
     queryFn: () => user(userId),
   })
   return query
 }
 
 export function useCachedUser(userId: string) {
-  const currentUser = queryClient.getQueryData<User>(['users', userId])
+  const currentUser = queryClient.getQueryData<User>(UserKeys.USER(userId))
 
   return currentUser
 }

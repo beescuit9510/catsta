@@ -3,6 +3,7 @@ import { arrayUnion, doc, runTransaction } from 'firebase/firestore'
 import { firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { User } from '../../utils/types'
+import { UserKeys } from '../../utils/query-key'
 
 async function following(userId: string, followingUserId: string) {
   return runTransaction(firestore, async (transaction) => {
@@ -26,7 +27,7 @@ export default function useFollowing({
     mutationFn: () => following(userId, followingUserId),
 
     onSuccess: ({ userId, followingUserId }) => {
-      queryClient.setQueryData(['users', userId], (oldQueryData: User) => {
+      queryClient.setQueryData(UserKeys.USER(userId), (oldQueryData: User) => {
         return {
           ...oldQueryData,
           followings: [...oldQueryData.followings, followingUserId],
@@ -34,7 +35,7 @@ export default function useFollowing({
       })
 
       queryClient.setQueryData(
-        ['users', followingUserId],
+        UserKeys.USER(followingUserId),
         (oldQueryData: User) => {
           return {
             ...oldQueryData,

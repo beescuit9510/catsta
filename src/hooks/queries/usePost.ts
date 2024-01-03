@@ -2,6 +2,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { firestore } from '../../utils/firebase'
 import { Post, User } from '../../utils/types'
 import { useQuery } from '@tanstack/react-query'
+import { PostKeys } from '../../utils/query-key'
 
 // TODO: extract shared infiniate query code
 async function post(postId: string): Promise<{ post: Post; user: User }> {
@@ -23,7 +24,7 @@ async function post(postId: string): Promise<{ post: Post; user: User }> {
 
 export default function usePost(postId: string) {
   const query = useQuery({
-    queryKey: ['posts', postId],
+    queryKey: PostKeys.POST(postId),
     queryFn: () => post(postId),
   })
   return query

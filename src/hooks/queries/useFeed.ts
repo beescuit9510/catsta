@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore'
 import { auth, firestore } from '../../utils/firebase'
 import { InfinitePost, Post, User } from '../../utils/types'
+import { UserKeys } from '../../utils/query-key'
 
 // TODO: extract shared infiniate query code
 
@@ -68,7 +69,7 @@ export default function useFeed() {
   const query = useInfiniteQuery<InfinitePost>({
     initialPageParam: null,
 
-    queryKey: ['users', 'feed'],
+    queryKey: UserKeys.FEED,
 
     queryFn: ({ pageParam }) => feed(pageParam as QueryDocumentSnapshot),
 

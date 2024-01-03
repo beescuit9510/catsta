@@ -9,6 +9,7 @@ import {
 import { firestore } from '../../utils/firebase'
 import { CreateComment } from '../../utils/types'
 import { queryClient } from '../../main'
+import { PostKeys, UserKeys } from '../../utils/query-key'
 
 async function createComment({ postId, userId, content }: CreateComment) {
   const comment = {
@@ -47,12 +48,12 @@ export default function useCreateComment({
     onSuccess: (comment) => {
       // TODO:setQuery instead of invalidating
       queryClient.invalidateQueries({
-        queryKey: ['posts', comment.postId, 'comments'],
+        queryKey: PostKeys.COMMENTS(comment.postId),
         exact: true,
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['users', 'QkM9xKIn0TZwHj6FUeMo2sc911o1', 'posts'],
+        queryKey: UserKeys.POSTS(userId),
         exact: true,
       })
     },

@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Comment, InfiniteComment, User } from '../../utils/types'
+import { PostKeys } from '../../utils/query-key'
 
 // TODO: orderBy('lastSeenAt', 'desc'),
 
@@ -68,7 +69,7 @@ export function useIntiniteComments(postId: string) {
   const query = useInfiniteQuery<InfiniteComment>({
     initialPageParam: null,
 
-    queryKey: ['posts', postId, 'comments'],
+    queryKey: PostKeys.COMMENTS(postId),
 
     queryFn: ({ pageParam }) =>
       searchUser(postId, pageParam as QueryDocumentSnapshot),

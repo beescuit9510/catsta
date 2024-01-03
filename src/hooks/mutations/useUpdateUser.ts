@@ -3,6 +3,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { firestore, storage } from '../../utils/firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { queryClient } from '../../main'
+import { UserKeys } from '../../utils/query-key'
 
 const uploadImage = async ({ file, path }: { file: File; path: string }) => {
   const snapshot = await uploadBytesResumable(ref(storage, path), file, {
@@ -57,8 +58,10 @@ export function useUpdateUser({
   return useMutation({
     mutationFn: updateUser,
     onSuccess: (userRef) => {
+      // TODO: change state update logic
+      // TODO: query is done before mutation, fix it.
       queryClient.invalidateQueries({
-        queryKey: ['users', userRef.id],
+        queryKey: UserKeys.USER(userRef.id),
       })
       onSuccess(userRef.id)
     },

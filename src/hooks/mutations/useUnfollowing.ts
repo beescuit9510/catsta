@@ -3,6 +3,7 @@ import { arrayRemove, doc, runTransaction } from 'firebase/firestore'
 import { firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { User } from '../../utils/types'
+import { UserKeys } from '../../utils/query-key'
 
 async function unfollowing(userId: string, followingUserId: string) {
   return runTransaction(firestore, async (transaction) => {
@@ -26,7 +27,7 @@ export default function useUnfollowing({
     mutationFn: () => unfollowing(userId, followingUserId),
 
     onSuccess: ({ userId, followingUserId }) => {
-      queryClient.setQueryData(['users', userId], (oldQueryData: User) => {
+      queryClient.setQueryData(UserKeys.USER(userId), (oldQueryData: User) => {
         return {
           ...oldQueryData,
           followings: oldQueryData.followings.filter(
@@ -36,7 +37,7 @@ export default function useUnfollowing({
       })
 
       queryClient.setQueryData(
-        ['users', followingUserId],
+        UserKeys.USER(followingUserId),
         (oldQueryData: User) => {
           return {
             ...oldQueryData,

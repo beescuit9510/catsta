@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { InfiniteSearchUser, SearchUser } from '../../utils/types'
+import { UserKeys } from '../../utils/query-key'
 
 // TODO: orderBy('lastSeenAt', 'desc'),
 
@@ -61,7 +62,7 @@ export function useIntiniteSearchUser(searchKeyword: string) {
   const query = useInfiniteQuery<InfiniteSearchUser>({
     initialPageParam: null,
 
-    queryKey: ['search', 'users', searchKeyword],
+    queryKey: UserKeys.SEARCH(searchKeyword),
 
     queryFn: ({ pageParam }) =>
       searchUser(searchKeyword, pageParam as QueryDocumentSnapshot),
