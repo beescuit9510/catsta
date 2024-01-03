@@ -1,9 +1,9 @@
 import { Flex, Skeleton, SkeletonCircle, VStack } from '@chakra-ui/react'
 
-export default function SearchLoader() {
+export default function UserAvatarLoader({ length }: { length: number }) {
   return (
     <>
-      {Array(3)
+      {Array(length)
         .fill(0)
         .map((v, idx) => (
           <Flex

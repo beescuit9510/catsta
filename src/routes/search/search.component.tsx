@@ -2,8 +2,8 @@ import { Center, Container, Stack } from '@chakra-ui/react'
 import { Input, InputGroup, InputRightElement } from '@chakra-ui/react'
 import { FaSearch } from 'react-icons/fa'
 import { Suspense, useState } from 'react'
-import SearchLoader from '../../components/search/search-loader/search-loader.component'
 import SearchedUserList from '../../components/search/searched-user-list/searched-user-list.component'
+import UserAvatarLoader from '../../components/common/user-avatar-loader/user-avatar-loader.component'
 
 export default function Search() {
   const [keyword, setKeyword] = useState('')
@@ -25,7 +25,7 @@ export default function Search() {
             </InputRightElement>
           </InputGroup>
 
-          <Suspense fallback={<SearchLoader />}>
+          <Suspense fallback={<UserAvatarLoader length={3} />}>
             <SearchedUserList keyword={keyword} />
           </Suspense>
         </Stack>
