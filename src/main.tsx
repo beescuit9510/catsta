@@ -6,6 +6,7 @@ import { mode } from '@chakra-ui/theme-tools'
 import type { GlobalStyleProps } from '@chakra-ui/theme-tools'
 import { extendTheme } from '@chakra-ui/react'
 import '@fontsource/rubik-scribble/400.css'
+import '@fontsource/dancing-script/600.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
@@ -15,7 +16,7 @@ const theme = extendTheme({
     useSystemColorMode: false,
   },
   fonts: {
-    heading: `'Rubik Scribble', sans-serif`,
+    heading: `'Dancing Script', sans-serif`,
   },
   styles: {
     global: (props: GlobalStyleProps) => ({

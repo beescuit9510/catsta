@@ -17,6 +17,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@fontsource/dancing-script": "^5.0.16",
     "@fontsource/rubik-doodle-shadow": "^5.0.1",
     "@fontsource/rubik-scribble": "^5.0.1",
     "@tanstack/react-query": "^5.15.0",

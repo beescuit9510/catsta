@@ -4,7 +4,7 @@ export default function Logo() {
   return (
     <Center>
       <Heading size={'4xl'} marginBottom={10} fontWeight={'500'}>
-        Catsta
+        Catstagram
       </Heading>
     </Center>
   )
