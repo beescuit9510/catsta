@@ -28,7 +28,7 @@ export default function UserAvatar({
           <Text fontSize={12}>{bio}</Text>
         </Flex>
       </Flex>
-      {currentUser?.id !== userId && <Follow userId={userId} />}
+      {currentUser?.id !== userId && <Follow followingUserId={userId} />}
     </Flex>
   )
 }

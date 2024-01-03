@@ -30,7 +30,7 @@ export default function ProfileHeader() {
           >
             <Text>{user!.displayName}</Text>
             {isCurrentUser && <ProfileEdit userId={userId} />}
-            {!isCurrentUser && <Follow userId={userId!} />}
+            {!isCurrentUser && <Follow followingUserId={userId!} />}
           </Flex>
 
           <>

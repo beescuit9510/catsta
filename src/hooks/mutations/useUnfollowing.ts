@@ -1,48 +1,48 @@
 import { useMutation } from '@tanstack/react-query'
 import { arrayRemove, doc, runTransaction } from 'firebase/firestore'
-import { firestore } from '../../utils/firebase'
+import { auth, firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { User } from '../../utils/types'
 import { UserKeys } from '../../utils/query-key'
 
-async function unfollowing(userId: string, followingUserId: string) {
+async function unfollowing(followingUserId: string) {
+  const currentUserId = auth.currentUser!.uid
+
   return runTransaction(firestore, async (transaction) => {
-    transaction.update(doc(firestore, `users/${userId}`), {
+    transaction.update(doc(firestore, `users/${currentUserId}`), {
       followings: arrayRemove(followingUserId),
     })
     transaction.update(doc(firestore, `users/${followingUserId}`), {
-      followers: arrayRemove(userId),
+      followers: arrayRemove(currentUserId),
     })
-  }).then(() => ({ userId, followingUserId }))
+  })
 }
 
-export default function useUnfollowing({
-  userId,
-  followingUserId,
-}: {
-  userId: string
-  followingUserId: string
-}) {
+export default function useUnfollowing(followingUserId: string) {
+  const currentUserId = auth.currentUser!.uid
+
   return useMutation({
-    mutationFn: () => unfollowing(userId, followingUserId),
+    mutationFn: () => unfollowing(followingUserId),
 
-    onSuccess: ({ userId, followingUserId }) => {
-      queryClient.setQueryData(UserKeys.USER(userId), (oldQueryData: User) => {
-        return {
-          ...oldQueryData,
-          followings: oldQueryData.followings.filter(
-            (following) => following !== followingUserId
-          ),
+    onSuccess: () => {
+      queryClient.setQueryData(
+        UserKeys.USER(currentUserId),
+        (oldQueryData: User) => {
+          return {
+            ...oldQueryData,
+            followings: oldQueryData.followings.filter(
+              (following) => following !== followingUserId
+            ),
+          }
         }
-      })
-
+      )
       queryClient.setQueryData(
         UserKeys.USER(followingUserId),
         (oldQueryData: User) => {
           return {
             ...oldQueryData,
-            followers: oldQueryData.followings.filter(
-              (following) => following !== userId
+            followers: oldQueryData.followers.filter(
+              (following) => following !== currentUserId
             ),
           }
         }
