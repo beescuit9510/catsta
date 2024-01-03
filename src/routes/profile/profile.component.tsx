@@ -13,7 +13,7 @@ export default function Profile() {
         <Error errorMessage='Sorry, The user you are looking for are not found.'></Error>
       }
     >
-      <Center marginTop={20}>
+      <Center marginY={20}>
         <Container maxW='container.lg'>
           <Stack spacing={10}>
             <Suspense fallback={<ProfileHeaderLoader />}>

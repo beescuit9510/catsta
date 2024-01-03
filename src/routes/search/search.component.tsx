@@ -1,4 +1,4 @@
-import { Container, Stack } from '@chakra-ui/react'
+import { Center, Container, Stack } from '@chakra-ui/react'
 import { Input, InputGroup, InputRightElement } from '@chakra-ui/react'
 import { FaSearch } from 'react-icons/fa'
 import { Suspense, useState } from 'react'
@@ -9,24 +9,27 @@ export default function Search() {
   const [keyword, setKeyword] = useState('')
 
   return (
-    <Container marginTop={{ base: '2rem', md: '10rem' }}>
-      <Stack spacing={5}>
-        <InputGroup>
-          <Input
-            borderRadius={'99'}
-            variant='filled'
-            placeholder='Search Username'
-            onChange={(event) => setKeyword(event.target.value)}
-          />
-          <InputRightElement>
-            <FaSearch />
-          </InputRightElement>
-        </InputGroup>
+    // TODO: match container margintop with other pages as well.
+    <Center marginY={20}>
+      <Container>
+        <Stack spacing={5}>
+          <InputGroup>
+            <Input
+              borderRadius={'99'}
+              variant='filled'
+              placeholder='Search Username'
+              onChange={(event) => setKeyword(event.target.value)}
+            />
+            <InputRightElement>
+              <FaSearch />
+            </InputRightElement>
+          </InputGroup>
 
-        <Suspense fallback={<SearchLoader />}>
-          <SearchedUserList keyword={keyword} />
-        </Suspense>
-      </Stack>
-    </Container>
+          <Suspense fallback={<SearchLoader />}>
+            <SearchedUserList keyword={keyword} />
+          </Suspense>
+        </Stack>
+      </Container>
+    </Center>
   )
 }

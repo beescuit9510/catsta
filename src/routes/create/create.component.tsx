@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Container,
   Image,
   Input,
@@ -34,45 +35,46 @@ export default function Create() {
   })
 
   return (
-    <Container marginTop={{ base: '2rem', md: '10rem' }}>
-      <Stack>
-        <Box boxSize={{ sm: 'sm', md: 'xl' }}>
-          <Image
-            src={photoURL || undefined}
-            objectFit='cover'
-            boxSize={'100%'}
-            onClick={() => inputRef.current?.click()}
-            cursor={'pointer'}
-            // fallbackSrc={'/'}
+    <Center marginY={20}>
+      <Container>
+        <Stack>
+          <Box boxSize={{ sm: 'sm', md: 'xl' }}>
+            <Image
+              src={photoURL || undefined}
+              objectFit='cover'
+              boxSize={'100%'}
+              onClick={() => inputRef.current?.click()}
+              cursor={'pointer'}
+            />
+          </Box>
+          <Input
+            ref={inputRef}
+            hidden
+            type='file'
+            accept='image/*'
+            onChange={(event) => {
+              const file = event.target.files?.[0]
+              if (!file) return
+              setFile(file)
+              setPhotoURL(URL.createObjectURL(file))
+            }}
           />
-        </Box>
-        <Input
-          ref={inputRef}
-          hidden
-          type='file'
-          accept='image/*'
-          onChange={(event) => {
-            const file = event.target.files?.[0]
-            if (!file) return
-            setFile(file)
-            setPhotoURL(URL.createObjectURL(file))
-          }}
-        />
-        <Textarea
-          placeholder='Caption for your photo...'
-          value={content}
-          onChange={(event) => setContent(event.target.value)}
-        />
-        <Button
-          isDisabled={file === null || isPending}
-          isActive={isPending}
-          isLoading={isPending}
-          width='full'
-          onClick={() => mutate()}
-        >
-          POST
-        </Button>
-      </Stack>
-    </Container>
+          <Textarea
+            placeholder='Caption for your photo...'
+            value={content}
+            onChange={(event) => setContent(event.target.value)}
+          />
+          <Button
+            isDisabled={file === null || isPending}
+            isActive={isPending}
+            isLoading={isPending}
+            width='full'
+            onClick={() => mutate()}
+          >
+            POST
+          </Button>
+        </Stack>
+      </Container>
+    </Center>
   )
 }
