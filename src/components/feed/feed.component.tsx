@@ -22,6 +22,7 @@ export default function Feed() {
                     userId={user.id}
                     displayName={user.displayName}
                     photoURL={user.photoURL}
+                    bio={user.bio}
                   />
 
                   <Box>

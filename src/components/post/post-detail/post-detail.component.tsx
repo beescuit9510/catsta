@@ -21,6 +21,7 @@ export default function PostDetail() {
         userId={data!.user!.id}
         displayName={data!.user!.displayName}
         photoURL={data!.user!.photoURL}
+        bio={data!.user!.bio}
       />
 
       <Box>

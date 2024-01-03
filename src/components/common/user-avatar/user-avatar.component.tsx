@@ -8,10 +8,12 @@ export default function UserAvatar({
   userId,
   displayName,
   photoURL,
+  bio,
 }: {
   userId: string
   displayName: string
   photoURL: string
+  bio: string
 }) {
   const currentUser = useCachedUser(auth.currentUser!.uid)
 
@@ -23,7 +25,7 @@ export default function UserAvatar({
           <Link to={`/${userId}`}>
             <Text>{displayName}</Text>
           </Link>
-          <Text fontSize={12}>Active 6h ago</Text>
+          <Text fontSize={12}>{bio}</Text>
         </Flex>
       </Flex>
       {currentUser?.id !== userId && <Follow userId={userId} />}

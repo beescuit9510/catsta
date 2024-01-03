@@ -16,6 +16,7 @@ export default function SearchedUserList({ keyword }: { keyword: string }) {
             displayName={user.displayName}
             userId={user.id}
             photoURL={user.photoURL}
+            bio={user.bio}
           />
         ))}
       {hasNextPage && (
