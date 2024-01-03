@@ -17,7 +17,12 @@ export default function ProfileGridItem({
   return (
     <GridItem cursor={'pointer'} position={'relative'} role='group'>
       <Link to={`/posts/${postId}`}>
-        <Image src={imageURL} objectFit='cover' boxSize='full' />
+        <Image
+          src={imageURL}
+          objectFit='cover'
+          boxSize='full'
+          fallbackSrc={'https://placehold.co/600x500?text=...'}
+        />
 
         <Box
           position={'absolute'}

@@ -45,6 +45,7 @@ export default function Create() {
               boxSize={'100%'}
               onClick={() => inputRef.current?.click()}
               cursor={'pointer'}
+              fallbackSrc={'https://placehold.co/600x500?text=...'}
             />
           </Box>
           <Input
