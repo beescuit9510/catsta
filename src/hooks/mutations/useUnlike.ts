@@ -1,13 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
-import { arrayRemove, doc, updateDoc } from 'firebase/firestore'
+import { arrayRemove, doc, runTransaction } from 'firebase/firestore'
 import { auth, firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { Post, User } from '../../utils/types'
 import { PostKeys, UserKeys } from '../../utils/query-key'
 
 async function unlike(postId: string, userId: string) {
-  return updateDoc(doc(firestore, `/posts/${postId}`), {
-    likes: arrayRemove(userId),
+  return runTransaction(firestore, async (transaction) => {
+    transaction.delete(doc(firestore, `/users/${userId}/likes/${postId}`))
+
+    transaction.update(doc(firestore, `/posts/${postId}`), {
+      likes: arrayRemove(userId),
+    })
   })
 }
 

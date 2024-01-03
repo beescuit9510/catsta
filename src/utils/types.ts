@@ -51,7 +51,27 @@ export type InfinitePost = {
   limit: number
   lastDoc?: QueryDocumentSnapshot
   total: number
-  posts: Post[]
+  posts: { post: Post; user: User }[]
+}
+
+export type InfiniteLikes = {
+  limit: number
+  lastDoc?: QueryDocumentSnapshot
+  total: number
+  posts: LikedPost[]
+}
+
+export type LikedPost = {
+  id: string
+  userId: string
+  photoURL: string
+  content: string
+  createdAt: number
+  likes: string[]
+  // TODO specify type
+  // TODO: FIX THE TYPE! to be number !
+  comments: number
+  likedAt: number
 }
 
 // user/:userid
@@ -77,4 +97,5 @@ export type SearchUser = {
   id: string
   displayName: string
   photoURL: string
+  bio: string
 }

@@ -1,24 +1,20 @@
-import { Box, Flex, GridItem, Icon, Image, Text } from '@chakra-ui/react'
-import { FaHeart } from 'react-icons/fa'
-import { IoChatbubble } from 'react-icons/io5'
+import { Box, Flex, GridItem, Image } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 
-export default function ProfileGridItem({
-  postId,
-  imageURL,
-  likes,
-  comments,
+export default function GridItemHover({
+  to,
+  src,
+  children,
 }: {
-  postId: string
-  imageURL: string
-  likes: number
-  comments: number
+  to: string
+  src: string
+  children: React.ReactNode
 }) {
   return (
     <GridItem cursor={'pointer'} position={'relative'} role='group'>
-      <Link to={`/posts/${postId}`}>
+      <Link to={to}>
         <Image
-          src={imageURL}
+          src={src}
           objectFit='cover'
           boxSize='full'
           fallbackSrc={'https://placehold.co/600x500?text=...'}
@@ -49,18 +45,7 @@ export default function ProfileGridItem({
           _groupHover={{ opacity: 1 }}
           transition={'all 150ms ease'}
         >
-          <Flex alignItems={'center'} gap={{ base: 1, md: 2 }}>
-            <Icon as={FaHeart} fontSize={{ base: '0.8em', md: '1.5em' }} />
-            <Text fontSize={{ base: '0.8em', md: '1.5em' }} fontWeight={'700'}>
-              {likes}
-            </Text>
-          </Flex>
-          <Flex alignItems={'center'} gap={{ base: 1, md: 2 }}>
-            <Icon as={IoChatbubble} fontSize={{ base: '0.8em', md: '1.5em' }} />
-            <Text fontSize={{ base: '0.8em', md: '1.5em' }} fontWeight={'700'}>
-              {comments}
-            </Text>
-          </Flex>
+          {children}
         </Flex>
       </Link>
     </GridItem>

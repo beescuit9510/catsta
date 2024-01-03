@@ -3,6 +3,7 @@ export const UserKeys = {
   USER: (userId: string) => ['users', userId] as const,
   USERS: (userId: string) => ['users', userId] as const,
   POSTS: (userId: string) => ['users', userId, 'posts'] as const,
+  LIKES: (userId: string) => ['users', userId, 'likes'] as const,
   SEARCH: (searchKeyword: string) =>
     ['search', 'users', searchKeyword] as const,
   FOLLOWINGS: (userId: string) => ['users', userId, 'followings'] as const,

@@ -1,7 +1,8 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
-import ProfileGrid from '../profile-grid/profile-grid.component'
 import { Suspense } from 'react'
 import ProfileTabLoader from './profile-tab-loader.component'
+import PostGrid from '../grid/post-grid/post-grid.component'
+import LikeGrid from '../grid/like-grid/like-grid.component'
 
 export default function ProfileTabs() {
   return (
@@ -14,12 +15,12 @@ export default function ProfileTabs() {
       <TabPanels>
         <TabPanel>
           <Suspense fallback={<ProfileTabLoader />}>
-            <ProfileGrid />
+            <PostGrid />
           </Suspense>
         </TabPanel>
         <TabPanel>
           <Suspense fallback={<ProfileTabLoader />}>
-            <ProfileGrid />
+            <LikeGrid />
           </Suspense>
         </TabPanel>
       </TabPanels>

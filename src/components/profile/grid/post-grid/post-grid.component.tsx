@@ -1,9 +1,9 @@
 import { Button, Grid, Stack } from '@chakra-ui/react'
-import ProfileGridItem from '../profile-grid-item/profile-grid-item.component'
-import usePosts from '../../../hooks/queries/usePosts'
+import PostGridItem from './post-grid-item.component'
 import { useParams } from 'react-router-dom'
+import usePosts from '../../../../hooks/queries/usePosts'
 
-export default function ProfileGrid() {
+export default function PostGrid() {
   const { userId } = useParams()
   const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = usePosts(
     userId!
@@ -15,7 +15,7 @@ export default function ProfileGrid() {
         {data?.pages
           .flatMap((page) => page.posts)
           .map((post) => (
-            <ProfileGridItem
+            <PostGridItem
               key={post.id}
               postId={post.id}
               imageURL={post.photoURL}
@@ -23,6 +23,7 @@ export default function ProfileGrid() {
               comments={post.comments}
             />
           ))}
+        {data?.pages[0].posts.length === 0 && 'No posts..'}
       </Grid>
       {hasNextPage && (
         <Button
