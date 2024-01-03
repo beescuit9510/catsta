@@ -1,7 +1,7 @@
 import { AuthError, createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth, firestore } from '../../utils/firebase'
-import { doc, setDoc } from 'firebase/firestore'
+import { auth } from '../../utils/firebase'
 import { useMutation } from '@tanstack/react-query'
+import { setUserDoc } from './common/setUserDoc'
 
 type CreateUser = {
   email: string
@@ -18,25 +18,8 @@ async function createUser({ email, password, username, confirm }: CreateUser) {
     throw new Error('Space is not allowed in Username')
   if (confirm !== password) throw new Error('Those passwords must match')
 
-  // TODO: extract shared code between createGoogleUser and createUser
-  // TODO: filter already existing username
-  // TODO: last seen
   return createUserWithEmailAndPassword(auth, email, password).then(
-    (userCredential) => {
-      const { user } = userCredential
-      const ref = `users/${user.uid}`
-      setDoc(doc(firestore, ref), {
-        id: user.uid,
-        displayName: username,
-        photoURL: '',
-        bio: username,
-        posts: 0,
-        followers: [],
-        followings: [],
-        createdAt: Date.now(),
-      })
-      return userCredential
-    }
+    ({ user }) => setUserDoc({ id: user.uid, displayName: user.displayName })
   )
 }
 
