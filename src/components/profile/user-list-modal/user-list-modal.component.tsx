@@ -40,7 +40,7 @@ function UserList({
     </>
   )
 }
-
+// TODO: fix code error
 export default function UserListModal({
   counts,
   caption,
@@ -76,7 +76,10 @@ export default function UserListModal({
 
       <Modal isOpen={isOpen} onClose={() => onClose()}>
         <ModalOverlay />
-        <ModalContent bg={useColorModeValue('gray.50', 'gray.900')}>
+        <ModalContent
+          width={'90%'}
+          bg={useColorModeValue('gray.50', 'gray.900')}
+        >
           <ModalCloseButton />
           <ModalHeader>{title}</ModalHeader>
           <ModalBody maxH={'350px'} overflowY={'auto'} marginBottom={5}>
