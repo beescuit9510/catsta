@@ -16,53 +16,51 @@ export default function Feed() {
           .flatMap((page) => page.posts)
           .map(({ post, user }) => {
             return (
-              <>
-                <Stack>
-                  <UserAvatar
-                    userId={user.id}
-                    displayName={user.displayName}
-                    photoURL={user.photoURL}
-                    bio={user.bio}
+              <Stack key={post.id}>
+                <UserAvatar
+                  userId={user.id}
+                  displayName={user.displayName}
+                  photoURL={user.photoURL}
+                  bio={user.bio}
+                />
+
+                <Box>
+                  {/* TODO: fallback image since its too slow */}
+                  {/* TODO: fixed image size like insta */}
+                  {/* TODO: image +box and extract shared image code */}
+                  <Image
+                    src={post.photoURL}
+                    objectFit={'cover'}
+                    fallbackSrc={'https://placehold.co/600x500?text=...'}
                   />
+                </Box>
 
-                  <Box>
-                    {/* TODO: fallback image since its too slow */}
-                    {/* TODO: fixed image size like insta */}
-                    {/* TODO: image +box and extract shared image code */}
-                    <Image
-                      src={post.photoURL}
-                      objectFit={'cover'}
-                      fallbackSrc={'https://placehold.co/600x500?text=...'}
+                <Box>
+                  <Flex gap={2}>
+                    <Like
+                      liked={post.likes.includes(auth.currentUser!.uid)}
+                      userId={auth.currentUser!.uid}
+                      postId={post.id}
                     />
-                  </Box>
+                    <Link to={`/posts/${post.id}`}>
+                      <IoChatbubbleOutline size={25} />
+                    </Link>
+                  </Flex>
+                  <Text>{post.likes.length} likes</Text>
+                </Box>
 
-                  <Box>
-                    <Flex gap={2}>
-                      <Like
-                        liked={post.likes.includes(auth.currentUser!.uid)}
-                        userId={auth.currentUser!.uid}
-                        postId={post.id}
-                      />
-                      <Link to={`/posts/${post.id}`}>
-                        <IoChatbubbleOutline size={25} />
-                      </Link>
-                    </Flex>
-                    <Text>{post.likes.length} likes</Text>
-                  </Box>
+                <Stack>
+                  <Flex gap={2}>
+                    <Text fontWeight={'700'}>{user.displayName}</Text>
+                    <Text>{post.content}</Text>
+                  </Flex>
+                  {/* <CreateComment /> */}
 
-                  <Stack>
-                    <Flex gap={2}>
-                      <Text fontWeight={'700'}>{user.displayName}</Text>
-                      <Text>{post.content}</Text>
-                    </Flex>
-                    {/* <CreateComment /> */}
-
-                    {/* <Suspense fallback={<CommentLisLoader />}>
+                  {/* <Suspense fallback={<CommentLisLoader />}>
                     <CommentList />
                   </Suspense> */}
-                  </Stack>
                 </Stack>
-              </>
+              </Stack>
             )
           })}
       </Stack>
