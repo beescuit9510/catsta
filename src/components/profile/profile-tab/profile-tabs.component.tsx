@@ -6,7 +6,7 @@ import LikeGrid from '../grid/like-grid/like-grid.component'
 
 export default function ProfileTabs() {
   return (
-    <Tabs isFitted={true} defaultIndex={1}>
+    <Tabs isFitted={true} defaultIndex={0}>
       <TabList mb={{ base: '1em', md: '2em' }}>
         <Tab>POSTS</Tab>
         <Tab>LIKES</Tab>
