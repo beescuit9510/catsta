@@ -1,61 +1,76 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import {
   QueryDocumentSnapshot,
-  collection,
-  doc,
   getCountFromServer,
-  getDoc,
   getDocs,
   limit,
   orderBy,
   query,
   startAfter,
+  where,
 } from 'firebase/firestore'
-import { firestore } from '../../utils/firebase'
-import { InfiniteLikes, Post } from '../../utils/types'
 import { UserKeys } from '../../utils/query-key'
+import { Collections, Like, Post } from '../../utils/firestore-collections-docs'
+import { InfiniteQuery } from '../../utils/types'
 
-// TODO: extract shared infiniate query code
-
-async function likes(
-  userId: string,
-  startAfterDoc: QueryDocumentSnapshot
-): Promise<InfiniteLikes> {
+async function likes(userId: string, startAfterDoc: QueryDocumentSnapshot) {
   const perPage = 6
-  const [total, likes] = await Promise.all([
-    getCountFromServer(
-      query(collection(firestore, `/users/${userId}/likes`))
-    ).then((snapshot) => snapshot.data().count),
+  const [countSnapshot, likeSnapshot] = await Promise.all([
+    getCountFromServer(query(Collections.LIKES(userId))),
     getDocs(
       query(
-        collection(firestore, `/users/${userId}/likes`),
+        Collections.LIKES(userId),
         orderBy('createdAt', 'asc'),
         startAfter(startAfterDoc),
         limit(perPage)
       )
     ),
   ])
-  const lastDoc = likes.docs.at(-1)
-  const posts = await Promise.all(
-    likes.docs.map((like) =>
-      getDoc(doc(firestore, `/posts/${like?.id}`)).then((doc) => {
-        return { ...doc.data(), likedAt: like.data().createdAt } as Post & {
-          likedAt: number
-        }
-      })
+
+  const { count } = countSnapshot.data()
+  const lastDoc = likeSnapshot.docs.at(-1)
+  const likes = likeSnapshot.docs.map((doc) => doc.data())
+  if (likes.length === 0)
+    return {
+      count,
+      perPage,
+      lastDoc,
+      data: [],
+    }
+
+  const posts = await getDocs(
+    query(
+      Collections.POSTS(),
+      where(
+        'id',
+        'in',
+        likes.map((like) => like.postId)
+      )
     )
+  )
+    .then((snapshot) => snapshot.docs.map((doc) => doc.data()))
+    .catch(() => [])
+
+  const likeMap = Object.assign(
+    {},
+    ...likes.map((like) => ({ [like.postId]: like }))
   )
 
   return {
-    limit: perPage,
-    total,
-    posts,
-    lastDoc: lastDoc,
+    count,
+    perPage,
+    lastDoc,
+    data: posts.map((post) => ({ post, like: likeMap[post.id] })),
   }
 }
 
+type LikePost = {
+  post: Post
+  like: Like
+}
+
 export default function useLikes(userId: string) {
-  const query = useInfiniteQuery<InfiniteLikes>({
+  const query = useInfiniteQuery<InfiniteQuery<LikePost[]>>({
     initialPageParam: null,
 
     queryKey: UserKeys.LIKES(userId),
@@ -64,11 +79,9 @@ export default function useLikes(userId: string) {
       likes(userId, pageParam as QueryDocumentSnapshot),
 
     getNextPageParam: (lastPage, allPages) => {
-      const currentTotal = allPages.reduce((p, c) => p + c.posts.length, 0)
-      const { total } = lastPage
-      if (currentTotal >= total) {
-        return undefined
-      }
+      const total = lastPage.perPage * allPages.length
+      const { count } = lastPage
+      if (total >= count) return undefined
       return lastPage.lastDoc
     },
   })

@@ -1,11 +1,11 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { firestore } from '../../../utils/firebase'
+import { getDoc, setDoc } from 'firebase/firestore'
 import {
   uniqueNamesGenerator,
   adjectives,
   colors,
   animals,
 } from 'unique-names-generator'
+import { Docs } from '../../../utils/firestore-collections-docs'
 
 // TODO: last seen
 
@@ -24,7 +24,7 @@ export async function setUserDoc({
   photoURL?: string | null
   displayName?: string | null
 }) {
-  const userDocRef = doc(firestore, `users/${id}`)
+  const userDocRef = Docs.USER(id)
 
   getDoc(userDocRef)
     .then((doc) => {
@@ -33,9 +33,9 @@ export async function setUserDoc({
     .then(() =>
       setDoc(userDocRef, {
         id,
-        displayName,
-        bio: displayName,
-        photoURL,
+        displayName: displayName!,
+        bio: displayName!,
+        photoURL: photoURL!,
         posts: 0,
         followers: [],
         followings: [],

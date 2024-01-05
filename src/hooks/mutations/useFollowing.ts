@@ -1,17 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
-import { arrayUnion, doc, runTransaction } from 'firebase/firestore'
+import { arrayUnion, runTransaction } from 'firebase/firestore'
 import { auth, firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
-import { User } from '../../utils/types'
 import { UserKeys } from '../../utils/query-key'
+import { Docs, User } from '../../utils/firestore-collections-docs'
 
 async function following(followingUserId: string) {
   const currentUserId = auth.currentUser!.uid
   return runTransaction(firestore, async (transaction) => {
-    transaction.update(doc(firestore, `users/${currentUserId}`), {
+    transaction.update(Docs.USER(currentUserId), {
       followings: arrayUnion(followingUserId),
     })
-    transaction.update(doc(firestore, `users/${followingUserId}`), {
+    transaction.update(Docs.USER(followingUserId), {
       followers: arrayUnion(currentUserId),
     })
   })

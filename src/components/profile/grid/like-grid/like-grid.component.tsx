@@ -13,17 +13,17 @@ export default function LikeGrid() {
     <Stack spacing={5}>
       <Grid templateColumns='repeat(3, 1fr)' gap={3}>
         {data?.pages
-          .flatMap((page) => page.posts)
-          .map((post) => (
+          .flatMap((page) => page.data)
+          .map(({ post, like }) => (
             <LikeGridItem
               key={post.id}
               postId={post.id}
               imageURL={post.photoURL}
-              likedAt={post.likedAt}
+              likedAt={like.createdAt}
             />
           ))}
         {/* TODO: loading something else when post array is empty */}
-        {data?.pages[0].posts.length === 0 && 'No posts..'}
+        {data?.pages[0].data.length === 0 && 'No likes..'}
       </Grid>
       {/* TODO: shared code */}
       {hasNextPage && (

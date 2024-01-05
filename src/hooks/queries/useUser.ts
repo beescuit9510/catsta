@@ -1,16 +1,15 @@
-import { firestore } from '../../utils/firebase'
-import { doc, getDoc } from 'firebase/firestore'
+import { getDoc } from 'firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
 import { queryClient } from '../../main'
-import { User } from '../../utils/types'
 import { UserKeys } from '../../utils/query-key'
+import { Docs, User } from '../../utils/firestore-collections-docs'
 
-async function user(userId: string): Promise<User> {
-  const snapshot = await getDoc(doc(firestore, 'users', userId))
+async function user(userId: string) {
+  const snapshot = await getDoc(Docs.USER(userId))
 
   if (!snapshot.exists()) throw new Error('User not found')
 
-  return snapshot.data() as User
+  return snapshot.data()
 }
 
 // TODO: return undefined, find out why it returns undefined

@@ -9,7 +9,7 @@ export default function SearchedUserList({ keyword }: { keyword: string }) {
   return (
     <Stack spacing={3}>
       {data?.pages
-        .flatMap((page) => page.users)
+        .flatMap((page) => page.data)
         .map((user) => (
           <UserAvatar
             key={user.id}

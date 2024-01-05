@@ -1,15 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
-import {
-  addDoc,
-  collection,
-  doc,
-  increment,
-  updateDoc,
-} from 'firebase/firestore'
-import { firestore } from '../../utils/firebase'
+import { addDoc, increment, updateDoc } from 'firebase/firestore'
 import { CreateComment } from '../../utils/types'
 import { queryClient } from '../../main'
 import { PostKeys, UserKeys } from '../../utils/query-key'
+import { Collections, Docs } from '../../utils/firestore-collections-docs'
 
 async function createComment({ postId, userId, content }: CreateComment) {
   const comment = {
@@ -20,8 +14,9 @@ async function createComment({ postId, userId, content }: CreateComment) {
   }
 
   const [docRef] = await Promise.all([
-    addDoc(collection(firestore, `/posts/${postId}/comments`), comment),
-    updateDoc(doc(firestore, `/posts/${postId}`), {
+    addDoc(Collections.COMMENTS(postId), comment),
+
+    updateDoc(Docs.POST(postId), {
       comments: increment(1),
     }),
   ])

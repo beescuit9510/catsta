@@ -1,7 +1,5 @@
-import { firestore } from '../../utils/firebase'
 import {
   QueryDocumentSnapshot,
-  collection,
   getCountFromServer,
   getDocs,
   limit,
@@ -11,32 +9,32 @@ import {
   where,
 } from 'firebase/firestore'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { InfiniteSearchUser, SearchUser } from '../../utils/types'
+import { InfiniteQuery } from '../../utils/types'
 import { UserKeys } from '../../utils/query-key'
+import { Collections, User } from '../../utils/firestore-collections-docs'
 
 // TODO: orderBy('lastSeenAt', 'desc'),
 
 async function searchUser(
   searchKeyword: string,
   startAfterDoc?: QueryDocumentSnapshot
-): Promise<InfiniteSearchUser> {
+) {
   const perPage = 3
 
-  let lastDoc
   // FIXME: cannot search words in between or words at the end, when T is typed, Hell_KITTY, and kitkat is not showing up.
   // FIXME: case-sensitive search => case-insensitive
   // FIXME: cannot search korean words
-  const results = await Promise.all([
+  const [countSnapshot, userSnapshot] = await Promise.all([
     getCountFromServer(
       query(
-        collection(firestore, 'users'),
+        Collections.USERS(),
         where('displayName', '>=', searchKeyword),
         where('displayName', '<=', `${searchKeyword}~`)
       )
-    ).then((snapshot) => snapshot.data().count),
+    ),
     getDocs(
       query(
-        collection(firestore, 'users'),
+        Collections.USERS(),
         where('displayName', '>=', searchKeyword),
         where('displayName', '<=', `${searchKeyword}~`),
         orderBy('displayName', 'asc'),
@@ -44,22 +42,22 @@ async function searchUser(
         startAfter(startAfterDoc),
         limit(perPage)
       )
-    ).then((snapshots) => {
-      lastDoc = snapshots.docs[snapshots.docs.length - 1]
-      return snapshots.docs.map((doc) => doc.data() as SearchUser)
-    }),
+    ),
   ])
+  const { count } = countSnapshot.data()
+  const lastDoc = userSnapshot.docs.at(-1)
+  const users = userSnapshot.docs.map((doc) => doc.data())
 
   return {
-    limit: perPage,
-    total: results[0],
-    users: results[1],
-    lastDoc: lastDoc,
+    perPage,
+    count,
+    lastDoc,
+    data: users,
   }
 }
 
 export function useIntiniteSearchUser(searchKeyword: string) {
-  const query = useInfiniteQuery<InfiniteSearchUser>({
+  const query = useInfiniteQuery<InfiniteQuery<User[]>>({
     initialPageParam: null,
 
     queryKey: UserKeys.SEARCH(searchKeyword),
@@ -68,12 +66,9 @@ export function useIntiniteSearchUser(searchKeyword: string) {
       searchUser(searchKeyword, pageParam as QueryDocumentSnapshot),
 
     getNextPageParam: (lastPage, allPages) => {
-      const currentTotal = allPages.reduce((p, c) => p + c.users.length, 0)
-      const { total } = lastPage
-
-      if (currentTotal >= total) {
-        return undefined
-      }
+      const total = lastPage.perPage * allPages.length
+      const { count } = lastPage
+      if (total >= count) return undefined
       return lastPage.lastDoc
     },
   })

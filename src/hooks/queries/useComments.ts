@@ -1,86 +1,87 @@
-import { firestore } from '../../utils/firebase'
 import {
   QueryDocumentSnapshot,
-  collection,
-  doc,
   getCountFromServer,
-  getDoc,
   getDocs,
   limit,
   orderBy,
   query,
   startAfter,
+  where,
 } from 'firebase/firestore'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { Comment, InfiniteComment, User } from '../../utils/types'
+import { InfiniteQuery } from '../../utils/types'
 import { PostKeys } from '../../utils/query-key'
+import {
+  User,
+  Comment,
+  Collections,
+} from '../../utils/firestore-collections-docs'
 
-// TODO: orderBy('lastSeenAt', 'desc'),
-
-async function searchUser(
-  postId: string,
-  startAfterDoc?: QueryDocumentSnapshot
-): Promise<InfiniteComment> {
+// TODO: extract shared infiniate query code
+async function comments(postId: string, startAfterDoc?: QueryDocumentSnapshot) {
   const perPage = 3
-
-  let lastDoc
-  const results = await Promise.all([
-    getCountFromServer(
-      query(collection(firestore, 'posts', postId, 'comments'))
-    ).then((snapshot) => snapshot.data().count),
+  const [countSnapshot, commentSnapshot] = await Promise.all([
+    getCountFromServer(query(Collections.COMMENTS(postId))),
     getDocs(
       query(
-        collection(firestore, 'posts', postId, 'comments'),
+        Collections.COMMENTS(postId),
         orderBy('createdAt', 'asc'),
         startAfter(startAfterDoc),
         limit(perPage)
       )
-    ).then((snapshots) => {
-      lastDoc = snapshots.docs[snapshots.docs.length - 1]
-      return snapshots.docs.map((doc) => doc.data() as Comment)
-    }),
+    ),
   ])
+  const { count } = countSnapshot.data()
+  const lastDoc = commentSnapshot.docs.at(-1)
+  const comments = commentSnapshot.docs.map((doc) => doc.data())
 
-  const users = await Promise.all(
-    Array.from(new Set(results[1].map((comment) => comment.userId))).map(
-      (userId) =>
-        getDoc(doc(firestore, `/users/${userId}`)).then(
-          (snapshot) => snapshot.data() as User
-        )
-    )
+  if (comments.length === 0)
+    return {
+      perPage,
+      count,
+      lastDoc,
+      data: [],
+    }
+
+  const userIds = Array.from(new Set(comments.map((v) => v.userId)))
+
+  const users = await getDocs(
+    query(Collections.USERS(), where('id', 'in', userIds))
+  )
+  const userMap = Object.assign(
+    {},
+    ...users.docs.map((doc) => doc.data()).map((user) => ({ [user.id]: user }))
   )
 
-  // TODO: clean up code.
-  const userMap = Object!.groupBy(users, (user) => user.id)
-
   return {
-    limit: perPage,
-    total: results[0],
-    comments: results[1].map((comment) => ({
-      ...comment,
-      user: userMap[comment.userId][0],
+    perPage,
+    count,
+    lastDoc,
+    data: comments.map((comment) => ({
+      comment,
+      user: userMap[comment.userId],
     })),
-
-    lastDoc: lastDoc,
   }
 }
 
+type UserComment = {
+  user: User
+  comment: Comment
+}
+
 export function useIntiniteComments(postId: string) {
-  const query = useInfiniteQuery<InfiniteComment>({
+  const query = useInfiniteQuery<InfiniteQuery<UserComment[]>>({
     initialPageParam: null,
 
     queryKey: PostKeys.COMMENTS(postId),
 
     queryFn: ({ pageParam }) =>
-      searchUser(postId, pageParam as QueryDocumentSnapshot),
+      comments(postId, pageParam as QueryDocumentSnapshot),
 
     getNextPageParam: (lastPage, allPages) => {
-      const currentTotal = allPages.reduce((p, c) => p + c.comments.length, 0)
-      const { total } = lastPage
-
-      if (currentTotal >= total) {
-        return undefined
-      }
+      const total = lastPage.perPage * allPages.length
+      const { count } = lastPage
+      if (total >= count) return undefined
       return lastPage.lastDoc
     },
   })

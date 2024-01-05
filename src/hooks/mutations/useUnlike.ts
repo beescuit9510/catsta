@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query'
-import { arrayRemove, doc, runTransaction } from 'firebase/firestore'
-import { auth, firestore } from '../../utils/firebase'
+import { arrayRemove, runTransaction } from 'firebase/firestore'
+import { firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
-import { Post, User } from '../../utils/types'
 import { PostKeys, UserKeys } from '../../utils/query-key'
+import { Docs, Post, User } from '../../utils/firestore-collections-docs'
 
 async function unlike(postId: string, userId: string) {
   return runTransaction(firestore, async (transaction) => {
-    transaction.delete(doc(firestore, `/users/${userId}/likes/${postId}`))
+    transaction.delete(Docs.LIKE(userId, postId))
 
-    transaction.update(doc(firestore, `/posts/${postId}`), {
+    transaction.update(Docs.POST(postId), {
       likes: arrayRemove(userId),
     })
   })
@@ -32,22 +32,22 @@ export default function useUnlike({
       // TODO: clean up code and re-define shared code
 
       queryClient.setQueryData(UserKeys.FEED, (oldQueryData) => {
-        if (!oldQueryData) return
+        if (!oldQueryData) return {}
 
         return {
           ...oldQueryData,
           pages: oldQueryData!.pages!.map((page) => {
             return {
               ...page,
-              posts: page.posts.map((data) => {
-                if (postId !== data.post.id) return data
-                const newPost = {
-                  ...data.post,
-                  likes: data.post.likes.filter(
-                    (userId) => userId !== auth.currentUser!.uid
-                  ),
+              data: page.data.map((item) => {
+                if (item.post.id !== postId) return { ...item }
+                return {
+                  ...item,
+                  post: {
+                    ...item.post,
+                    likes: item.post.likes.filter((uid) => uid !== userId),
+                  },
                 }
-                return { ...data, post: newPost }
               }),
             }
           }),
@@ -61,7 +61,7 @@ export default function useUnlike({
 
           const updatedPost = {
             ...oldQueryData.post,
-            likes: oldQueryData.post.likes.filter((user) => user !== userId),
+            likes: oldQueryData.post.likes.filter((uid) => uid !== userId),
           }
           return {
             ...oldQueryData,

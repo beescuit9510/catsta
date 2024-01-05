@@ -9,11 +9,12 @@ export default function PostGrid() {
     userId!
   )
 
+  // TODO:shared code
   return (
     <Stack spacing={5}>
       <Grid templateColumns='repeat(3, 1fr)' gap={3}>
         {data?.pages
-          .flatMap((page) => page.posts)
+          .flatMap((page) => page.data)
           .map((post) => (
             <PostGridItem
               key={post.id}
@@ -23,7 +24,7 @@ export default function PostGrid() {
               comments={post.comments}
             />
           ))}
-        {data?.pages[0].posts.length === 0 && 'No posts..'}
+        {data?.pages[0].data.length === 0 && 'No posts..'}
       </Grid>
       {hasNextPage && (
         <Button

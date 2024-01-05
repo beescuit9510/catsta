@@ -1,8 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import {
   QueryDocumentSnapshot,
-  collection,
-  doc,
   getCountFromServer,
   getDoc,
   getDocs,
@@ -12,61 +10,66 @@ import {
   startAfter,
   where,
 } from 'firebase/firestore'
-import { auth, firestore } from '../../utils/firebase'
-import { InfinitePost, Post, User } from '../../utils/types'
+import { auth } from '../../utils/firebase'
+import { InfiniteQuery } from '../../utils/types'
 import { UserKeys } from '../../utils/query-key'
+import {
+  Collections,
+  Docs,
+  Post,
+  User,
+} from '../../utils/firestore-collections-docs'
 
 // TODO: extract shared infiniate query code
+// TODO: in operation. Error caught by error boundary: FirebaseError: Invalid Query. A non-empty array is required for 'in' filters.
+async function feed(startAfterDoc: QueryDocumentSnapshot) {
+  const perPage = 3
 
-async function feed(
-  startAfterDoc: QueryDocumentSnapshot
-): Promise<InfinitePost> {
-  const perPage = 2
-  const userRef = await getDoc(
-    doc(firestore, `/users/${auth.currentUser?.uid}`)
+  const user = await getDoc(Docs.USER(auth.currentUser!.uid)).then((doc) =>
+    doc.data()
   )
-  const user = userRef.data() as User
-  let lastDoc
-  const [total, posts] = await Promise.all([
+
+  const [countSnapshot, postSnapshots, userSnapshots] = await Promise.all([
     getCountFromServer(
-      query(
-        collection(firestore, 'posts'),
-        where('userId', 'in', user.followings)
-      )
-    ).then((snapshot) => snapshot.data().count),
+      query(Collections.POSTS(), where('userId', 'in', user!.followings))
+    ),
     getDocs(
       query(
-        collection(firestore, 'posts'),
-        where('userId', 'in', user.followings),
+        Collections.POSTS(),
+        where('userId', 'in', user!.followings),
         orderBy('createdAt', 'asc'),
         startAfter(startAfterDoc),
         limit(perPage)
       )
-    ).then((snapshots) => {
-      lastDoc = snapshots.docs[snapshots.docs.length - 1]
-      return snapshots.docs.map((doc) => doc.data() as Post)
-    }),
+    ),
+    getDocs(query(Collections.USERS(), where('id', 'in', user!.followings))),
   ])
-  const users = await Promise.all(
-    posts.map((post) =>
-      getDoc(doc(firestore, `/users/${post.userId}`)).then(
-        (userRef) => userRef.data() as User
-      )
-    )
+  const { count } = countSnapshot.data()
+  const lastDoc = postSnapshots.docs.at(-1)
+
+  const posts = postSnapshots.docs.map((doc) => doc.data())
+
+  const userMap = Object.assign(
+    {},
+    ...userSnapshots.docs
+      .map((doc) => doc.data())
+      .map((user) => ({ [user.id]: user }))
   )
 
-  // const userMap = Object!.groupBy(users, (user) => user.id)
-
   return {
-    limit: perPage,
-    total,
-    posts: posts.map((post) => ({ post: post, user: users[0] })),
-    lastDoc: lastDoc,
+    perPage,
+    lastDoc,
+    count,
+    data: posts.map((post) => ({
+      post,
+      user: userMap[post.userId],
+    })),
   }
 }
+type PostUser = { post: Post; user: User }
 
 export default function useFeed() {
-  const query = useInfiniteQuery<InfinitePost>({
+  const query = useInfiniteQuery<InfiniteQuery<PostUser[]>>({
     initialPageParam: null,
 
     queryKey: UserKeys.FEED,
@@ -74,12 +77,9 @@ export default function useFeed() {
     queryFn: ({ pageParam }) => feed(pageParam as QueryDocumentSnapshot),
 
     getNextPageParam: (lastPage, allPages) => {
-      const currentTotal = allPages.reduce((p, c) => p + c.posts.length, 0)
-      const { total } = lastPage
-
-      if (currentTotal >= total) {
-        return undefined
-      }
+      const total = lastPage.perPage * allPages.length
+      const { count } = lastPage
+      if (total >= count) return undefined
       return lastPage.lastDoc
     },
   })

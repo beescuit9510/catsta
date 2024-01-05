@@ -1,31 +1,20 @@
-import { firestore } from '../../utils/firebase'
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from 'firebase/firestore'
+import { getDoc, getDocs, query, where } from 'firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
-import { User } from '../../utils/types'
 import { UserKeys } from '../../utils/query-key'
+import { Collections, Docs } from '../../utils/firestore-collections-docs'
 
-async function followings(userId: string): Promise<User[]> {
-  return getDoc(doc(firestore, 'users', userId))
+async function followings(userId: string) {
+  return getDoc(Docs.USER(userId))
     .then((snap) => {
       if (!snap.exists()) throw new Error('User not found')
-      else return snap.data() as User
+      else return snap.data()
     })
     .then((user) => {
       if (user.followings.length === 0) return []
 
       return getDocs(
-        query(
-          collection(firestore, 'users'),
-          where('id', 'in', user.followings)
-        )
-      ).then((snapshot) => snapshot.docs.map((doc) => doc.data() as User))
+        query(Collections.USERS(), where('id', 'in', user.followings))
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.data()))
     })
 }
 

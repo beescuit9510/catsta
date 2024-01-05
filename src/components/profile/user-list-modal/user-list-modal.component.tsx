@@ -15,8 +15,8 @@ import { useParams } from 'react-router-dom'
 import UserAvatar from '../../common/user-avatar/user-avatar.component'
 import { Suspense, useEffect } from 'react'
 import { UseQueryResult } from '@tanstack/react-query'
-import { User } from '../../../utils/types'
 import UserAvatarLoader from '../../common/user-avatar-loader/user-avatar-loader.component'
+import { User } from '../../../utils/firestore-collections-docs'
 
 function UserList({
   query,

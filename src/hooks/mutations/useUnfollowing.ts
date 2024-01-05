@@ -1,18 +1,18 @@
 import { useMutation } from '@tanstack/react-query'
-import { arrayRemove, doc, runTransaction } from 'firebase/firestore'
+import { arrayRemove, runTransaction } from 'firebase/firestore'
 import { auth, firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
-import { User } from '../../utils/types'
 import { UserKeys } from '../../utils/query-key'
+import { Docs, User } from '../../utils/firestore-collections-docs'
 
 async function unfollowing(followingUserId: string) {
   const currentUserId = auth.currentUser!.uid
 
   return runTransaction(firestore, async (transaction) => {
-    transaction.update(doc(firestore, `users/${currentUserId}`), {
+    transaction.update(Docs.USER(currentUserId), {
       followings: arrayRemove(followingUserId),
     })
-    transaction.update(doc(firestore, `users/${followingUserId}`), {
+    transaction.update(Docs.USER(followingUserId), {
       followers: arrayRemove(currentUserId),
     })
   })

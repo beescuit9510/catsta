@@ -11,14 +11,14 @@ export default function CommentList() {
   return (
     <Stack spacing={6} marginTop={'1rem'}>
       {data?.pages
-        .flatMap((page) => page.comments)
-        .map((comment) => {
+        .flatMap((page) => page.data)
+        .map(({ comment, user }) => {
           return (
             <Comment
               key={comment.id}
-              userId={comment.user.id}
-              photoURL={comment.user.photoURL}
-              displayName={comment.user.displayName}
+              userId={user.id}
+              photoURL={user.photoURL}
+              displayName={user.displayName}
               content={comment.content}
               createdAt={comment.createdAt}
             />

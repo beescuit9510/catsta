@@ -1,7 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import {
   QueryDocumentSnapshot,
-  collection,
   getCountFromServer,
   getDocs,
   limit,
@@ -10,46 +9,40 @@ import {
   startAfter,
   where,
 } from 'firebase/firestore'
-import { firestore } from '../../utils/firebase'
-import { InfinitePost, Post } from '../../utils/types'
+import { InfiniteQuery } from '../../utils/types'
 import { UserKeys } from '../../utils/query-key'
+import { Collections, Post } from '../../utils/firestore-collections-docs'
 
-// TODO: extract shared infiniate query code
-
-async function posts(
-  userId: string,
-  startAfterDoc: QueryDocumentSnapshot
-): Promise<InfinitePost> {
+async function posts(userId: string, startAfterDoc: QueryDocumentSnapshot) {
   const perPage = 6
-  let lastDoc
-  const results = await Promise.all([
+  const [countSnapshot, postSnapshot] = await Promise.all([
     getCountFromServer(
-      query(collection(firestore, 'posts'), where('userId', '==', userId))
-    ).then((snapshot) => snapshot.data().count),
+      query(Collections.POSTS(), where('userId', '==', userId))
+    ),
     getDocs(
       query(
-        collection(firestore, 'posts'),
+        Collections.POSTS(),
         where('userId', '==', userId),
         orderBy('createdAt', 'asc'),
         startAfter(startAfterDoc),
         limit(perPage)
       )
-    ).then((snapshots) => {
-      lastDoc = snapshots.docs[snapshots.docs.length - 1]
-      return snapshots.docs.map((doc) => doc.data() as Post)
-    }),
+    ),
   ])
+  const { count } = countSnapshot.data()
+  const lastDoc = postSnapshot.docs.at(-1)
+  const posts = postSnapshot.docs.map((doc) => doc.data())
 
   return {
-    limit: perPage,
-    total: results[0],
-    posts: results[1],
-    lastDoc: lastDoc,
+    perPage,
+    count,
+    lastDoc,
+    data: posts,
   }
 }
 
 export default function usePosts(userId: string) {
-  const query = useInfiniteQuery<InfinitePost>({
+  const query = useInfiniteQuery<InfiniteQuery<Post[]>>({
     initialPageParam: null,
 
     queryKey: UserKeys.POSTS(userId),
@@ -58,12 +51,9 @@ export default function usePosts(userId: string) {
       posts(userId, pageParam as QueryDocumentSnapshot),
 
     getNextPageParam: (lastPage, allPages) => {
-      const currentTotal = allPages.reduce((p, c) => p + c.posts.length, 0)
-      const { total } = lastPage
-
-      if (currentTotal >= total) {
-        return undefined
-      }
+      const total = lastPage.perPage * allPages.length
+      const { count } = lastPage
+      if (total >= count) return undefined
       return lastPage.lastDoc
     },
   })

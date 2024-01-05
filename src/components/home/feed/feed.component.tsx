@@ -13,7 +13,7 @@ export default function Feed() {
     <Stack spacing={10}>
       <Stack spacing={10}>
         {data?.pages
-          .flatMap((page) => page.posts)
+          .flatMap((page) => page.data)
           .map(({ post, user }) => {
             return (
               <Stack key={post.id}>
