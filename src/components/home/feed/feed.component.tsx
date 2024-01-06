@@ -11,6 +11,22 @@ export default function Feed() {
 
   return (
     <Stack spacing={10}>
+      {data?.pages.at(0)?.data.length === 0 && (
+        <Flex
+          direction={'column'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          gap={2.5}
+        >
+          <Text fontSize={'2xl'} fontWeight={'700'}>
+            No Followings
+          </Text>
+          <Button variant={'link'} color={'twitter.500'}>
+            <Link to={'/search'}> Why don't you start following today?</Link>
+          </Button>
+        </Flex>
+      )}
+
       <Stack spacing={10}>
         {data?.pages
           .flatMap((page) => page.data)
@@ -25,7 +41,6 @@ export default function Feed() {
                 />
 
                 <Box>
-                  {/* TODO: fallback image since its too slow */}
                   {/* TODO: fixed image size like insta */}
                   {/* TODO: image +box and extract shared image code */}
                   <Image
@@ -54,11 +69,6 @@ export default function Feed() {
                     <Text fontWeight={'700'}>{user.displayName}</Text>
                     <Text>{post.content}</Text>
                   </Flex>
-                  {/* <CreateComment /> */}
-
-                  {/* <Suspense fallback={<CommentLisLoader />}>
-                    <CommentList />
-                  </Suspense> */}
                 </Stack>
               </Stack>
             )
