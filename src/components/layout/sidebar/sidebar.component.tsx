@@ -12,7 +12,6 @@ import { FaSearch } from 'react-icons/fa'
 import { FaRegSquarePlus } from 'react-icons/fa6'
 import { FaRegHeart } from 'react-icons/fa'
 import SidebarItem from '../sidebar-item/sidebar-item.component'
-import { useSignOut } from 'react-firebase-hooks/auth'
 import { auth } from '../../../utils/firebase'
 import { MdDarkMode } from 'react-icons/md'
 import { IoIosSunny } from 'react-icons/io'
@@ -20,7 +19,6 @@ import { useCachedUser } from '../../../hooks/queries/useUser'
 
 export default function Sidebar() {
   const borderColor = useColorModeValue('gray.100', 'whiteAlpha.300')
-  const [logout] = useSignOut(auth)
   const { colorMode, toggleColorMode } = useColorMode()
   const currentUser = useCachedUser(auth.currentUser!.uid)
 
@@ -95,7 +93,7 @@ export default function Sidebar() {
           Icon={<BiLogOut size={20} />}
           to='/auth'
           text='Logout'
-          onClick={logout}
+          onClick={() => auth.signOut()}
         />
       </Flex>
     </Flex>

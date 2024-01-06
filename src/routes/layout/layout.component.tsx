@@ -5,12 +5,10 @@ import ErrorBoundary from '../error-boundary/error-boundary.component'
 import Error from '../error-boundary/error.component'
 import { useUser } from '../../hooks/queries/useUser'
 import { auth } from '../../utils/firebase'
-import { useAuthState } from 'react-firebase-hooks/auth'
 
 export default function Layout() {
-  const [user] = useAuthState(auth)
   // TODO: change to Prefetch
-  useUser(user!.uid)
+  useUser(auth.currentUser!.uid)
 
   return (
     <>
