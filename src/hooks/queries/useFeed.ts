@@ -28,6 +28,12 @@ async function feed(startAfterDoc: QueryDocumentSnapshot) {
   const user = await getDoc(Docs.USER(auth.currentUser!.uid)).then((doc) =>
     doc.data()
   )
+  if (user!.followings.length === 0)
+    return {
+      perPage,
+      count: 0,
+      data: [],
+    }
 
   const [countSnapshot, postSnapshots, userSnapshots] = await Promise.all([
     getCountFromServer(
@@ -66,7 +72,7 @@ async function feed(startAfterDoc: QueryDocumentSnapshot) {
     })),
   }
 }
-type PostUser = { post: Post; user: User }
+export type PostUser = { post: Post; user: User }
 
 export default function useFeed() {
   const query = useInfiniteQuery<InfiniteQuery<PostUser[]>>({
