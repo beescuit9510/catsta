@@ -15,7 +15,7 @@ import { Collections, User } from '../../utils/firestore-collections-docs'
 // TODO: orderBy('lastSeenAt', 'desc'),
 
 async function suggestedUser(startAfterDoc?: QueryDocumentSnapshot) {
-  const perPage = 1
+  const perPage = 3
 
   const [countSnapshot, userSnapshot] = await Promise.all([
     getCountFromServer(query(Collections.USERS())),

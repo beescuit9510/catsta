@@ -5,6 +5,7 @@ import UserAvatar from '../../common/user-avatar/user-avatar.component'
 import Like from '../../post/like/like.component'
 import { IoChatbubbleOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+import PostDetailLoader from '../../post/post-detail/post-detail-loader.component'
 
 export default function Feed() {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useFeed()
@@ -26,7 +27,6 @@ export default function Feed() {
           </Button>
         </Flex>
       )}
-
       <Stack spacing={10}>
         {data?.pages
           .flatMap((page) => page.data)
@@ -74,14 +74,18 @@ export default function Feed() {
             )
           })}
       </Stack>
-      {hasNextPage && (
-        <Button
-          disabled={isFetchingNextPage}
-          isLoading={isFetchingNextPage}
-          onClick={() => fetchNextPage()}
-        >
-          Load more
-        </Button>
+      {/* TODO: extract code */}
+      {hasNextPage && !isFetchingNextPage && (
+        <Button onClick={() => fetchNextPage()}>Load more</Button>
+      )}
+      {isFetchingNextPage && (
+        <Stack spacing={10} flex={1}>
+          {Array(data!.pages.at(0)!.perPage)
+            .fill(1)
+            .map((v, idx) => (
+              <PostDetailLoader key={v + idx} />
+            ))}
+        </Stack>
       )}
     </Stack>
   )

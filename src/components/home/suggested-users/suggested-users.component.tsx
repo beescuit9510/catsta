@@ -25,8 +25,6 @@ export default function SuggestedUsers() {
           {hasNextPage && (
             <Button
               onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-              isLoading={isFetchingNextPage}
               size={'sm'}
               variant={'ghost'}
             >
@@ -44,7 +42,9 @@ export default function SuggestedUsers() {
               bio={user.bio}
             />
           ))}
-        {isFetchingNextPage && <UserAvatarLoader length={1} />}
+        {isFetchingNextPage && (
+          <UserAvatarLoader length={data!.pages.at(0)!.perPage} />
+        )}
       </Flex>
     </Flex>
   )

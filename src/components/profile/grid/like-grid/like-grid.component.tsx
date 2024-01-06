@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import LikeGridItem from './like-grid-item.component'
 import useLikes from '../../../../hooks/queries/useLikes'
 import { auth } from '../../../../utils/firebase'
+import ProfileTabLoader from '../../profile-tab/profile-tab-loader.component'
 
 export default function LikeGrid() {
   const { userId } = useParams()
@@ -45,15 +46,10 @@ export default function LikeGrid() {
           ))}
       </Grid>
       {/* TODO: shared code */}
-      {hasNextPage && (
-        <Button
-          disabled={isFetchingNextPage}
-          isLoading={isFetchingNextPage}
-          onClick={() => fetchNextPage()}
-        >
-          Load more
-        </Button>
+      {hasNextPage && !isFetchingNextPage && (
+        <Button onClick={() => fetchNextPage()}>Load more</Button>
       )}
+      {isFetchingNextPage && <ProfileTabLoader />}
     </Stack>
   )
 }

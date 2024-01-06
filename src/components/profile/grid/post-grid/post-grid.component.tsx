@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import usePosts from '../../../../hooks/queries/usePosts'
 import { auth } from '../../../../utils/firebase'
 import { MdOutlinePhotoLibrary } from 'react-icons/md'
+import ProfileTabLoader from '../../profile-tab/profile-tab-loader.component'
 
 export default function PostGrid() {
   const { userId } = useParams()
@@ -56,15 +57,10 @@ export default function PostGrid() {
             />
           ))}
       </Grid>
-      {hasNextPage && (
-        <Button
-          disabled={isFetchingNextPage}
-          isLoading={isFetchingNextPage}
-          onClick={() => fetchNextPage()}
-        >
-          Load more
-        </Button>
+      {hasNextPage && !isFetchingNextPage && (
+        <Button onClick={() => fetchNextPage()}>Load more</Button>
       )}
+      {isFetchingNextPage && <ProfileTabLoader />}
     </Stack>
   )
 }
