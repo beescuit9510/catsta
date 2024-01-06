@@ -20,14 +20,17 @@ import { User } from '../../../utils/firestore-collections-docs'
 
 function UserList({
   query,
+  placeholder,
 }: {
   query: (userId: string) => UseQueryResult<User[]>
+  placeholder: React.ReactNode
 }) {
   const { userId } = useParams()
   const { data } = query(userId!)
 
   return (
     <>
+      {data?.length === 0 && placeholder}
       {data?.map((user) => (
         <UserAvatar
           key={user.id}
@@ -46,11 +49,13 @@ export default function UserListModal({
   caption,
   title,
   query,
+  placeholder,
 }: {
   counts: number
   caption: string
   title: string
   query: (userId: string) => UseQueryResult<User[]>
+  placeholder: React.ReactNode
 }) {
   const { userId } = useParams()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -85,7 +90,7 @@ export default function UserListModal({
           <ModalBody maxH={'350px'} overflowY={'auto'} marginBottom={5}>
             <Stack spacing={'5'}>
               <Suspense fallback={<UserAvatarLoader length={4} />}>
-                <UserList query={query} />
+                <UserList query={query} placeholder={placeholder} />
               </Suspense>
             </Stack>
           </ModalBody>
