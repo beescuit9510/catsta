@@ -1,7 +1,8 @@
-import { Button, Grid, Stack } from '@chakra-ui/react'
+import { Button, Center, Grid, Stack, Text } from '@chakra-ui/react'
 import PostGridItem from './post-grid-item.component'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import usePosts from '../../../../hooks/queries/usePosts'
+import { auth } from '../../../../utils/firebase'
 
 export default function PostGrid() {
   const { userId } = useParams()
@@ -12,6 +13,26 @@ export default function PostGrid() {
   // TODO:shared code
   return (
     <Stack spacing={5}>
+      <Center>
+        <Stack>
+          {data?.pages!.at(0)!.data.length === 0 &&
+            (userId === auth.currentUser!.uid ? (
+              <>
+                <Text fontSize={'xl'} fontWeight={'700'}>
+                  Share a moment with the world!
+                </Text>
+                <Button variant={'link'} color={'twitter.500'}>
+                  <Link to={'/create'}>create your first post!</Link>
+                </Button>
+              </>
+            ) : (
+              <Text fontSize={'xl'} fontWeight={'700'}>
+                No Posts Yet
+              </Text>
+            ))}
+        </Stack>
+      </Center>
+
       <Grid templateColumns='repeat(3, 1fr)' gap={3}>
         {data?.pages
           .flatMap((page) => page.data)
@@ -24,7 +45,6 @@ export default function PostGrid() {
               comments={post.comments}
             />
           ))}
-        {data?.pages[0].data.length === 0 && 'No posts..'}
       </Grid>
       {hasNextPage && (
         <Button

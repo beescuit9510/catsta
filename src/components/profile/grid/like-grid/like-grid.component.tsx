@@ -1,7 +1,8 @@
-import { Button, Grid, Stack } from '@chakra-ui/react'
-import { useParams } from 'react-router-dom'
+import { Button, Center, Grid, Stack, Text } from '@chakra-ui/react'
+import { Link, useParams } from 'react-router-dom'
 import LikeGridItem from './like-grid-item.component'
 import useLikes from '../../../../hooks/queries/useLikes'
+import { auth } from '../../../../utils/firebase'
 
 export default function LikeGrid() {
   const { userId } = useParams()
@@ -11,6 +12,26 @@ export default function LikeGrid() {
 
   return (
     <Stack spacing={5}>
+      <Center>
+        <Stack>
+          {data?.pages!.at(0)!.data.length === 0 &&
+            (userId === auth.currentUser!.uid ? (
+              <>
+                <Text fontSize={'xl'} fontWeight={'700'}>
+                  Like a post and share with the world!
+                </Text>
+                <Button variant={'link'} color={'twitter.500'}>
+                  <Link to={'/'}>like your friends' post!</Link>
+                </Button>
+              </>
+            ) : (
+              <Text fontSize={'xl'} fontWeight={'700'}>
+                No Likes Yet
+              </Text>
+            ))}
+        </Stack>
+      </Center>
+
       <Grid templateColumns='repeat(3, 1fr)' gap={3}>
         {data?.pages
           .flatMap((page) => page.data)
@@ -22,8 +43,6 @@ export default function LikeGrid() {
               likedAt={like.createdAt}
             />
           ))}
-        {/* TODO: loading something else when post array is empty */}
-        {data?.pages[0].data.length === 0 && 'No likes..'}
       </Grid>
       {/* TODO: shared code */}
       {hasNextPage && (
