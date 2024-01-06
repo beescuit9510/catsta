@@ -36,6 +36,7 @@ export default function SuggestedUsers() {
           .flatMap((page) => page.data)
           .map((user) => (
             <UserAvatar
+              key={user.id}
               displayName={user.displayName}
               userId={user.id}
               photoURL={user.photoURL}
