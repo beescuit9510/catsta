@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Image, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react'
 import useFeed from '../../../hooks/queries/useFeed'
 import { auth } from '../../../utils/firebase'
 import UserAvatar from '../../common/user-avatar/user-avatar.component'
@@ -6,6 +6,7 @@ import Like from '../../post/like/like.component'
 import { IoChatbubbleOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import PostDetailLoader from '../../post/post-detail/post-detail-loader.component'
+import PostImage from '../../common/post-image/post-image.component'
 
 export default function Feed() {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useFeed()
@@ -32,6 +33,7 @@ export default function Feed() {
           .flatMap((page) => page.data)
           .map(({ post, user }) => {
             return (
+              // TODO: when click post, redirects to the post.
               <Stack key={post.id}>
                 <UserAvatar
                   userId={user.id}
@@ -40,15 +42,7 @@ export default function Feed() {
                   bio={user.bio}
                 />
 
-                <Box>
-                  {/* TODO: fixed image size like insta */}
-                  {/* TODO: image +box and extract shared image code */}
-                  <Image
-                    src={post.photoURL}
-                    objectFit={'cover'}
-                    fallbackSrc={'https://placehold.co/600x500?text=...'}
-                  />
-                </Box>
+                <PostImage src={post.photoURL} />
 
                 <Box>
                   <Flex gap={2}>

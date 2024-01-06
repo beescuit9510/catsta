@@ -1,9 +1,7 @@
 import {
-  Box,
   Button,
   Center,
   Container,
-  Image,
   Input,
   Stack,
   Textarea,
@@ -12,6 +10,7 @@ import { useRef, useState } from 'react'
 import useCreatePost from '../../hooks/mutations/useCreatePost'
 import { auth } from '../../utils/firebase'
 import useShowToast from '../../hooks/useShowToast'
+import PostImage from '../../components/common/post-image/post-image.component'
 
 export default function Create() {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -34,20 +33,17 @@ export default function Create() {
     },
   })
 
+  // TODO: extract shared code fallbackSrs
   return (
     <Center marginY={20}>
       <Container>
         <Stack>
-          <Box boxSize={{ sm: 'sm', md: 'xl' }}>
-            <Image
-              src={photoURL || undefined}
-              objectFit='cover'
-              boxSize={'100%'}
-              onClick={() => inputRef.current?.click()}
-              cursor={'pointer'}
-              fallbackSrc={'https://placehold.co/600x500?text=...'}
-            />
-          </Box>
+          <PostImage
+            src={photoURL || undefined}
+            onClick={() => inputRef.current?.click()}
+            cursor={'pointer'}
+          />
+
           <Input
             ref={inputRef}
             hidden

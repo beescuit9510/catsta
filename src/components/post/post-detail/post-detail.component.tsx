@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Stack, Text } from '@chakra-ui/react'
+import { Box, Flex, Stack, Text } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
 import UserAvatar from '../../common/user-avatar/user-avatar.component'
 import usePost from '../../../hooks/queries/usePost'
@@ -8,6 +8,7 @@ import CommentList from '../comment-list/comment-list.component'
 import { Suspense } from 'react'
 import CommentLisLoader from '../comment-list/comment-list-loader.component'
 import { auth } from '../../../utils/firebase'
+import PostImage from '../../common/post-image/post-image.component'
 
 export default function PostDetail() {
   const { postId } = useParams()
@@ -24,15 +25,7 @@ export default function PostDetail() {
         bio={data!.user!.bio}
       />
 
-      <Box>
-        {/* TODO: fallback image! since its too slow */}
-        {/* TODO: fixed image size like insta */}
-        {/* TODO: image +box and extract shared image code */}
-        <Image
-          src={data!.post!.photoURL}
-          fallbackSrc={'https://placehold.co/600x500?text=...'}
-        />
-      </Box>
+      <PostImage src={data!.post!.photoURL} />
 
       <Box>
         <Like
