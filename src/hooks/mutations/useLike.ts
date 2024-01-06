@@ -1,9 +1,12 @@
-import { useMutation } from '@tanstack/react-query'
+import { InfiniteData, useMutation } from '@tanstack/react-query'
 import { arrayUnion, runTransaction } from 'firebase/firestore'
 import { firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { PostKeys, UserKeys } from '../../utils/query-key'
-import { Docs, Post, User } from '../../utils/firestore-collections-docs'
+import { Docs } from '../../utils/firestore-collections-docs'
+import { PostUser } from '../queries/useFeed'
+import { InfiniteQuery } from '../../utils/types'
+import { UserPost } from '../queries/usePost'
 
 async function like(postId: string, userId: string) {
   return runTransaction(firestore, async (transaction) => {
@@ -33,31 +36,32 @@ export default function useLike({
     mutationFn: () => like(postId, userId),
     onSuccess: () => {
       // TODO: clean up code and re-define shared code
-      // TODO: refactor code, especially like
 
-      queryClient.setQueryData(UserKeys.FEED, (oldQueryData) => {
-        if (!oldQueryData) return {}
-
-        return {
-          ...oldQueryData,
-          pages: oldQueryData!.pages!.map((page) => {
-            return {
-              ...page,
-              data: page.data.map((item) => {
-                if (item.post.id !== postId) return { ...item }
-                return {
-                  ...item,
-                  post: { ...item.post, likes: [...item.post.likes, userId] },
-                }
-              }),
-            }
-          }),
+      queryClient.setQueryData<InfiniteData<InfiniteQuery<PostUser[]>>>(
+        UserKeys.FEED,
+        (oldQueryData) => {
+          if (!oldQueryData) return oldQueryData
+          return {
+            ...oldQueryData,
+            pages: oldQueryData!.pages!.map((page) => {
+              return {
+                ...page,
+                data: page.data.map((item) => {
+                  if (item.post.id !== postId) return { ...item }
+                  return {
+                    ...item,
+                    post: { ...item.post, likes: [...item.post.likes, userId] },
+                  }
+                }),
+              }
+            }),
+          }
         }
-      })
+      )
 
-      queryClient.setQueryData(
+      queryClient.setQueryData<UserPost>(
         PostKeys.POST(postId),
-        (oldQueryData: { post: Post; user: User }) => {
+        (oldQueryData) => {
           if (!oldQueryData) return
           const updatedPost = {
             ...oldQueryData.post,
