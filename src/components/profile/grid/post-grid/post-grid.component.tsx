@@ -1,8 +1,9 @@
-import { Button, Center, Grid, Stack, Text } from '@chakra-ui/react'
+import { Button, Center, Grid, Icon, Stack, Text } from '@chakra-ui/react'
 import PostGridItem from './post-grid-item.component'
 import { Link, useParams } from 'react-router-dom'
 import usePosts from '../../../../hooks/queries/usePosts'
 import { auth } from '../../../../utils/firebase'
+import { MdOutlinePhotoLibrary } from 'react-icons/md'
 
 export default function PostGrid() {
   const { userId } = useParams()
@@ -18,6 +19,9 @@ export default function PostGrid() {
           {data?.pages!.at(0)!.data.length === 0 &&
             (userId === auth.currentUser!.uid ? (
               <>
+                <Center>
+                  <Icon as={MdOutlinePhotoLibrary} fontSize={'3rem'} />
+                </Center>
                 <Text fontSize={'xl'} fontWeight={'700'}>
                   Share a moment with the world!
                 </Text>
@@ -26,9 +30,15 @@ export default function PostGrid() {
                 </Button>
               </>
             ) : (
-              <Text fontSize={'xl'} fontWeight={'700'}>
-                No Posts Yet
-              </Text>
+              <>
+                <Center>
+                  <Icon as={MdOutlinePhotoLibrary} fontSize={'3rem'} />
+                </Center>
+
+                <Text fontSize={'xl'} fontWeight={'700'}>
+                  No Posts Yet
+                </Text>
+              </>
             ))}
         </Stack>
       </Center>
