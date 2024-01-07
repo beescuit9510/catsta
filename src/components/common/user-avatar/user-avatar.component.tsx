@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { useCachedUser } from '../../../hooks/queries/useUser'
 import { auth } from '../../../utils/firebase'
 import Follow from '../follow/follow.component'
-import { formatDistance, formatRelative } from 'date-fns'
 import useUserPresence from '../../../hooks/useUserPresence'
 import BasicAvatar from '../basic-avatar/basic-avatar.component'
+import BasicDate from '../basic-date/basic-date.component'
 
 export default function UserAvatar({
   userId,
@@ -18,9 +18,6 @@ export default function UserAvatar({
   photoURL: string
   bio: string
 }) {
-  const twoDays = 86400000
-  const twoDayyAgo = Date.now() - twoDays
-
   const currentUser = useCachedUser(auth.currentUser!.uid)
   const presence = useUserPresence(userId)
 
@@ -37,16 +34,12 @@ export default function UserAvatar({
             <Text>{displayName}</Text>
           </Link>
           {/* TODO: refactor code */}
-          {/* TODO: refactor shared dateformatting code */}
           <Text fontSize={12}>
             {presence?.connections
               ? bio
-              : presence?.lastOnline &&
-                (twoDayyAgo >= presence.lastOnline
-                  ? formatRelative(presence.lastOnline, Date.now())
-                  : formatDistance(presence.lastOnline, Date.now(), {
-                      addSuffix: true,
-                    }))}
+              : presence?.lastOnline && (
+                  <BasicDate date={presence.lastOnline} />
+                )}
           </Text>
         </Flex>
       </Flex>

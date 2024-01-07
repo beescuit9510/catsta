@@ -1,7 +1,7 @@
 import { Flex, Stack, Text, useColorModeValue } from '@chakra-ui/react'
-import { formatDistance, formatRelative } from 'date-fns'
 import { Link } from 'react-router-dom'
 import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
+import BasicDate from '../../common/basic-date/basic-date.component'
 
 export default function Comment({
   userId,
@@ -18,8 +18,6 @@ export default function Comment({
 }) {
   // TODO: i18n
   const creaetdAtColor = useColorModeValue('gray', 'whiteAlpha.600')
-  const twoDays = 86400000
-  const twoDayyAgo = Date.now() - twoDays
 
   return (
     <Flex gap={'0.5rem'}>
@@ -30,11 +28,7 @@ export default function Comment({
             <Text fontWeight={'700'}>{displayName}</Text>
           </Link>
           <Text color={creaetdAtColor} fontSize={'0.8rem'}>
-            {twoDayyAgo >= createdAt
-              ? formatRelative(createdAt, Date.now())
-              : formatDistance(createdAt, Date.now(), {
-                  addSuffix: true,
-                })}
+            <BasicDate date={createdAt} />
           </Text>
         </Flex>
         <Text fontSize={'0.9rem'}>{content}</Text>
