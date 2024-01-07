@@ -2,7 +2,6 @@ import {
   Heading,
   Flex,
   useColorModeValue,
-  Avatar,
   useColorMode,
   Icon,
 } from '@chakra-ui/react'
@@ -10,12 +9,12 @@ import { BiLogOut } from 'react-icons/bi'
 import { AiFillHome } from 'react-icons/ai'
 import { FaSearch } from 'react-icons/fa'
 import { FaRegSquarePlus } from 'react-icons/fa6'
-import { FaRegHeart } from 'react-icons/fa'
 import SidebarItem from '../sidebar-item/sidebar-item.component'
 import { auth } from '../../../utils/firebase'
 import { MdDarkMode } from 'react-icons/md'
 import { IoIosSunny } from 'react-icons/io'
 import { useCachedUser } from '../../../hooks/queries/useUser'
+import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
 
 export default function Sidebar() {
   const borderColor = useColorModeValue('gray.100', 'whiteAlpha.300')
@@ -61,13 +60,8 @@ export default function Sidebar() {
           text='Create'
         />
         <SidebarItem
-          Icon={<FaRegHeart size={20} />}
-          to='/notification'
-          text='Notification'
-        />
-        <SidebarItem
-          Icon={<Avatar src={currentUser!.photoURL} size={'sm'} />}
-          to={`/${currentUser?.id}`}
+          Icon={<BasicAvatar src={currentUser!.photoURL} size={'sm'} />}
+          to={`/${currentUser!.id}`}
           text='Profile'
         />
       </Flex>

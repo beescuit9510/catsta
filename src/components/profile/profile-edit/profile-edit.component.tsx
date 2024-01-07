@@ -14,7 +14,6 @@ import {
   Input,
   Stack,
   useColorModeValue,
-  Avatar,
   AvatarBadge,
   IconButton,
   Center,
@@ -24,12 +23,12 @@ import { IoClose } from 'react-icons/io5'
 import { useCachedUser } from '../../../hooks/queries/useUser'
 import { useUpdateUser } from '../../../hooks/mutations/useUpdateUser'
 import useShowToast from '../../../hooks/useShowToast'
+import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
 
 export default function ProfileEdit({ userId }: { userId: string }) {
   //TODO: extract modal code
   //TODO: extract preview code
   // TODO: limit the photo size under 2mb(2*1024*1024)
-  // FIXME: after saving the empty avatar dose not show up in the light mode.
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const user = useCachedUser(userId)
@@ -89,7 +88,7 @@ export default function ProfileEdit({ userId }: { userId: string }) {
                     spacing={6}
                   >
                     <Center>
-                      <Avatar size='xl' src={photoURL}>
+                      <BasicAvatar size='xl' src={photoURL}>
                         <AvatarBadge
                           as={IconButton}
                           size='sm'
@@ -103,7 +102,7 @@ export default function ProfileEdit({ userId }: { userId: string }) {
                             setPhotoURL('')
                           }}
                         />
-                      </Avatar>
+                      </BasicAvatar>
                     </Center>
                     <Input
                       hidden

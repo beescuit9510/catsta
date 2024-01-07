@@ -1,5 +1,4 @@
 import {
-  Avatar,
   AvatarBadge,
   Center,
   Flex,
@@ -18,6 +17,7 @@ import { useFollowings } from '../../../hooks/queries/useFollowings'
 import UserListModal from '../user-list-modal/user-list-modal.component'
 import { RxAvatar } from 'react-icons/rx'
 import useUserPresence from '../../../hooks/useUserPresence'
+import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
 
 export default function ProfileHeader() {
   const { userId } = useParams()
@@ -34,10 +34,9 @@ export default function ProfileHeader() {
       gap={3}
     >
       {/* FIXME: image dose not appear right away after skeleton. */}
-      {/* TODO: AVATAR dose not appear */}
       {/* TODO: empty space placeholder */}
       {/* TODO: refactor */}
-      <Avatar size={{ base: 'xl', md: '2xl' }} src={user!.photoURL}>
+      <BasicAvatar size={{ base: 'xl', md: '2xl' }} src={user!.photoURL}>
         {presence?.connections && (
           <AvatarBadge
             boxSize='0.75em'
@@ -47,7 +46,7 @@ export default function ProfileHeader() {
             bg='green.500'
           />
         )}
-      </Avatar>
+      </BasicAvatar>
       <Flex>
         <Stack>
           <Flex
