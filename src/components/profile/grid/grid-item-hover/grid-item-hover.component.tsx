@@ -1,6 +1,6 @@
 import { Box, Flex, GridItem } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import PostImage from '../../../common/post-image/post-image.component'
+import BasicImage from '../../../common/basic-image/basic-image.component'
 
 export default function GridItemHover({
   to,
@@ -14,7 +14,7 @@ export default function GridItemHover({
   return (
     <GridItem cursor={'pointer'} position={'relative'} role='group'>
       <Link to={to}>
-        <PostImage src={src} />
+        <BasicImage src={src} />
 
         <Box
           position={'absolute'}

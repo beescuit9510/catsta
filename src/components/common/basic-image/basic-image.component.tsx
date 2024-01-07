@@ -1,6 +1,6 @@
 import { Box, Image, ImageProps } from '@chakra-ui/react'
 
-export default function PostImage({ ...rest }: ImageProps) {
+export default function BasicImage({ ...rest }: ImageProps) {
   /* TODO: fix image size */
   return (
     <Box boxSize={'full'}>

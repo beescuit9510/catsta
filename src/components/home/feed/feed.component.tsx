@@ -6,7 +6,7 @@ import Like from '../../post/like/like.component'
 import { IoChatbubbleOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import PostDetailLoader from '../../post/post-detail/post-detail-loader.component'
-import PostImage from '../../common/post-image/post-image.component'
+import BasicImage from '../../common/basic-image/basic-image.component'
 
 export default function Feed() {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useFeed()
@@ -42,7 +42,7 @@ export default function Feed() {
                   bio={user.bio}
                 />
 
-                <PostImage src={post.photoURL} />
+                <BasicImage src={post.photoURL} />
 
                 <Box>
                   <Flex gap={2}>

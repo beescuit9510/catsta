@@ -8,7 +8,7 @@ import CommentList from '../comment-list/comment-list.component'
 import { Suspense } from 'react'
 import CommentLisLoader from '../comment-list/comment-list-loader.component'
 import { auth } from '../../../utils/firebase'
-import PostImage from '../../common/post-image/post-image.component'
+import BasicImage from '../../common/basic-image/basic-image.component'
 
 export default function PostDetail() {
   const { postId } = useParams()
@@ -25,7 +25,7 @@ export default function PostDetail() {
         bio={data!.user!.bio}
       />
 
-      <PostImage src={data!.post!.photoURL} />
+      <BasicImage src={data!.post!.photoURL} />
 
       <Box>
         <Like

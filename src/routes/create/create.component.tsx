@@ -10,7 +10,7 @@ import { useRef, useState } from 'react'
 import useCreatePost from '../../hooks/mutations/useCreatePost'
 import { auth } from '../../utils/firebase'
 import useShowToast from '../../hooks/useShowToast'
-import PostImage from '../../components/common/post-image/post-image.component'
+import BasicImage from '../../components/common/basic-image/basic-image.component'
 
 export default function Create() {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -38,7 +38,7 @@ export default function Create() {
     <Center marginY={20}>
       <Container>
         <Stack>
-          <PostImage
+          <BasicImage
             src={photoURL || undefined}
             onClick={() => inputRef.current?.click()}
             cursor={'pointer'}
