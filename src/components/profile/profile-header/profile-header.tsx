@@ -1,5 +1,6 @@
 import {
   Avatar,
+  AvatarBadge,
   Center,
   Flex,
   Icon,
@@ -16,12 +17,15 @@ import { useFollowers } from '../../../hooks/queries/useFollowers'
 import { useFollowings } from '../../../hooks/queries/useFollowings'
 import UserListModal from '../user-list-modal/user-list-modal.component'
 import { RxAvatar } from 'react-icons/rx'
+import useUserPresence from '../../../hooks/useUserPresence'
 
 export default function ProfileHeader() {
   const { userId } = useParams()
   const { data: user } = useUser(userId!)
+  // TODO: use stale data isStale
   const isCurrentUser = auth.currentUser!.uid === userId
   const textColor = useColorModeValue('gray.800', 'whiteAlpha.900')
+  const presence = useUserPresence(userId!)
 
   return (
     <Flex
@@ -32,7 +36,18 @@ export default function ProfileHeader() {
       {/* FIXME: image dose not appear right away after skeleton. */}
       {/* TODO: AVATAR dose not appear */}
       {/* TODO: empty space placeholder */}
-      <Avatar size={{ base: 'xl', md: '2xl' }} src={user!.photoURL} />
+      {/* TODO: refactor */}
+      <Avatar size={{ base: 'xl', md: '2xl' }} src={user!.photoURL}>
+        {presence?.connections && (
+          <AvatarBadge
+            boxSize='0.75em'
+            borderWidth={'0.15em'}
+            right={'0.15em'}
+            bottom={'0.15em'}
+            bg='green.500'
+          />
+        )}
+      </Avatar>
       <Flex>
         <Stack>
           <Flex

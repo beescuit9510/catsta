@@ -7,8 +7,6 @@ import {
 } from 'unique-names-generator'
 import { Docs } from '../../../utils/firestore-collections-docs'
 
-// TODO: last seen
-
 export async function setUserDoc({
   id,
   photoURL = '',

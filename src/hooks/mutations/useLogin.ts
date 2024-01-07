@@ -6,7 +6,6 @@ async function login(email: string, password: string) {
   if (!email) throw new Error('Email is required')
   if (!password) throw new Error('Password is required')
 
-  // TODO: last seen
   return signInWithEmailAndPassword(auth, email, password).then(
     (userCredential) => userCredential
   )
