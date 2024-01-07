@@ -16,7 +16,7 @@ export default function LikeGridItem({
 
   return (
     <GridItemHover to={`/posts/${postId}`} src={imageURL}>
-      <Text fontWeight={'700'}>
+      <Text fontWeight={'500'}>
         Liked at{' '}
         {twoDayyAgo >= likedAt
           ? formatRelative(likedAt, Date.now())
