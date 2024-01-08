@@ -1,7 +1,8 @@
-import { Button, Stack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import UserAvatar from '../../common/user-avatar/user-avatar.component'
 import UserAvatarLoader from '../../common/user-avatar-loader/user-avatar-loader.component'
 import { useInfiniteSearchUsers } from '../../../hooks/queries/infinite/useInfiniteSearchUsers'
+import LoadMoreBtn from '../../common/load-more-btn/load-more-btn.component'
 
 export default function SearchedUserList({ keyword }: { keyword: string }) {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -20,10 +21,11 @@ export default function SearchedUserList({ keyword }: { keyword: string }) {
             bio={user.bio}
           />
         ))}
-      {hasNextPage && !isFetchingNextPage && (
-        <Button onClick={() => fetchNextPage()}>Load more</Button>
-      )}
-      {/* TODO: extract code */}
+      <LoadMoreBtn
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        fetchNextPage={fetchNextPage}
+      />
       {isFetchingNextPage && (
         <UserAvatarLoader length={data!.pages.at(0)!.perPage} />
       )}

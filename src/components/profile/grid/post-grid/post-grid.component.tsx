@@ -1,4 +1,4 @@
-import { Button, Grid, Stack } from '@chakra-ui/react'
+import { Grid, Stack } from '@chakra-ui/react'
 import PostGridItem from './post-grid-item.component'
 import { useParams } from 'react-router-dom'
 import { auth } from '../../../../utils/firebase'
@@ -6,6 +6,7 @@ import ProfileTabLoader from '../../profile-tab/profile-tab-loader.component'
 import MyPostGridPlaceholder from '../../../common/placeholder/grid/post-grid/my-post-grid-placeholder.component'
 import PostGridPlaceholder from '../../../common/placeholder/grid/post-grid/post-grid-placeholder.component'
 import useInfinitePosts from '../../../../hooks/queries/infinite/useInfinitePosts'
+import LoadMoreBtn from '../../../common/load-more-btn/load-more-btn.component'
 
 export default function PostGrid() {
   const { userId } = useParams()
@@ -36,9 +37,11 @@ export default function PostGrid() {
             />
           ))}
       </Grid>
-      {hasNextPage && !isFetchingNextPage && (
-        <Button onClick={() => fetchNextPage()}>Load more</Button>
-      )}
+      <LoadMoreBtn
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        fetchNextPage={fetchNextPage}
+      />
       {isFetchingNextPage && <ProfileTabLoader />}
     </Stack>
   )

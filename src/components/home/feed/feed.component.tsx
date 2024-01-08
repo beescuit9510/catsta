@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import PostLoader from '../../common/loader/post-loader.component'
 import BasicImage from '../../common/basic-image/basic-image.component'
 import useInfiniteFeed from '../../../hooks/queries/infinite/useInfiniteFeed'
+import LoadMoreBtn from '../../common/load-more-btn/load-more-btn.component'
 
 export default function Feed() {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
@@ -69,10 +70,11 @@ export default function Feed() {
             )
           })}
       </Stack>
-      {/* TODO: extract code */}
-      {hasNextPage && !isFetchingNextPage && (
-        <Button onClick={() => fetchNextPage()}>Load more</Button>
-      )}
+      <LoadMoreBtn
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        fetchNextPage={fetchNextPage}
+      />
       {isFetchingNextPage && <PostLoader length={data!.pages.at(0)!.perPage} />}
     </Stack>
   )

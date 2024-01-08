@@ -1,15 +1,15 @@
-import { Button, Stack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import Comment from '../comment/comment.component'
 import { useParams } from 'react-router-dom'
 import CommentLisLoader from './comment-list-loader.component'
 import { useIntiniteComments } from '../../../hooks/queries/infinite/useInfiniteComments'
+import LoadMoreBtn from '../../common/load-more-btn/load-more-btn.component'
 
 export default function CommentList() {
   const { postId } = useParams()
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useIntiniteComments(postId!)
   // TODO: shared comment code .
-  // TODO: refactor hasNExtPage loaders
   return (
     <>
       <Stack spacing={6} marginTop={'1rem'}>
@@ -27,9 +27,11 @@ export default function CommentList() {
               />
             )
           })}
-        {hasNextPage && !isFetchingNextPage && (
-          <Button onClick={() => fetchNextPage()}>Load more</Button>
-        )}
+        <LoadMoreBtn
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          fetchNextPage={fetchNextPage}
+        />
       </Stack>
       {isFetchingNextPage && <CommentLisLoader />}
     </>
