@@ -1,9 +1,9 @@
 import { Flex, Skeleton, SkeletonCircle, Stack, VStack } from '@chakra-ui/react'
 
-export default function CommentLisLoader() {
+export default function CommentLisLoader({ length = 1 }: { length?: number }) {
   return (
     <Stack spacing={6} marginTop={'1rem'}>
-      {Array(3)
+      {Array(length)
         .fill(1)
         .map((v, idx) => (
           <Flex

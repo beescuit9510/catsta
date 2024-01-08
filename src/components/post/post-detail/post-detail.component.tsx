@@ -43,7 +43,7 @@ export default function PostDetail() {
         </Flex>
         <CreateComment />
 
-        <Suspense fallback={<CommentLisLoader />}>
+        <Suspense fallback={<CommentLisLoader length={3} />}>
           <CommentList />
         </Suspense>
       </Stack>
