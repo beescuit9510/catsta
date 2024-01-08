@@ -1,5 +1,6 @@
-import { Center, Icon, Stack, Text, useColorModeValue } from '@chakra-ui/react'
-import { RxAvatar } from 'react-icons/rx'
+import { Stack, useColorModeValue, Text } from '@chakra-ui/react'
+import PostLogo from '../../common/post-logo'
+import PlaceholderText from '../../common/placeholder-text'
 
 export default function MyEmptyModalPlaceholder({
   title,
@@ -10,13 +11,8 @@ export default function MyEmptyModalPlaceholder({
 }) {
   return (
     <Stack textAlign={'center'}>
-      <Center>
-        <Icon as={RxAvatar} fontSize={'3.5rem'} />
-      </Center>
-
-      <Text fontSize={'xl'} fontWeight={'700'}>
-        {title}
-      </Text>
+      <PostLogo />
+      <PlaceholderText>{title}</PlaceholderText>
       <Text color={useColorModeValue('gray.800', 'whiteAlpha.900')}>
         {children}
       </Text>

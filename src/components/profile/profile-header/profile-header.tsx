@@ -7,11 +7,11 @@ import Follow from '../../common/follow/follow.component'
 import { useFollowers } from '../../../hooks/queries/useFollowers'
 import { useFollowings } from '../../../hooks/queries/useFollowings'
 import UserListModal from '../user-list-modal/user-list-modal.component'
-import MyNoFollowersYet from '../user-list-modal/my-empty-modal-placeholder/my-no-followers-yet'
-import NoFollowersYet from '../user-list-modal/empty-modal-placeholder/no-followers-yet'
-import MyNoFollowingsYet from '../user-list-modal/my-empty-modal-placeholder/my-no-followings-yet'
-import NoFollowingsYet from '../user-list-modal/empty-modal-placeholder/no-followings-yet'
 import ProfileAvatar from './profile-avatar/profile-avatar'
+import MyNoFollowersYet from '../../common/placeholder/user-list-modal/my-empty-modal-placeholder/my-no-followers-yet'
+import NoFollowersYet from '../../common/placeholder/user-list-modal/empty-modal-placeholder/no-followers-yet'
+import MyNoFollowingsYet from '../../common/placeholder/user-list-modal/my-empty-modal-placeholder/my-no-followings-yet'
+import NoFollowingsYet from '../../common/placeholder/user-list-modal/empty-modal-placeholder/no-followings-yet'
 
 export default function ProfileHeader() {
   const { userId } = useParams()
