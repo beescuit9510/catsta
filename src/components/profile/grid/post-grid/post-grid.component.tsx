@@ -1,17 +1,16 @@
 import { Button, Grid, Stack } from '@chakra-ui/react'
 import PostGridItem from './post-grid-item.component'
 import { useParams } from 'react-router-dom'
-import usePosts from '../../../../hooks/queries/usePosts'
 import { auth } from '../../../../utils/firebase'
 import ProfileTabLoader from '../../profile-tab/profile-tab-loader.component'
 import MyPostGridPlaceholder from '../../../common/placeholder/grid/post-grid/my-post-grid-placeholder.component'
 import PostGridPlaceholder from '../../../common/placeholder/grid/post-grid/post-grid-placeholder.component'
+import useInfinitePosts from '../../../../hooks/queries/infinite/useInfinitePosts'
 
 export default function PostGrid() {
   const { userId } = useParams()
-  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = usePosts(
-    userId!
-  )
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfinitePosts(userId!)
   const isEmpty = data?.pages!.at(0)!.data.length === 0
 
   // TODO:shared code

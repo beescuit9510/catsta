@@ -1,5 +1,4 @@
 import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react'
-import useFeed from '../../../hooks/queries/useFeed'
 import { auth } from '../../../utils/firebase'
 import UserAvatar from '../../common/user-avatar/user-avatar.component'
 import Like from '../../post/like/like.component'
@@ -7,9 +6,11 @@ import { IoChatbubbleOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import PostLoader from '../../common/loader/post-loader.component'
 import BasicImage from '../../common/basic-image/basic-image.component'
+import useInfiniteFeed from '../../../hooks/queries/infinite/useInfiniteFeed'
 
 export default function Feed() {
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useFeed()
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfiniteFeed()
 
   return (
     <Stack spacing={10}>

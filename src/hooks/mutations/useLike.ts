@@ -4,9 +4,9 @@ import { firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { PostKeys, UserKeys } from '../../utils/query-key'
 import { Docs } from '../../utils/firestore-collections-docs'
-import { PostUser } from '../queries/useFeed'
-import { InfiniteQuery } from '../../utils/types'
 import { UserPost } from '../queries/usePost'
+import { PostUser } from '../queries/infinite/useInfiniteFeed'
+import { InfiniteQuery } from '../queries/common/useCustomInfiniteQuery'
 
 async function like(postId: string, userId: string) {
   return runTransaction(firestore, async (transaction) => {

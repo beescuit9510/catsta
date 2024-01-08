@@ -1,7 +1,7 @@
 import { Button, Flex, Text } from '@chakra-ui/react'
 import UserAvatar from '../../common/user-avatar/user-avatar.component'
-import { useIntiniteSuggestedUsers } from '../../../hooks/queries/useSuggestedUsers'
 import UserAvatarLoader from '../../common/user-avatar-loader/user-avatar-loader.component'
+import { useIntiniteSuggestedUsers } from '../../../hooks/queries/infinite/useInfiniteSuggestedUsers'
 
 export default function SuggestedUsers() {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =

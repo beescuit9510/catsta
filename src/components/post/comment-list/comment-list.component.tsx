@@ -1,8 +1,8 @@
 import { Button, Stack } from '@chakra-ui/react'
 import Comment from '../comment/comment.component'
-import { useIntiniteComments } from '../../../hooks/queries/useComments'
 import { useParams } from 'react-router-dom'
 import CommentLisLoader from './comment-list-loader.component'
+import { useIntiniteComments } from '../../../hooks/queries/infinite/useInfiniteComments'
 
 export default function CommentList() {
   const { postId } = useParams()
