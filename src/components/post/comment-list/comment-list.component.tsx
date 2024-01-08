@@ -7,21 +7,12 @@ import LoadMoreBtn from '../../common/load-more-btn/load-more-btn.component'
 
 export default function CommentList() {
   const { postId } = useParams()
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isRefetching } =
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useIntiniteComments(postId!)
 
-  const page = data?.pages.at(-1)
-  const isEmpty = page?.data.length === 0
-  const isOverPerPage = page?.data.length === page?.perPage
-
-  // TODO: when its over.. setQueryData instead.
   return (
     <>
-      {!isOverPerPage && isRefetching && <CommentLisLoader />}
-      <Stack
-        spacing={6}
-        marginTop={isEmpty && isRefetching ? '-0.5rem' : '1rem'}
-      >
+      <Stack spacing={6} marginTop={'1rem'}>
         {data?.pages
           .flatMap((page) => page.data)
           .map(({ comment, user }) => {

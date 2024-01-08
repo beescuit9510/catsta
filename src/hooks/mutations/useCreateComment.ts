@@ -1,11 +1,17 @@
-import { useMutation } from '@tanstack/react-query'
-import { addDoc, increment, updateDoc } from 'firebase/firestore'
+import { InfiniteData, useMutation } from '@tanstack/react-query'
+import { addDoc, getDoc, increment, updateDoc } from 'firebase/firestore'
 import { CreateComment } from '../../utils/types'
 import { queryClient } from '../../main'
 import { PostKeys, UserKeys } from '../../utils/query-key'
-import { Collections, Docs } from '../../utils/firestore-collections-docs'
+import { Collections, Docs, Post } from '../../utils/firestore-collections-docs'
+import { InfiniteQuery } from '../queries/common/useCustomInfiniteQuery'
+import { UserComment } from '../queries/infinite/useInfiniteComments'
 
-async function createComment({ postId, userId, content }: CreateComment) {
+async function createComment({
+  postId,
+  userId,
+  content,
+}: CreateComment): Promise<UserComment> {
   const comment = {
     userId,
     postId,
@@ -13,9 +19,9 @@ async function createComment({ postId, userId, content }: CreateComment) {
     createdAt: Date.now(),
   }
 
-  const [docRef] = await Promise.all([
+  const [user, docRef] = await Promise.all([
+    getDoc(Docs.USER(userId)),
     addDoc(Collections.COMMENTS(postId), comment),
-
     updateDoc(Docs.POST(postId), {
       comments: increment(1),
     }),
@@ -25,13 +31,8 @@ async function createComment({ postId, userId, content }: CreateComment) {
     id: docRef.id,
   })
 
-  return { ...comment, id: docRef.id }
+  return { user: user.data()!, comment: { ...comment, id: docRef.id } }
 }
-
-// onSuccess,
-// onError,
-// onSuccess: (postId: string) => void
-// onError: (error: Error) => void
 
 export default function useCreateComment({
   postId,
@@ -40,17 +41,41 @@ export default function useCreateComment({
 }: CreateComment) {
   return useMutation({
     mutationFn: () => createComment({ postId, userId, content }),
-    onSuccess: (comment) => {
-      // TODO:setQuery instead of invalidating
-      queryClient.invalidateQueries({
-        queryKey: PostKeys.COMMENTS(comment.postId),
-        exact: true,
-      })
 
-      queryClient.invalidateQueries({
-        queryKey: UserKeys.POSTS(userId),
-        exact: true,
-      })
+    onSuccess: (comment) => {
+      queryClient.setQueryData<InfiniteData<InfiniteQuery<Post[]>>>(
+        UserKeys.POSTS(userId),
+        (oldQueryData) => {
+          if (!oldQueryData) return oldQueryData
+          return {
+            ...oldQueryData,
+            pages: oldQueryData?.pages.map((page) => {
+              return {
+                ...page,
+                data: page.data.map((post) => {
+                  if (post.id === postId)
+                    return { ...post, comments: post.comments + 1 }
+                  else return { ...post }
+                }),
+              }
+            }),
+          }
+        }
+      )
+
+      queryClient.setQueryData<InfiniteData<InfiniteQuery<UserComment[]>>>(
+        PostKeys.COMMENTS(postId),
+        (oldQueryData) => {
+          if (!oldQueryData) return oldQueryData
+          return {
+            ...oldQueryData,
+            pages: oldQueryData?.pages.map((page, index) => {
+              if (index === 0) return { ...page, data: [comment, ...page.data] }
+              else return { ...page }
+            }),
+          }
+        }
+      )
     },
   })
 }

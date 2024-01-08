@@ -7,7 +7,7 @@ import {
   User,
 } from '../../../utils/firestore-collections-docs'
 
-type UserComment = {
+export type UserComment = {
   user: User
   comment: Comment
 }

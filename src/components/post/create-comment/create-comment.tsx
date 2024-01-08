@@ -3,6 +3,7 @@ import useCreateComment from '../../../hooks/mutations/useCreateComment'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { auth } from '../../../utils/firebase'
+import CommentLisLoader from '../comment-list/comment-list-loader.component'
 
 export default function CreateComment() {
   const { postId } = useParams()
@@ -16,24 +17,28 @@ export default function CreateComment() {
   })
 
   return (
-    <InputGroup variant={'flushed'}>
-      <Input
-        placeholder='Add a comment...'
-        onChange={(event) => setContent(event.target.value)}
-      />
-      <InputRightElement>
-        <Button
-          variant={'ghost'}
-          cursor={'link'}
-          color={'blue.500'}
-          _hover={{ color: 'blue.700' }}
-          isDisabled={isPending}
-          isLoading={isPending}
-          onClick={() => mutate()}
-        >
-          Post
-        </Button>
-      </InputRightElement>
-    </InputGroup>
+    <>
+      <InputGroup variant={'flushed'}>
+        <Input
+          placeholder='Add a comment...'
+          onChange={(event) => setContent(event.target.value)}
+        />
+        <InputRightElement>
+          {/* TODO: prevent empty string to be inserted */}
+          <Button
+            variant={'ghost'}
+            cursor={'link'}
+            color={'blue.500'}
+            _hover={{ color: 'blue.700' }}
+            isDisabled={isPending}
+            isLoading={isPending}
+            onClick={() => mutate()}
+          >
+            Post
+          </Button>
+        </InputRightElement>
+      </InputGroup>
+      {isPending && <CommentLisLoader />}
+    </>
   )
 }
