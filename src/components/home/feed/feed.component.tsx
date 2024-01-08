@@ -5,7 +5,7 @@ import UserAvatar from '../../common/user-avatar/user-avatar.component'
 import Like from '../../post/like/like.component'
 import { IoChatbubbleOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
-import PostDetailLoader from '../../post/post-detail/post-detail-loader.component'
+import PostLoader from '../../common/loader/post-loader.component'
 import BasicImage from '../../common/basic-image/basic-image.component'
 
 export default function Feed() {
@@ -72,15 +72,7 @@ export default function Feed() {
       {hasNextPage && !isFetchingNextPage && (
         <Button onClick={() => fetchNextPage()}>Load more</Button>
       )}
-      {isFetchingNextPage && (
-        <Stack spacing={10} flex={1}>
-          {Array(data!.pages.at(0)!.perPage)
-            .fill(1)
-            .map((v, idx) => (
-              <PostDetailLoader key={v + idx} />
-            ))}
-        </Stack>
-      )}
+      {isFetchingNextPage && <PostLoader length={data!.pages.at(0)!.perPage} />}
     </Stack>
   )
 }

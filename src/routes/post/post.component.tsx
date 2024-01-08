@@ -1,14 +1,14 @@
 import { Center, Container } from '@chakra-ui/react'
 import { Suspense } from 'react'
 import PostDetail from '../../components/post/post-detail/post-detail.component'
-import PostDetailLoader from '../../components/post/post-detail/post-detail-loader.component'
+import PostLoader from '../../components/common/loader/post-loader.component'
 
 export default function Post() {
   return (
     <>
       <Center marginY={20}>
         <Container>
-          <Suspense fallback={<PostDetailLoader />}>
+          <Suspense fallback={<PostLoader />}>
             <PostDetail />
           </Suspense>
         </Container>
