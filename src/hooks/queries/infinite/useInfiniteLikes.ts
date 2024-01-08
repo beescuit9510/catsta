@@ -1,4 +1,4 @@
-import { getDocs, orderBy, query, where } from 'firebase/firestore'
+import { getDocs, query, where } from 'firebase/firestore'
 import {
   Collections,
   Like,
@@ -12,7 +12,6 @@ type LikePost = {
   like: Like
 }
 
-// TODO: orderBy desc
 export default function useInfiniteLikes(userId: string) {
   return useCustomInfiniteQuery<LikePost[], Like>({
     queryKey: UserKeys.LIKES(userId),
@@ -21,10 +20,7 @@ export default function useInfiniteLikes(userId: string) {
       const queryResult = await fn({
         perPage: 6,
         countQuery: query(Collections.LIKES(userId)),
-        dataQuery: query(
-          Collections.LIKES(userId),
-          orderBy('createdAt', 'asc')
-        ),
+        dataQuery: query(Collections.LIKES(userId)),
       })
 
       const likes = queryResult.docs.map((doc) => doc.data())
@@ -48,14 +44,14 @@ export default function useInfiniteLikes(userId: string) {
         .then((snapshot) => snapshot.docs.map((doc) => doc.data()))
         .catch(() => [])
 
-      const likeMap = Object.assign(
+      const postMap = Object.assign(
         {},
-        ...likes.map((like) => ({ [like.postId]: like }))
+        ...posts.map((post) => ({ [post.id]: post }))
       )
 
       return {
         ...queryResult,
-        data: posts.map((post) => ({ post, like: likeMap[post.id] })),
+        data: likes.map((like) => ({ post: postMap[like.postId], like })),
       }
     },
   })

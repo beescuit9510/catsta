@@ -14,8 +14,10 @@ export default function CommentList() {
   const isEmpty = page?.data.length === 0
   const isOverPerPage = page?.data.length === page?.perPage
 
+  // TODO: when its over.. setQueryData instead.
   return (
     <>
+      {!isOverPerPage && isRefetching && <CommentLisLoader />}
       <Stack
         spacing={6}
         marginTop={isEmpty && isRefetching ? '-0.5rem' : '1rem'}
@@ -41,7 +43,6 @@ export default function CommentList() {
         />
       </Stack>
       {isFetchingNextPage && <CommentLisLoader length={3} />}
-      {!isOverPerPage && isRefetching && <CommentLisLoader />}
     </>
   )
 }

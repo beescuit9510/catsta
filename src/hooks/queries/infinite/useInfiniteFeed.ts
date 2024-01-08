@@ -6,12 +6,11 @@ import {
   User,
 } from '../../../utils/firestore-collections-docs'
 import { UserKeys } from '../../../utils/query-key'
-import { getDoc, getDocs, orderBy, query, where } from 'firebase/firestore'
+import { getDoc, getDocs, query, where } from 'firebase/firestore'
 import { useCustomInfiniteQuery } from '../common/useCustomInfiniteQuery'
 
 export type PostUser = { post: Post; user: User }
 
-// TODO: orderby desc
 export default function useInfiniteFeed() {
   return useCustomInfiniteQuery<PostUser[], Post>({
     queryKey: UserKeys.FEED,
@@ -34,8 +33,7 @@ export default function useInfiniteFeed() {
             ),
             dataQuery: query(
               Collections.POSTS(),
-              where('userId', 'in', user!.followings),
-              orderBy('createdAt', 'asc')
+              where('userId', 'in', user!.followings)
             ),
           }),
           getDocs(

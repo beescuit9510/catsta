@@ -1,4 +1,4 @@
-import { getDocs, orderBy, query, where } from 'firebase/firestore'
+import { getDocs, query, where } from 'firebase/firestore'
 import { useCustomInfiniteQuery } from '../common/useCustomInfiniteQuery'
 import { PostKeys } from '../../../utils/query-key'
 import {
@@ -19,10 +19,7 @@ export function useIntiniteComments(postId: string) {
       const { perPage, count, lastDoc, docs } = await fn({
         perPage: 3,
         countQuery: query(Collections.COMMENTS(postId)),
-        dataQuery: query(
-          Collections.COMMENTS(postId),
-          orderBy('createdAt', 'asc')
-        ),
+        dataQuery: query(Collections.COMMENTS(postId)),
       })
 
       const comments = docs.map((doc) => doc.data())

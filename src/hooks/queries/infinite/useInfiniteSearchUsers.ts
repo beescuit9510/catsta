@@ -3,7 +3,6 @@ import { UserKeys } from '../../../utils/query-key'
 import { Collections, User } from '../../../utils/firestore-collections-docs'
 import { useCustomInfiniteQuery } from '../common/useCustomInfiniteQuery'
 
-// TODO: orderBy desc
 // FIXME: cannot search words in between or words at the end, when T is typed, Hell_KITTY, and kitkat is not showing up.
 // FIXME: case-sensitive search => case-insensitive
 // FIXME: cannot search korean words
@@ -23,8 +22,7 @@ export function useInfiniteSearchUsers(searchKeyword: string) {
           Collections.USERS(),
           where('displayName', '>=', searchKeyword),
           where('displayName', '<=', `${searchKeyword}~`),
-          orderBy('displayName', 'asc'),
-          orderBy('createdAt', 'asc')
+          orderBy('displayName', 'asc')
         ),
       }).then((queryResult) => ({
         ...queryResult,

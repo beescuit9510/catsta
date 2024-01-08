@@ -4,6 +4,7 @@ import {
   getCountFromServer,
   getDocs,
   limit,
+  orderBy,
   query,
   startAfter,
 } from 'firebase/firestore'
@@ -14,7 +15,6 @@ type QueryParam = {
   countQuery: Query
   dataQuery: Query
 }
-
 interface InfiniteQueryFnResult<QueryFnResut> {
   perPage: number
   count: number
@@ -37,7 +37,16 @@ async function infiniteQueryFn<QueryFnResut>({
 }) {
   const [countSnapshot, dataSnapshot] = await Promise.all([
     getCountFromServer(countQuery),
-    getDocs(query(dataQuery, startAfter(startAfterDoc), limit(perPage))),
+    getDocs(
+      startAfterDoc
+        ? query(
+            dataQuery,
+            orderBy('createdAt', 'desc'),
+            startAfter(startAfterDoc),
+            limit(perPage)
+          )
+        : query(dataQuery, orderBy('createdAt', 'desc'), limit(perPage))
+    ),
   ])
 
   const { count } = countSnapshot.data()

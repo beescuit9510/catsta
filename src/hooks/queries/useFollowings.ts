@@ -1,4 +1,4 @@
-import { getDoc, getDocs, query, where } from 'firebase/firestore'
+import { getDoc, getDocs, orderBy, query, where } from 'firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
 import { UserKeys } from '../../utils/query-key'
 import { Collections, Docs } from '../../utils/firestore-collections-docs'
@@ -13,7 +13,11 @@ async function followings(userId: string) {
       if (user.followings.length === 0) return []
 
       return getDocs(
-        query(Collections.USERS(), where('id', 'in', user.followings))
+        query(
+          Collections.USERS(),
+          where('id', 'in', user.followings),
+          orderBy('displayName', 'asc')
+        )
       ).then((snapshot) => snapshot.docs.map((doc) => doc.data()))
     })
 }
