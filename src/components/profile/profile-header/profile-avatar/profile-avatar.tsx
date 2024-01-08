@@ -1,6 +1,6 @@
-import useUserPresence from '../../../hooks/useUserPresence'
-import AvatarOnlineBadge from '../../common/avatar-online-badge/avatar-online-badge.component'
-import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
+import useUserPresence from '../../../../hooks/useUserPresence'
+import AvatarOnlineBadge from '../../../common/avatar-online-badge/avatar-online-badge.component'
+import BasicAvatar from '../../../common/basic-avatar/basic-avatar.component'
 
 export default function ProfileAvatar({
   photoURL,
