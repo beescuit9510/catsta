@@ -1,5 +1,4 @@
 import {
-  AvatarBadge,
   Center,
   Flex,
   Icon,
@@ -18,6 +17,7 @@ import UserListModal from '../user-list-modal/user-list-modal.component'
 import { RxAvatar } from 'react-icons/rx'
 import useUserPresence from '../../../hooks/useUserPresence'
 import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
+import AvatarOnlineBadge from '../../common/avatar-online-badge/avatar-online-badge.component'
 
 export default function ProfileHeader() {
   const { userId } = useParams()
@@ -38,12 +38,11 @@ export default function ProfileHeader() {
       {/* TODO: refactor */}
       <BasicAvatar size={{ base: 'xl', md: '2xl' }} src={user!.photoURL}>
         {presence?.connections && (
-          <AvatarBadge
+          <AvatarOnlineBadge
             boxSize='0.75em'
             borderWidth={'0.15em'}
             right={'0.15em'}
             bottom={'0.15em'}
-            bg='green.500'
           />
         )}
       </BasicAvatar>
