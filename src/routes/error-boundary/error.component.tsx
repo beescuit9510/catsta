@@ -14,13 +14,7 @@ export default function Error({
         <Stack spacing={2} alignItems={'flex-start'}>
           <Heading fontFamily={'Rubik Scribble'}>Oops!</Heading>
           <Text>{children}</Text>
-          <Button
-            to={'/'}
-            variant={'link'}
-            fontWeight={'400'}
-            color={'twitter.500'}
-            as={Link}
-          >
+          <Button to={'/'} variant={'go-link'} as={Link}>
             Go to the main page
           </Button>
         </Stack>

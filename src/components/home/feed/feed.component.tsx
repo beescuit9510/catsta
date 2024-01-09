@@ -25,7 +25,7 @@ export default function Feed() {
           <Text fontSize={'2xl'} fontWeight={'700'}>
             No Followings
           </Text>
-          <Button variant={'link'} color={'twitter.500'}>
+          <Button variant={'go-link'}>
             <Link to={'/search'}> Why don't you start following today?</Link>
           </Button>
         </Flex>

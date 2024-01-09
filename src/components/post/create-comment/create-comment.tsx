@@ -26,10 +26,7 @@ export default function CreateComment() {
         <InputRightElement>
           {/* TODO: prevent empty string to be inserted */}
           <Button
-            variant={'ghost'}
-            cursor={'link'}
-            color={'blue.500'}
-            _hover={{ color: 'blue.700' }}
+            variant={'post'}
             isDisabled={isPending}
             isLoading={isPending}
             onClick={() => mutate()}

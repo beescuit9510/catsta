@@ -10,7 +10,7 @@ export default function PlaceholderLink({
   children: React.ReactNode
 }) {
   return (
-    <Button variant={'link'} color={'twitter.500'}>
+    <Button variant={'go-link'}>
       <RouterLink to={to}>{children}</RouterLink>
     </Button>
   )
