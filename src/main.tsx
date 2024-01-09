@@ -20,6 +20,14 @@ const theme = extendTheme({
             color: 'twitter.700',
           },
         }),
+        'go-link-light': (props: ButtonProps) => ({
+          ...theme.components.Button.variants.link(props),
+          color: 'twitter.500',
+          _hover: {
+            color: 'twitter.700',
+          },
+          fontWeight: '500',
+        }),
 
         post: (props: ButtonProps) => ({
           ...theme.components.Button.variants.link(props),
