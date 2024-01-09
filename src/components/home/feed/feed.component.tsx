@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Icon, Stack, Text, Tooltip } from '@chakra-ui/react'
 import { auth } from '../../../utils/firebase'
 import UserAvatar from '../../common/user-avatar/user-avatar.component'
 import Like from '../../post/like/like.component'
@@ -35,7 +35,6 @@ export default function Feed() {
           .flatMap((page) => page.data)
           .map(({ post, user }) => {
             return (
-              // TODO: when click post, redirects to the post.
               <Stack key={post.id}>
                 <UserAvatar
                   userId={user.id}
@@ -43,8 +42,7 @@ export default function Feed() {
                   photoURL={user.photoURL}
                   bio={user.bio}
                 />
-
-                <BasicImage src={post.photoURL} />
+                <BasicImage src={post.photoURL} cursor={'pointer'} />
 
                 <Box>
                   <Flex gap={2}>
@@ -53,9 +51,11 @@ export default function Feed() {
                       userId={auth.currentUser!.uid}
                       postId={post.id}
                     />
-                    <Link to={`/posts/${post.id}`}>
-                      <IoChatbubbleOutline size={25} />
-                    </Link>
+                    <Tooltip label='Go to post' aria-label='A tooltip'>
+                      <Link to={`/posts/${post.id}`}>
+                        <Icon as={IoChatbubbleOutline} fontSize={'1.65rem'} />
+                      </Link>
+                    </Tooltip>
                   </Flex>
                   <Text>{post.likes.length} likes</Text>
                 </Box>
