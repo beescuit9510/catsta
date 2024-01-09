@@ -1,4 +1,10 @@
-import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
+import {
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Tooltip,
+} from '@chakra-ui/react'
 import useCreateComment from '../../../hooks/mutations/useCreateComment'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -16,6 +22,28 @@ export default function CreateComment() {
     content,
   })
 
+  const [isOpen, setIsOpen] = useState(false)
+
+  const [timeoutFn, setTimeoutFn] = useState<NodeJS.Timeout>()
+
+  const hanldlePost = () => {
+    if (!content) {
+      setIsOpen(true)
+
+      clearTimeout(timeoutFn)
+
+      const ref = setTimeout(() => {
+        setIsOpen(false)
+      }, 1000)
+
+      setTimeoutFn(ref)
+
+      return
+    }
+
+    mutate()
+  }
+
   return (
     <>
       <InputGroup variant={'flushed'}>
@@ -24,15 +52,21 @@ export default function CreateComment() {
           onChange={(event) => setContent(event.target.value)}
         />
         <InputRightElement>
-          {/* TODO: prevent empty string to be inserted */}
-          <Button
-            variant={'post'}
-            isDisabled={isPending}
-            isLoading={isPending}
-            onClick={() => mutate()}
+          <Tooltip
+            placement={'top'}
+            isOpen={isOpen}
+            label='Type something'
+            aria-label='A tooltip'
           >
-            Post
-          </Button>
+            <Button
+              variant={'post'}
+              isDisabled={isPending}
+              isLoading={isPending}
+              onClick={hanldlePost}
+            >
+              Post
+            </Button>
+          </Tooltip>
         </InputRightElement>
       </InputGroup>
       {isPending && <CommentLisLoader />}
