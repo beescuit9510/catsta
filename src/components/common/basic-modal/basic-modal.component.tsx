@@ -15,9 +15,7 @@ export default function BasicModal({
   ...rest
 }: {
   isOpen: boolean
-  // TODO: fix type
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  onClose: Function
+  onClose: () => void
   children: React.ReactNode
 } & ModalProps) {
   return (
