@@ -1,4 +1,4 @@
-import { Text as ChakraText } from '@chakra-ui/react'
+import { Text } from '@chakra-ui/react'
 import React from 'react'
 
 export default function PlaceholderText({
@@ -6,9 +6,10 @@ export default function PlaceholderText({
 }: {
   children: React.ReactNode
 }) {
+  // TODO: chakra config
   return (
-    <ChakraText fontSize={'xl'} fontWeight={'700'}>
+    <Text fontSize={'xl'} fontWeight={'700'}>
       {children}
-    </ChakraText>
+    </Text>
   )
 }
