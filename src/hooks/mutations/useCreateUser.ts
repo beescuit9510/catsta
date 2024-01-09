@@ -1,4 +1,4 @@
-import { AuthError, createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../utils/firebase'
 import { useMutation } from '@tanstack/react-query'
 import { setUserDoc } from './common/setUserDoc'
@@ -26,11 +26,5 @@ async function createUser({ email, password, username, confirm }: CreateUser) {
 export default function useCreateUser() {
   return useMutation({
     mutationFn: createUser,
-    // onSuccess: (userCredential) => {},
-    onError: (error: Error | AuthError) => {
-      // TODO: firebase ERROR HANDLING
-      // ErrorMessage[error.code] : error.message
-      return error.message
-    },
   })
 }

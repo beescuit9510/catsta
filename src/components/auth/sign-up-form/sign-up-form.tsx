@@ -3,14 +3,13 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  FormControl,
-  FormErrorMessage,
   Stack,
 } from '@chakra-ui/react'
 import { GrHide } from 'react-icons/gr'
 import { GrFormView } from 'react-icons/gr'
 import { useState } from 'react'
 import useCreateUser from '../../../hooks/mutations/useCreateUser'
+import AuthFormError from '../auth-error/auth-error.component'
 
 export default function SignUpForm() {
   const [show, setShow] = useState(false)
@@ -64,9 +63,7 @@ export default function SignUpForm() {
           onChange={(event) => setConfirm(event.target.value)}
         />
 
-        <FormControl isInvalid={isError}>
-          <FormErrorMessage>{error?.message}</FormErrorMessage>
-        </FormControl>
+        <AuthFormError isError={isError} error={error} />
       </Stack>
 
       <Button isLoading={isPending} isDisabled={isPending} onClick={signUp}>

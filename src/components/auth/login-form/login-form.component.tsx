@@ -3,14 +3,13 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  FormControl,
-  FormErrorMessage,
   Stack,
 } from '@chakra-ui/react'
 import { GrHide } from 'react-icons/gr'
 import { GrFormView } from 'react-icons/gr'
 import { useState } from 'react'
 import { useLogin } from '../../../hooks/mutations/useLogin'
+import AuthFormError from '../auth-error/auth-error.component'
 
 export default function LoginForm() {
   const [show, setShow] = useState(false)
@@ -45,10 +44,7 @@ export default function LoginForm() {
             {show ? <GrFormView /> : <GrHide />}
           </InputRightElement>
         </InputGroup>
-
-        <FormControl isInvalid={isError}>
-          <FormErrorMessage>{error?.message}</FormErrorMessage>
-        </FormControl>
+        <AuthFormError isError={isError} error={error} />
       </Stack>
 
       <Button isLoading={isPending} isDisabled={isPending} onClick={login}>

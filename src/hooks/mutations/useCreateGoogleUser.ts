@@ -1,4 +1,4 @@
-import { AuthError, signInWithPopup } from 'firebase/auth'
+import { signInWithPopup } from 'firebase/auth'
 import { auth } from '../../utils/firebase'
 import { useMutation } from '@tanstack/react-query'
 import { GoogleAuthProvider } from 'firebase/auth'
@@ -15,14 +15,10 @@ async function createGoogleUser() {
     })
 }
 
+// Uncaught (in promise) Error: User is already in the firestore (google)
+
 export default function useCreateGoogleUser() {
   return useMutation({
     mutationFn: createGoogleUser,
-    // onSuccess: (userCredential) => {},
-    onError: (error: Error | AuthError) => {
-      // TODO: firebase ERROR HANDLING
-      // ErrorMessage[error.code] : error.message
-      return error.message
-    },
   })
 }

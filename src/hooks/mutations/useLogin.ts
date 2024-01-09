@@ -1,6 +1,6 @@
 import { auth } from '../../utils/firebase'
 import { useMutation } from '@tanstack/react-query'
-import { AuthError, signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 async function login(email: string, password: string) {
   if (!email) throw new Error('Email is required')
@@ -20,11 +20,5 @@ export function useLogin({
 }) {
   return useMutation({
     mutationFn: () => login(email, password),
-    // onSuccess: (userCredential) => {},
-    onError: (error: Error | AuthError) => {
-      // TODO: firebase ERROR HANDLING
-      // ErrorMessage[error.code] : error.message
-      return error.message
-    },
   })
 }
