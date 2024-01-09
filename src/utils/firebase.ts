@@ -13,6 +13,7 @@ import {
   set,
   serverTimestamp,
   remove,
+  Unsubscribe,
 } from 'firebase/database'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
@@ -37,33 +38,35 @@ const database = getDatabase(
 )
 
 export { app, auth, firestore, storage, database }
-//Uncaught (in promise) Error: User is already in the firestore (google)
 
+let unsubscribe: Unsubscribe
 onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    localStorage.setItem('auth', user.uid)
-    const myConnectionsRef = ref(database, `users/${user.uid}/connections`)
-    const lastOnlineRef = ref(database, `users/${user.uid}/lastOnline`)
-    const connectedRef = ref(database, '.info/connected')
-    onValue(connectedRef, (snap) => {
-      if (snap.val() === true) {
-        const con = push(myConnectionsRef)
+  if (!user) return
+  localStorage.setItem('auth', user.uid)
+  const myConnectionsRef = ref(database, `users/${user.uid}/connections`)
+  const lastOnlineRef = ref(database, `users/${user.uid}/lastOnline`)
+  const connectedRef = ref(database, '.info/connected')
+  unsubscribe = onValue(connectedRef, (snap) => {
+    if (snap.val() === true) {
+      const con = push(myConnectionsRef)
 
-        onDisconnect(con).remove()
+      onDisconnect(con).remove()
 
-        set(con, true)
+      set(con, true)
 
-        onDisconnect(lastOnlineRef).set(serverTimestamp())
-      }
-    })
-  }
+      onDisconnect(lastOnlineRef).set(serverTimestamp())
+    }
+  })
 })
+
 beforeAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    const auth = localStorage.getItem('auth')
-    const myConnectionsRef = ref(database, `users/${auth}/connections`)
-    const lastOnlineRef = ref(database, `users/${auth}/lastOnline`)
-    remove(myConnectionsRef)
-    set(lastOnlineRef, serverTimestamp())
+  if (user) return
+  const auth = localStorage.getItem('auth')
+  const myConnectionsRef = ref(database, `users/${auth}/connections`)
+  const lastOnlineRef = ref(database, `users/${auth}/lastOnline`)
+  remove(myConnectionsRef)
+  set(lastOnlineRef, serverTimestamp())
+  if (unsubscribe) {
+    unsubscribe()
   }
 })
