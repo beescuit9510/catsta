@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import GoogleLoginForm from '../../components/auth/google-login-form/google-login-form.component'
 import SignUpForm from '../../components/auth/sign-up-form/sign-up-form'
 import AuthFormDivider from '../../components/auth/auth-form-divider/auth-form-divider.component'
-import Logo from '../../components/auth/logo/logo.component'
+import Logo from '../../components/common/logo/logo.component'
 
 export default function SignUp() {
   return (

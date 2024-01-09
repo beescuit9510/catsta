@@ -2,7 +2,7 @@ import { Button, Flex, Stack, Text } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import GoogleLoginForm from '../../components/auth/google-login-form/google-login-form.component'
 import LoginForm from '../../components/auth/login-form/login-form.component'
-import Logo from '../../components/auth/logo/logo.component'
+import Logo from '../../components/common/logo/logo.component'
 import AuthFormDivider from '../../components/auth/auth-form-divider/auth-form-divider.component'
 
 export default function Login() {

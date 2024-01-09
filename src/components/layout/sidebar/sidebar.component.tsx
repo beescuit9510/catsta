@@ -1,9 +1,10 @@
 import {
-  Heading,
   Flex,
   useColorModeValue,
   useColorMode,
   Icon,
+  Box,
+  FlexProps,
 } from '@chakra-ui/react'
 import { BiLogOut } from 'react-icons/bi'
 import { AiFillHome } from 'react-icons/ai'
@@ -15,81 +16,93 @@ import { MdDarkMode } from 'react-icons/md'
 import { IoIosSunny } from 'react-icons/io'
 import { useCachedUser } from '../../../hooks/queries/useUser'
 import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
+import Logo from '../../common/logo/logo.component'
 
-export default function Sidebar() {
-  const borderColor = useColorModeValue('gray.100', 'whiteAlpha.300')
-  const { colorMode, toggleColorMode } = useColorMode()
-  const currentUser = useCachedUser(auth.currentUser!.uid)
-
+function Container({ children }: { children: React.ReactNode }) {
   return (
     <Flex
+      direction={'column'}
       minHeight={'100vh'}
       borderRight={'1px solid'}
-      borderColor={borderColor}
-      py={8}
+      borderColor={useColorModeValue('gray.100', 'whiteAlpha.300')}
       position={'sticky'}
       top={0}
       left={0}
+      py={8}
       px={{ base: 2, lg: 4 }}
-      direction={'column'}
     >
-      <Flex
-        flex={1}
-        direction={'column'}
-        alignItems={'center'}
-        gap={15}
-        paddingY={5}
-        paddingX={2}
-      >
-        {/* //TODO: refactor heading logo from login, signup and sidebar. */}
-        <Heading
-          marginRight={'auto'}
-          marginLeft={2}
-          size={'lg'}
-          marginBottom={5}
-          fontWeight={'500'}
-          display={{ base: 'none', lg: 'block' }}
-        >
-          Catstagram
-        </Heading>
-        <SidebarItem Icon={<AiFillHome size={20} />} to='/' text='Home' />
-        <SidebarItem Icon={<FaSearch size={20} />} to='/search' text='Search' />
+      {children}
+    </Flex>
+  )
+}
+
+function Stack({
+  children,
+  ...rest
+}: { children: React.ReactNode } & FlexProps) {
+  return (
+    <Flex
+      direction={'column'}
+      gap={'15'}
+      alignItems={'center'}
+      paddingY={5}
+      paddingX={2}
+      {...rest}
+    >
+      {children}
+    </Flex>
+  )
+}
+
+function ToggleColorMode() {
+  const { colorMode, toggleColorMode } = useColorMode()
+  return (
+    <Icon
+      fontSize={'xl'}
+      cursor={'pointer'}
+      marginLeft={'0.5rem'}
+      alignSelf={'flex-start'}
+      as={colorMode === 'light' ? MdDarkMode : IoIosSunny}
+      _hover={{
+        color: colorMode === 'light' ? '#FFCC33' : '#D14009',
+      }}
+      onClick={toggleColorMode}
+    />
+  )
+}
+
+export default function Sidebar() {
+  const currentUser = useCachedUser(auth.currentUser!.uid)
+
+  return (
+    <Container>
+      <Stack flex={1}>
+        <Box marginLeft={'0.75rem'} marginRight={'auto'}>
+          <Logo
+            marginBottom={'1rem'}
+            size={'lg'}
+            display={{ base: 'none', lg: 'block' }}
+          />
+        </Box>
+        <SidebarItem leftIcon={AiFillHome} to='/' text='Home' />
+        <SidebarItem leftIcon={FaSearch} to='/search' text='Search' />
+        <SidebarItem leftIcon={FaRegSquarePlus} to='/create' text='Create' />
         <SidebarItem
-          Icon={<FaRegSquarePlus size={20} />}
-          to='/create'
-          text='Create'
-        />
-        <SidebarItem
-          Icon={<BasicAvatar src={currentUser!.photoURL} size={'sm'} />}
+          leftElement={<BasicAvatar src={currentUser!.photoURL} size={'sm'} />}
           to={`/${currentUser!.id}`}
           text='Profile'
         />
-      </Flex>
-      <Flex
-        direction={'column'}
-        gap={'15'}
-        alignItems={'center'}
-        paddingY={5}
-        paddingX={2}
-      >
-        <Icon
-          marginLeft={'0.5rem'}
-          alignSelf={'flex-start'}
-          onClick={toggleColorMode}
-          as={colorMode === 'light' ? MdDarkMode : IoIosSunny}
-          cursor={'pointer'}
-          _hover={{
-            color: colorMode === 'light' ? '#FFCC33' : '#D14009',
-          }}
-          fontSize={'xl'}
-        />
+      </Stack>
+
+      <Stack>
+        <ToggleColorMode />
         <SidebarItem
-          Icon={<BiLogOut size={20} />}
+          leftIcon={BiLogOut}
           to='/auth'
           text='Logout'
           onClick={() => auth.signOut()}
         />
-      </Flex>
-    </Flex>
+      </Stack>
+    </Container>
   )
 }
