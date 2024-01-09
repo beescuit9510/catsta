@@ -25,7 +25,6 @@ export default function Create() {
     onError: () => toast('error', 'Sorry, unexpected error has occured.'),
   })
 
-  // TODO: extract shared code fallbackSrs
   return (
     <PageContainer
       fallback={
