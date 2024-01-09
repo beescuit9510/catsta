@@ -1,4 +1,4 @@
-import { Flex, Stack, Text } from '@chakra-ui/react'
+import { Button, Flex, Stack, Text } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import GoogleLoginForm from '../../components/auth/google-login-form/google-login-form.component'
 import SignUpForm from '../../components/auth/sign-up-form/sign-up-form'
@@ -20,9 +20,9 @@ export default function SignUp() {
 
       <Flex justifyContent={'center'} rounded={'md'} paddingY={5} gap={1}>
         <Text>Already have an account?</Text>
-        <Text color={'blue.500'} _hover={{ textDecoration: 'underline' }}>
-          <Link to={'/auth'}>Log in</Link>
-        </Text>
+        <Button variant={'go-link-light'} as={Link} to={'/auth'}>
+          Log in
+        </Button>
       </Flex>
     </>
   )

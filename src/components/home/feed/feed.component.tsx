@@ -25,8 +25,8 @@ export default function Feed() {
           <Text fontSize={'2xl'} fontWeight={'700'}>
             No Followings
           </Text>
-          <Button variant={'go-link'}>
-            <Link to={'/search'}> Why don't you start following today?</Link>
+          <Button variant={'go-link'} as={Link} to={'/search'}>
+            Why don't you start following today?
           </Button>
         </Flex>
       )}

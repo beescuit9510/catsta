@@ -14,7 +14,7 @@ export default function Error({
         <Stack spacing={2} alignItems={'flex-start'}>
           <Heading fontFamily={'Rubik Scribble'}>Oops!</Heading>
           <Text>{children}</Text>
-          <Button to={'/'} variant={'go-link'} as={Link}>
+          <Button variant={'go-link'} as={Link} to={'/'}>
             Go to the main page
           </Button>
         </Stack>
