@@ -1,9 +1,14 @@
 import { useMutation } from '@tanstack/react-query'
 import { addDoc, increment, updateDoc } from 'firebase/firestore'
 import { storage } from '../../utils/firebase'
-import { CreatePost } from '../../utils/types'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { Collections, Docs } from '../../utils/firestore-collections-docs'
+
+type CreatePost = {
+  userId: string
+  content: string
+  file: File
+}
 
 // TODO: shared code
 const uploadImage = async ({ file, path }: { file: File; path: string }) => {

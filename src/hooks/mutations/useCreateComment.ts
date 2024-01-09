@@ -1,11 +1,16 @@
 import { InfiniteData, useMutation } from '@tanstack/react-query'
 import { addDoc, getDoc, increment, updateDoc } from 'firebase/firestore'
-import { CreateComment } from '../../utils/types'
 import { queryClient } from '../../main'
 import { PostKeys, UserKeys } from '../../utils/query-key'
 import { Collections, Docs, Post } from '../../utils/firestore-collections-docs'
 import { InfiniteQuery } from '../queries/common/useCustomInfiniteQuery'
 import { UserComment } from '../queries/infinite/useInfiniteComments'
+
+type CreateComment = {
+  postId: string
+  userId: string
+  content: string
+}
 
 async function createComment({
   postId,
