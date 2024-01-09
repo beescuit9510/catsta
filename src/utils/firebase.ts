@@ -70,3 +70,57 @@ beforeAuthStateChanged(auth, async (user) => {
     unsubscribe()
   }
 })
+
+// Firestore Database rules
+// rules_version = '2';
+// service cloud.firestore {
+// 	match /databases/{database}/documents {
+//     match /{document=**} {
+//    		allow read: if request.auth != null;
+// 		}
+//     match /posts/{post_id} {
+//     	allow write: if request.auth != null;
+//       allow delete, update:
+// 				if request.auth.uid == resource.data.userId;
+//     }
+//     match /posts/{post_id}/comments/{comment_id} {
+//     	allow write: if request.auth != null;
+//       allow delete, update:
+// 				if request.auth.uid == resource.data.userId;
+//     }
+//     match /users/{user_id} {
+// 	    allow write, delete, update:
+//       	if request.auth.uid == user_id;
+// 			allow update:
+// 				if request.resource.data.diff(resource.data).affectedKeys().hasOnly(["followers"]);
+//     }
+//     match /users/{user_id}/likes/{like_id} {
+//       allow write, delete, update:
+//       	if request.auth.uid == user_id;
+//     }
+//   }
+// }
+
+// Realtime Database rules
+// {
+//   /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+//   "rules": {
+//     "users": {
+//       "$uid": {
+//         ".read": "$uid === auth.uid",
+//         ".write": "$uid === auth.uid"
+//       }
+//     }
+//   }
+// }
+
+// Storage rules
+// service firebase.storage {
+//   match /b/{bucket}/o {
+//     match /{allPaths=**} {
+//       allow read: if true;
+//       allow write: if request.auth != null;
+//       allow delete: if false;
+//     }
+//   }
+// }
