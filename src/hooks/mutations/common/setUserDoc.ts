@@ -24,20 +24,17 @@ export async function setUserDoc({
 }) {
   const userDocRef = Docs.USER(id)
 
-  getDoc(userDocRef)
-    .then((doc) => {
-      if (doc.exists()) throw new Error('User is already in the firestore')
+  return getDoc(userDocRef).then((doc) => {
+    if (doc.exists()) return
+    setDoc(userDocRef, {
+      id,
+      displayName: displayName!,
+      bio: displayName!,
+      photoURL: photoURL!,
+      posts: 0,
+      followers: [],
+      followings: [],
+      createdAt: Date.now(),
     })
-    .then(() =>
-      setDoc(userDocRef, {
-        id,
-        displayName: displayName!,
-        bio: displayName!,
-        photoURL: photoURL!,
-        posts: 0,
-        followers: [],
-        followings: [],
-        createdAt: Date.now(),
-      })
-    )
+  })
 }
