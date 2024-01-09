@@ -15,7 +15,6 @@ export default function useUserPresence(userId: string) {
     const unsunscribe = onValue(usersRef, (snapshot) => {
       if (snapshot.exists()) {
         setPresence(snapshot.val())
-        console.log(snapshot.val())
       }
     })
     return () => unsunscribe()
