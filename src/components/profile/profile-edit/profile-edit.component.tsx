@@ -1,19 +1,13 @@
 import {
   Button,
-  Modal,
   ModalBody,
-  ModalCloseButton,
-  ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay,
   useDisclosure,
-  Flex,
   FormControl,
   FormLabel,
   Input,
   Stack,
-  useColorModeValue,
   AvatarBadge,
   IconButton,
   Center,
@@ -24,9 +18,9 @@ import { useCachedUser } from '../../../hooks/queries/useUser'
 import { useUpdateUser } from '../../../hooks/mutations/useUpdateUser'
 import useShowToast from '../../../hooks/useShowToast'
 import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
+import BasicModal from '../../common/basic-modal/basic-modal.component'
 
 export default function ProfileEdit({ userId }: { userId: string }) {
-  //TODO: extract modal code
   //TODO: extract preview code
   // TODO: limit the photo size under 2mb(2*1024*1024)
 
@@ -58,9 +52,7 @@ export default function ProfileEdit({ userId }: { userId: string }) {
   return (
     <>
       <Button onClick={onOpen}>Edit Profile</Button>
-
-      <Modal
-        blockScrollOnMount={false}
+      <BasicModal
         isOpen={isOpen}
         onClose={() => {
           setPhotoURL(user!.photoURL)
@@ -69,100 +61,87 @@ export default function ProfileEdit({ userId }: { userId: string }) {
           onClose()
         }}
       >
-        <Flex>
-          <ModalOverlay />
-          <ModalContent
-            width={'90%'}
-            bg={useColorModeValue('gray.50', 'gray.900')}
-          >
-            <ModalCloseButton />
-
-            <ModalHeader>Edit profile</ModalHeader>
-            <ModalBody>
-              <Stack spacing={4}>
-                <FormControl>
-                  <FormLabel>User photo</FormLabel>
-                  <Stack
-                    alignItems={'center'}
-                    direction={['column', 'row']}
-                    spacing={6}
-                  >
-                    <Center>
-                      <BasicAvatar size='xl' src={photoURL}>
-                        <AvatarBadge
-                          as={IconButton}
-                          size='sm'
-                          rounded='full'
-                          top='-10px'
-                          colorScheme='red'
-                          aria-label='remove Image'
-                          icon={<IoClose />}
-                          onClick={() => {
-                            setFile(null)
-                            setPhotoURL('')
-                          }}
-                        />
-                      </BasicAvatar>
-                    </Center>
-                    <Input
-                      hidden
-                      type='file'
-                      accept='image/*'
-                      onChange={(event) => {
-                        const file = event.target.files?.[0]
-                        if (!file) return
-                        setFile(file)
-                        setPhotoURL(URL.createObjectURL(file))
-                      }}
-                      ref={inputRef}
-                    />
-                    <Button
-                      width='full'
-                      onClick={() => inputRef.current?.click()}
-                    >
-                      Change profile photo
-                    </Button>
-                  </Stack>
-                </FormControl>
-                <FormControl id='userName' isRequired>
-                  <FormLabel>Username</FormLabel>
-                  <Input
-                    placeholder='UserName'
-                    _placeholder={{ color: 'gray.500' }}
-                    type='text'
-                    value={displayName}
-                    onChange={(event) => setDisplayName(event.target.value)}
-                  />
-                </FormControl>
-                <FormControl id='password'>
-                  <FormLabel>Bio</FormLabel>
-                  <Input
-                    placeholder='Bio'
-                    _placeholder={{ color: 'gray.500' }}
-                    value={bio}
-                    onChange={(event) => setBio(event.target.value)}
-                  />
-                </FormControl>
-              </Stack>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button
-                onClick={onSave}
-                isLoading={isPending}
-                disabled={isPending}
-                bg={'blue.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'blue.500',
-                }}
+        <ModalHeader>Edit profile</ModalHeader>
+        <ModalBody>
+          <Stack spacing={4}>
+            <FormControl>
+              <FormLabel>User photo</FormLabel>
+              <Stack
+                alignItems={'center'}
+                direction={['column', 'row']}
+                spacing={6}
               >
-                Submit
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Flex>
-      </Modal>
+                <Center>
+                  <BasicAvatar size='xl' src={photoURL}>
+                    <AvatarBadge
+                      as={IconButton}
+                      size='sm'
+                      rounded='full'
+                      top='-10px'
+                      colorScheme='red'
+                      aria-label='remove Image'
+                      icon={<IoClose />}
+                      onClick={() => {
+                        setFile(null)
+                        setPhotoURL('')
+                      }}
+                    />
+                  </BasicAvatar>
+                </Center>
+                <Input
+                  hidden
+                  type='file'
+                  accept='image/*'
+                  onChange={(event) => {
+                    const file = event.target.files?.[0]
+                    if (!file) return
+                    setFile(file)
+                    setPhotoURL(URL.createObjectURL(file))
+                  }}
+                  ref={inputRef}
+                />
+                <Button width='full' onClick={() => inputRef.current?.click()}>
+                  Change profile photo
+                </Button>
+              </Stack>
+            </FormControl>
+            <FormControl id='userName' isRequired>
+              <FormLabel>Username</FormLabel>
+              <Input
+                placeholder='UserName'
+                _placeholder={{ color: 'gray.500' }}
+                type='text'
+                value={displayName}
+                onChange={(event) => setDisplayName(event.target.value)}
+              />
+            </FormControl>
+            <FormControl id='password'>
+              <FormLabel>Bio</FormLabel>
+              <Input
+                placeholder='Bio'
+                _placeholder={{ color: 'gray.500' }}
+                value={bio}
+                onChange={(event) => setBio(event.target.value)}
+              />
+            </FormControl>
+          </Stack>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button
+            onClick={onSave}
+            isLoading={isPending}
+            disabled={isPending}
+            bg={'blue.400'}
+            color={'white'}
+            _hover={{
+              bg: 'blue.500',
+            }}
+          >
+            Submit
+          </Button>
+        </ModalFooter>
+      </BasicModal>
     </>
   )
 }

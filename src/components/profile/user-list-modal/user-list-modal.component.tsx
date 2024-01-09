@@ -1,11 +1,7 @@
 import {
   Button,
-  Modal,
   ModalBody,
-  ModalCloseButton,
-  ModalContent,
   ModalHeader,
-  ModalOverlay,
   Stack,
   Text,
   useColorModeValue,
@@ -17,6 +13,7 @@ import { Suspense, useEffect } from 'react'
 import { UseQueryResult } from '@tanstack/react-query'
 import UserAvatarLoader from '../../common/user-avatar-loader/user-avatar-loader.component'
 import { User } from '../../../utils/firestore-collections-docs'
+import BasicModal from '../../common/basic-modal/basic-modal.component'
 
 function UserList({
   query,
@@ -79,23 +76,16 @@ export default function UserListModal({
         {caption}
       </Button>
 
-      <Modal isOpen={isOpen} onClose={() => onClose()}>
-        <ModalOverlay />
-        <ModalContent
-          width={'90%'}
-          bg={useColorModeValue('gray.50', 'gray.900')}
-        >
-          <ModalCloseButton />
-          <ModalHeader>{title}</ModalHeader>
-          <ModalBody maxH={'350px'} overflowY={'auto'} marginBottom={5}>
-            <Stack spacing={'5'}>
-              <Suspense fallback={<UserAvatarLoader length={4} />}>
-                <UserList query={query} placeholder={placeholder} />
-              </Suspense>
-            </Stack>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <BasicModal isOpen={isOpen} onClose={() => onClose()}>
+        <ModalHeader>{title}</ModalHeader>
+        <ModalBody maxH={'350px'} overflowY={'auto'} marginBottom={5}>
+          <Stack spacing={'5'}>
+            <Suspense fallback={<UserAvatarLoader length={4} />}>
+              <UserList query={query} placeholder={placeholder} />
+            </Suspense>
+          </Stack>
+        </ModalBody>
+      </BasicModal>
     </>
   )
 }
