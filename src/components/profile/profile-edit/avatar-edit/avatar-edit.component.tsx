@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import BasicAvatar from '../../../common/basic-avatar/basic-avatar.component'
 import { AvatarBadge, IconButton, Stack } from '@chakra-ui/react'
 import { IoClose } from 'react-icons/io5'
-import ImageInput from '../image-input/image-Input.component'
+import ImageInput from '../../../common/image-input/image-Input.component'
 
 export default function AvatarEdit({
   photoURL,

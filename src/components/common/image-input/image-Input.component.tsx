@@ -1,5 +1,5 @@
 import { Input } from '@chakra-ui/react'
-import useShowToast from '../../../../hooks/useShowToast'
+import useShowToast from '../../../hooks/useShowToast'
 
 export default function ImageInput({
   inputRef,

@@ -1,4 +1,4 @@
-import { Button, Input, Stack, Textarea } from '@chakra-ui/react'
+import { Button, Stack, Textarea } from '@chakra-ui/react'
 import { useRef, useState } from 'react'
 import useCreatePost from '../../hooks/mutations/useCreatePost'
 import { auth } from '../../utils/firebase'
@@ -6,6 +6,7 @@ import useShowToast from '../../hooks/useShowToast'
 import BasicImage from '../../components/common/basic-image/basic-image.component'
 import PageContainer from '../../components/common/page-container/page-container.component'
 import Error from '../error-boundary/error.component'
+import ImageInput from '../../components/common/image-input/image-Input.component'
 
 export default function Create() {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -20,12 +21,8 @@ export default function Create() {
       content,
       userId: auth.currentUser!.uid,
     },
-    onSuccess: () => {
-      toast('success', 'Successfully saved.')
-    },
-    onError: () => {
-      toast('error', 'Sorry, unexpected error has occured.')
-    },
+    onSuccess: () => toast('success', 'Successfully saved.'),
+    onError: () => toast('error', 'Sorry, unexpected error has occured.'),
   })
 
   // TODO: extract shared code fallbackSrs
@@ -43,18 +40,10 @@ export default function Create() {
           onClick={() => inputRef.current?.click()}
           cursor={'pointer'}
         />
-
-        <Input
-          ref={inputRef}
-          hidden
-          type='file'
-          accept='image/*'
-          onChange={(event) => {
-            const file = event.target.files?.[0]
-            if (!file) return
-            setFile(file)
-            setPhotoURL(URL.createObjectURL(file))
-          }}
+        <ImageInput
+          inputRef={inputRef}
+          setFile={setFile}
+          setPreviewURL={setPhotoURL}
         />
         <Textarea
           placeholder='Caption for your photo...'
