@@ -31,9 +31,10 @@ export default function AvatarEdit({
           colorScheme='red'
           aria-label='remove Image'
           icon={<IoClose />}
-          onClick={() => {
+          onClick={(event) => {
             setFile(null)
             setPhotoURL('')
+            event.stopPropagation()
           }}
         />
       </BasicAvatar>
