@@ -7,8 +7,7 @@ export default function LoadMoreBtn({
 }: {
   hasNextPage: boolean
   isFetchingNextPage: boolean
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  fetchNextPage: Function
+  fetchNextPage: () => void
 }) {
   return (
     <>
