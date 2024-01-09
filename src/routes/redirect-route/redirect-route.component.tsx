@@ -3,17 +3,22 @@ import { auth } from '../../utils/firebase'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { onAuthStateChanged } from 'firebase/auth'
 import { Flex, Spinner } from '@chakra-ui/react'
+import { useLocation } from 'react-router-dom'
 
 export default function RedirectRoute() {
   const navigate = useNavigate()
+  const location = useLocation()
+
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setLoading(false)
-      if (user) {
+
+      if (user && location.pathname === '/auth') {
         navigate('/')
-      } else {
+      }
+      if (!user && location.pathname === '/') {
         navigate('/auth')
       }
     })

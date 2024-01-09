@@ -1,13 +1,13 @@
 import { Box, Flex } from '@chakra-ui/react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../../components/layout/sidebar/sidebar.component'
-import ErrorBoundary from '../error-boundary/error-boundary.component'
-import Error from '../error-boundary/error.component'
 import { useUser } from '../../hooks/queries/useUser'
 import { auth } from '../../utils/firebase'
+import ErrorBoundary from '../error-boundary/error-boundary.component'
+import Error from '../error-boundary/error.component'
 
 export default function Layout() {
-  // TODO: change to Prefetch
+  // TODO: prefetch
   useUser(auth.currentUser!.uid)
 
   return (
@@ -17,7 +17,11 @@ export default function Layout() {
           <Sidebar />
         </Box>
         <Box flex={1} w={{ base: 'calc(100%-70px)', lg: 'calc(100%-240px)' }}>
-          <ErrorBoundary fallback={<Error />}>
+          <ErrorBoundary
+            fallback={
+              <Error>Sorry, an unexpected error has occurred in the app.</Error>
+            }
+          >
             <Outlet />
           </ErrorBoundary>
         </Box>
@@ -47,7 +51,7 @@ export default function Layout() {
 //     <SidebarItem Icon={<FaSearch size={25} />} text='Search' />
 //     <SidebarItem Icon={<FaRegSquarePlus size={25} />} text='Create' />
 //     {/* <SidebarItem Icon={<FaRegHeart size={25} />} text='Notification' /> */}
-//     <SidebarItem Icon={<Avatar src={''} size={'sm'} />} text='Profile' />
+//     <SidebarItem Icon={Z src={''} size={'sm'} />} text='Profile' />
 //     <SidebarItem Icon={<BiLogOut size={24} />} text='Logout' />
 //   </Flex>
 // </Flex>

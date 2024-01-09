@@ -1,29 +1,31 @@
-import ErrorBoundary from '../error-boundary/error-boundary.component'
-import Error from '../error-boundary/error.component'
-import { Center, Container, Stack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import ProfileTabs from '../../components/profile/profile-tab/profile-tabs.component'
 import { Suspense } from 'react'
 import ProfileHeaderLoader from '../../components/profile/profile-header/profile-header-loader.component'
 import ProfileHeader from '../../components/profile/profile-header/profile-header'
+import Error from '../error-boundary/error.component'
+import PageContainer from '../../components/common/page-container/page-container.component'
 
 export default function Profile() {
-  return (
-    <ErrorBoundary
-      fallback={
-        <Error errorMessage='Sorry, The user you are looking for are not found.'></Error>
-      }
-    >
-      <Center marginY={20}>
-        <Container maxW='container.lg'>
-          <Stack spacing={10}>
-            <Suspense fallback={<ProfileHeaderLoader />}>
-              <ProfileHeader />
-            </Suspense>
+  // TODO: delete post
+  // TODO: delete comment
 
-            <ProfileTabs />
-          </Stack>
-        </Container>
-      </Center>
-    </ErrorBoundary>
+  return (
+    <PageContainer
+      fallback={
+        <Error>
+          Sorry, an unexpected error has occurred in the profile page
+        </Error>
+      }
+      size='lg'
+    >
+      <Stack spacing={10}>
+        <Suspense fallback={<ProfileHeaderLoader />}>
+          <ProfileHeader />
+        </Suspense>
+
+        <ProfileTabs />
+      </Stack>
+    </PageContainer>
   )
 }

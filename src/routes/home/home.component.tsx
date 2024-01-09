@@ -1,33 +1,28 @@
 import Feed from '../../components/home/feed/feed.component'
-import { Container, Flex, Stack } from '@chakra-ui/react'
-import SuggestedUsers from '../../components/home/suggested-users/suggested-users.component'
+import { Container, Flex } from '@chakra-ui/react'
+import SuggestedForYou from '../../components/home/suggested-for-you/suggested-for-you.component'
 import { Suspense } from 'react'
 import PostLoader from '../../components/common/loader/post-loader.component'
-import UserAvatarLoader from '../../components/common/user-avatar-loader/user-avatar-loader.component'
+import Error from '../error-boundary/error.component'
+import PageContainer from '../../components/common/page-container/page-container.component'
 
 export default function Home() {
   return (
-    <Container maxW='container.lg' marginTop={'5%'} marginY={20}>
-      <Flex gap={10}>
-        <Container>
+    <PageContainer
+      fallback={
+        <Error>Sorry, an unexpected error has occurred in the home page</Error>
+      }
+      size='lg'
+    >
+      <Flex gap={5}>
+        <Container size={'lg'} flex={1}>
           <Suspense fallback={<PostLoader length={3} />}>
             <Feed />
           </Suspense>
         </Container>
-        <Suspense
-          fallback={
-            <Flex display={{ base: 'none', lg: 'block' }}>
-              <Flex width={'full'} direction={'column'} top={'5%'} gap={5}>
-                <Stack>
-                  <UserAvatarLoader length={1} />
-                </Stack>
-              </Flex>
-            </Flex>
-          }
-        >
-          <SuggestedUsers />
-        </Suspense>
+
+        <SuggestedForYou />
       </Flex>
-    </Container>
+    </PageContainer>
   )
 }
