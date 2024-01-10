@@ -4,7 +4,7 @@ import React from 'react'
 import GoLink from '../../components/common/go-link/go-link.component'
 
 export default function Error({
-  children = 'Sorry, an unexpected error has occurred.',
+  children = 'Sorry, an unexpected error has occurred in the app.',
 }: {
   children?: React.ReactNode
 }) {

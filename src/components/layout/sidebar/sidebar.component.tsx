@@ -1,23 +1,13 @@
-import {
-  Flex,
-  useColorModeValue,
-  useColorMode,
-  Icon,
-  Box,
-  FlexProps,
-  Show,
-} from '@chakra-ui/react'
-import { BiLogOut } from 'react-icons/bi'
-import { AiFillHome } from 'react-icons/ai'
-import { FaSearch } from 'react-icons/fa'
-import { FaRegSquarePlus } from 'react-icons/fa6'
-import SidebarItem from '../sidebar-item/sidebar-item.component'
-import { auth } from '../../../utils/firebase'
-import { MdDarkMode } from 'react-icons/md'
-import { IoIosSunny } from 'react-icons/io'
-import { useUser } from '../../../hooks/queries/useUser'
-import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
+import { Flex, useColorModeValue, Box, FlexProps, Show } from '@chakra-ui/react'
 import Logo from '../../common/logo/logo.component'
+import {
+  CreateItem,
+  HomeItem,
+  LogoutItem,
+  ProfileItem,
+  SearchItem,
+  ToggleColorMode,
+} from '../common/sidebar-items.component'
 
 function Container({ children }: { children: React.ReactNode }) {
   return (
@@ -55,26 +45,7 @@ function Stack({
   )
 }
 
-function ToggleColorMode() {
-  const { colorMode, toggleColorMode } = useColorMode()
-  return (
-    <Icon
-      fontSize={'xl'}
-      cursor={'pointer'}
-      marginLeft={'0.5rem'}
-      alignSelf={'flex-start'}
-      as={colorMode === 'light' ? MdDarkMode : IoIosSunny}
-      _hover={{
-        color: colorMode === 'light' ? '#FFCC33' : '#D14009',
-      }}
-      onClick={toggleColorMode}
-    />
-  )
-}
-
 export default function Sidebar() {
-  const { data: currentUser } = useUser(auth.currentUser!.uid)
-
   return (
     <Container>
       <Stack flex={1}>
@@ -83,24 +54,15 @@ export default function Sidebar() {
             <Logo marginBottom={'1rem'} size={'lg'} />
           </Box>
         </Show>
-        <SidebarItem leftIcon={AiFillHome} to='/' text='Home' />
-        <SidebarItem leftIcon={FaSearch} to='/search' text='Search' />
-        <SidebarItem leftIcon={FaRegSquarePlus} to='/create' text='Create' />
-        <SidebarItem
-          leftElement={<BasicAvatar src={currentUser!.photoURL} size={'sm'} />}
-          to={`/${currentUser!.id}`}
-          text='Profile'
-        />
+        <HomeItem />
+        <SearchItem />
+        <CreateItem />
+        <ProfileItem />
       </Stack>
 
       <Stack>
         <ToggleColorMode />
-        <SidebarItem
-          leftIcon={BiLogOut}
-          to='/auth'
-          text='Logout'
-          onClick={() => auth.signOut()}
-        />
+        <LogoutItem />
       </Stack>
     </Container>
   )
