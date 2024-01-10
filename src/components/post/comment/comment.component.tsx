@@ -16,7 +16,6 @@ export default function Comment({
   createdAt: number
   content: string
 }) {
-  // TODO: i18n
   const creaetdAtColor = useColorModeValue('gray', 'whiteAlpha.600')
 
   return (

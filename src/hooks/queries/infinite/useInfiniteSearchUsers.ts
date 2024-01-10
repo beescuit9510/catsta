@@ -3,7 +3,7 @@ import { UserKeys } from '../../../utils/query-key'
 import { Collections, User } from '../../../utils/firestore-collections-docs'
 import { useCustomInfiniteQuery } from '../common/useCustomInfiniteQuery'
 
-// TODOE: cannot search words in between e.g. when T is typed, Hell_KITTY, and kitkat is not showing up
+// TODO: cannot search words in between e.g. when T is typed, Hell_KITTY, and kitkat is not showing up
 // TODO: case-sensitive search => case-insensitive
 export function useInfiniteSearchUsers(searchKeyword: string) {
   return useCustomInfiniteQuery<User[], User>({

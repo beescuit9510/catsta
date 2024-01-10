@@ -71,6 +71,19 @@ beforeAuthStateChanged(auth, async (user) => {
   }
 })
 
+// TODO:
+// 1.delete post
+// 2.delete comment
+// 3.chat
+// 4.notifications
+// 5.liked post in feed
+// 6. test cases
+// 7. css in mobile screen.
+// 8. i18n (firebase.firestore.Timestamp.now())
+// 9. comments infinite scrolling or plus first fetched comments nuber as much as added comments
+// import { getAnalytics } from 'firebase/analytics'
+// const analytics = getAnalytics(app)
+
 // Firestore Database rules
 // rules_version = '2';
 // service cloud.firestore {
