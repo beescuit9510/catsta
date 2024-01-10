@@ -7,9 +7,6 @@ import Error from '../error-boundary/error.component'
 import PageContainer from '../../components/common/page-container/page-container.component'
 
 export default function Profile() {
-  // TODO: delete post
-  // TODO: delete comment
-
   return (
     <PageContainer
       fallback={

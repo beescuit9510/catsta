@@ -47,7 +47,6 @@ export default function useCreatePost({
   return useMutation({
     mutationFn: () => createPost(post),
     onSuccess: (postId) => {
-      // TODO: invalidate stale posts or at least setDate
       onSuccess(postId)
     },
     onError: (error: Error) => {

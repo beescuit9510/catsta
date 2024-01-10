@@ -32,8 +32,6 @@ export default function useUnlike({
   return useMutation({
     mutationFn: () => unlike(postId, userId),
     onSuccess: () => {
-      // TODO: clean up code and re-define shared code
-
       queryClient.setQueryData<InfiniteData<InfiniteQuery<PostUser[]>>>(
         UserKeys.FEED,
         (oldQueryData) => {
