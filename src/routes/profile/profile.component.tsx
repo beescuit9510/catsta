@@ -16,7 +16,7 @@ export default function Profile() {
       }
       size='lg'
     >
-      <Stack spacing={10}>
+      <Stack spacing={10} flex={1}>
         <Suspense fallback={<ProfileHeaderLoader />}>
           <ProfileHeader />
         </Suspense>

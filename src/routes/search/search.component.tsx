@@ -18,7 +18,7 @@ export default function Search() {
         </Error>
       }
     >
-      <Stack spacing={5}>
+      <Stack spacing={5} flex={1}>
         <InputGroup>
           <Input
             borderRadius={'99'}
