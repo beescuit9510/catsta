@@ -1,5 +1,4 @@
 import {
-  Box,
   Link,
   useColorModeValue,
   Icon as ChakraIcon,
