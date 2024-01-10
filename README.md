@@ -8,6 +8,10 @@ Instagram Clone Project
 4. online status, check who is online and offline now
 5. dark mode & light mode
 
+## Demo
+
+[Catstagram](https://catsta-be684.web.app//)
+
 ## Table of Contents
 
 - [Catstagram: Features and Intro](#Catstagram)
@@ -16,10 +20,6 @@ Instagram Clone Project
 - [Tech Stack](#tech-stack)
 - [Usage](#Usage)
 - [Screenshots](#Screenshots)
-
-## Demo
-
-[Catstagram](https://catsta-be684.web.app//)
 
 ## Tech Stack
 
