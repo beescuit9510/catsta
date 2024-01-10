@@ -1,7 +1,5 @@
 import { Grid, Skeleton, Stack } from '@chakra-ui/react'
 
-// FIXME: the media query styling to be replaced with Show/Hide componenet.
-
 export default function ProfileTabLoader() {
   return (
     <Stack spacing={10}>

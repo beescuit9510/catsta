@@ -3,6 +3,7 @@ import {
   Link,
   useColorModeValue,
   Icon as ChakraIcon,
+  Show,
 } from '@chakra-ui/react'
 import { IconType } from 'react-icons'
 import { Link as RouterLink } from 'react-router-dom'
@@ -49,7 +50,7 @@ export default function SidebarItem({
     >
       {leftIcon && <ChakraIcon as={leftIcon} fontSize={'1.25rem'} />}
       {leftElement && leftElement}
-      <Box display={{ base: 'none', lg: 'block' }}>{text}</Box>
+      <Show above='lg'>{text}</Show>
     </Link>
   )
 }

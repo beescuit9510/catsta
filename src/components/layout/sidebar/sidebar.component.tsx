@@ -5,6 +5,7 @@ import {
   Icon,
   Box,
   FlexProps,
+  Show,
 } from '@chakra-ui/react'
 import { BiLogOut } from 'react-icons/bi'
 import { AiFillHome } from 'react-icons/ai'
@@ -77,13 +78,11 @@ export default function Sidebar() {
   return (
     <Container>
       <Stack flex={1}>
-        <Box marginLeft={'0.75rem'} marginRight={'auto'}>
-          <Logo
-            marginBottom={'1rem'}
-            size={'lg'}
-            display={{ base: 'none', lg: 'block' }}
-          />
-        </Box>
+        <Show above='lg'>
+          <Box marginLeft={'0.75rem'} marginRight={'auto'}>
+            <Logo marginBottom={'1rem'} size={'lg'} />
+          </Box>
+        </Show>
         <SidebarItem leftIcon={AiFillHome} to='/' text='Home' />
         <SidebarItem leftIcon={FaSearch} to='/search' text='Search' />
         <SidebarItem leftIcon={FaRegSquarePlus} to='/create' text='Create' />

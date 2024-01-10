@@ -1,7 +1,5 @@
 import { Flex, Skeleton, SkeletonCircle, VStack } from '@chakra-ui/react'
 
-// FIXME: the media query styling to be replaced with Show/Hide componenet.
-
 export default function ProfileHeaderLoader() {
   return (
     <Flex
