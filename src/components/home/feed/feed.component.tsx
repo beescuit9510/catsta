@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Icon, Stack, Text, Tooltip } from '@chakra-ui/react'
+import { Box, Flex, Icon, Stack, Text, Tooltip } from '@chakra-ui/react'
 import { auth } from '../../../utils/firebase'
 import UserAvatar from '../../common/user-avatar/user-avatar.component'
 import Like from '../../post/like/like.component'
@@ -8,6 +8,7 @@ import PostLoader from '../../common/loader/post-loader.component'
 import BasicImage from '../../common/basic-image/basic-image.component'
 import useInfiniteFeed from '../../../hooks/queries/infinite/useInfiniteFeed'
 import LoadMoreBtn from '../../common/load-more-btn/load-more-btn.component'
+import GoLink from '../../common/go-link/go-link.component'
 
 export default function Feed() {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
@@ -25,9 +26,7 @@ export default function Feed() {
           <Text fontSize={'2xl'} fontWeight={'700'}>
             No Followings
           </Text>
-          <Button variant={'go-link'} as={Link} to={'/search'}>
-            Why don't you start following today?
-          </Button>
+          <GoLink to={'/search'}>Why don't you start following today?</GoLink>
         </Flex>
       )}
       <Stack spacing={10}>
