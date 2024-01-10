@@ -1,6 +1,5 @@
-import { Stack } from '@chakra-ui/react'
+import { Stack, Text } from '@chakra-ui/react'
 import PostLogo from '../../common/post-logo'
-import PlaceholderText from '../../common/placeholder-text'
 
 export default function EmptyModalPlaceholder({
   children,
@@ -10,7 +9,7 @@ export default function EmptyModalPlaceholder({
   return (
     <Stack textAlign={'center'}>
       <PostLogo />
-      <PlaceholderText>{children}</PlaceholderText>
+      <Text variant='placeholder'>{children}</Text>
     </Stack>
   )
 }

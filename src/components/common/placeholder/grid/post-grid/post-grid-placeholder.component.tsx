@@ -1,12 +1,12 @@
 import PostLogo from '../../common/post-logo'
-import PlaceholderText from '../../common/placeholder-text'
 import Placeholder from '../placeholder.component'
+import { Text } from '@chakra-ui/react'
 
 export default function PostGridPlaceholder() {
   return (
     <Placeholder>
       <PostLogo />
-      <PlaceholderText>No Posts Yet</PlaceholderText>
+      <Text variant='placeholder'>No Posts Yet</Text>
     </Placeholder>
   )
 }

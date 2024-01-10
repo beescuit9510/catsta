@@ -11,6 +11,14 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const theme = extendTheme({
   components: {
+    Text: {
+      variants: {
+        placeholder: () => ({
+          fontSize: 'xl',
+          fontWeight: '700',
+        }),
+      },
+    },
     Button: {
       variants: {
         'go-link': (props: ButtonProps) => ({

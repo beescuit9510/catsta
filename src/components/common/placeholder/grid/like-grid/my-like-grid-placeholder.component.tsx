@@ -1,12 +1,12 @@
-import PlaceholderText from '../../common/placeholder-text'
-import PlaceholderLink from '../../common/placeholder-link'
+import GoLink from '../../../go-link/go-link.component'
 import Placeholder from '../placeholder.component'
+import { Text } from '@chakra-ui/react'
 
 export default function MyLikeGridPlaceholder() {
   return (
     <Placeholder>
-      <PlaceholderText>Like a post and share with the world!</PlaceholderText>
-      <PlaceholderLink to='/'>like your friends' post!</PlaceholderLink>
+      <Text variant='placeholder'>Like a post and share with the world!</Text>
+      <GoLink to='/'>like your friends' post!</GoLink>
     </Placeholder>
   )
 }

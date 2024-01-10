@@ -1,10 +1,10 @@
 import Placeholder from '../placeholder.component'
-import PlaceholderText from '../../common/placeholder-text'
+import { Text } from '@chakra-ui/react'
 
 export default function LikeGridPlaceholder() {
   return (
     <Placeholder>
-      <PlaceholderText>No Likes Yet</PlaceholderText>
+      <Text variant='placeholder'>No Likes Yet</Text>
     </Placeholder>
   )
 }
