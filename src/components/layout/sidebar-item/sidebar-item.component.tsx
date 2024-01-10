@@ -7,21 +7,21 @@ import {
 import { IconType } from 'react-icons'
 import { Link as RouterLink } from 'react-router-dom'
 
-interface SidebarItemPropsWithIcon {
-  leftIcon: IconType
+type SidebarItemProp = {
   to: string
   text: string
   onClick?: () => void
-  leftElement?: never
 }
 
-interface SidebarItemPropsWithElement {
+type SidebarItemPropsWithIcon = {
+  leftIcon: IconType
+  leftElement?: never
+} & SidebarItemProp
+
+type SidebarItemPropsWithElement = {
   leftElement: React.ReactNode
-  to: string
-  text: string
-  onClick?: () => void
   leftIcon?: never
-}
+} & SidebarItemProp
 
 type SidebarItemProps = SidebarItemPropsWithIcon | SidebarItemPropsWithElement
 
