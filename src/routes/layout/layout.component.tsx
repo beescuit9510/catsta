@@ -1,32 +1,25 @@
 import { Box, Flex } from '@chakra-ui/react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../../components/layout/sidebar/sidebar.component'
-import { useUser } from '../../hooks/queries/useUser'
-import { auth } from '../../utils/firebase'
 import ErrorBoundary from '../error-boundary/error-boundary.component'
 import Error from '../error-boundary/error.component'
 
 export default function Layout() {
-  // TODO: prefetch
-  useUser(auth.currentUser!.uid)
-
   return (
-    <>
-      <Flex>
-        <Box w={{ base: '70px', lg: '240px' }}>
-          <Sidebar />
-        </Box>
-        <Box flex={1} w={{ base: 'calc(100%-70px)', lg: 'calc(100%-240px)' }}>
-          <ErrorBoundary
-            fallback={
-              <Error>Sorry, an unexpected error has occurred in the app.</Error>
-            }
-          >
-            <Outlet />
-          </ErrorBoundary>
-        </Box>
-      </Flex>
-    </>
+    <Flex>
+      <Box w={{ base: '70px', lg: '240px' }}>
+        <Sidebar />
+      </Box>
+      <Box flex={1} w={{ base: 'calc(100%-70px)', lg: 'calc(100%-240px)' }}>
+        <ErrorBoundary
+          fallback={
+            <Error>Sorry, an unexpected error has occurred in the app.</Error>
+          }
+        >
+          <Outlet />
+        </ErrorBoundary>
+      </Box>
+    </Flex>
   )
 }
 

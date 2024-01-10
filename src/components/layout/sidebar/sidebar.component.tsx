@@ -14,7 +14,7 @@ import SidebarItem from '../sidebar-item/sidebar-item.component'
 import { auth } from '../../../utils/firebase'
 import { MdDarkMode } from 'react-icons/md'
 import { IoIosSunny } from 'react-icons/io'
-import { useCachedUser } from '../../../hooks/queries/useUser'
+import { useUser } from '../../../hooks/queries/useUser'
 import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
 import Logo from '../../common/logo/logo.component'
 
@@ -72,7 +72,7 @@ function ToggleColorMode() {
 }
 
 export default function Sidebar() {
-  const currentUser = useCachedUser(auth.currentUser!.uid)
+  const { data: currentUser } = useUser(auth.currentUser!.uid)
 
   return (
     <Container>
