@@ -1,51 +1,42 @@
 import { useMutation } from '@tanstack/react-query'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import { firestore, storage } from '../../utils/firebase'
-import { doc, updateDoc } from 'firebase/firestore'
+import { updateDoc } from 'firebase/firestore'
 import { queryClient } from '../../main'
 import { UserKeys } from '../../utils/query-key'
-
-const uploadImage = async ({ file, path }: { file: File; path: string }) => {
-  const snapshot = await uploadBytesResumable(ref(storage, path), file, {
-    contentType: file.type,
-  })
-  const photoURL = await getDownloadURL(snapshot.ref)
-  return photoURL
-}
+import { Docs } from '../../utils/firestore-collections-docs'
+import { uploadImage } from './common/uploadImage'
 
 type UpdateUser = {
   userId: string
-  photoURL: string
-  file: File
   displayName: string
   bio: string
 }
 
+type UpdateUserWithFile = {
+  photoURL: string
+  file?: never
+} & UpdateUser
+
+type UpdateUserWithURL = {
+  photoURL?: never
+  file: File
+} & UpdateUser
+
 export async function updateUser(
-  updateUser: Omit<UpdateUser, 'file'> | Omit<UpdateUser, 'photoURL'>
+  updateUser: UpdateUserWithFile | UpdateUserWithURL
 ) {
-  // TODO: fix this type error; without casing UpdateUser;
-  const { userId, photoURL, file, displayName, bio } = updateUser as UpdateUser
+  const { userId, displayName, bio, file } = updateUser
+  const userRef = Docs.USER(updateUser.userId)
 
-  const userRef = doc(firestore, `users/${updateUser.userId}`)
+  let { photoURL } = updateUser
+  if (file) photoURL = await uploadImage({ file, path: userId, type: 'users' })
 
-  if (file) {
-    await uploadImage({ file, path: `users/${userId}` }).then((photoURL) => {
-      updateDoc(userRef, {
-        photoURL: photoURL,
-        displayName,
-        bio,
-      })
-    })
-  } else {
-    await updateDoc(userRef, {
-      photoURL,
-      displayName,
-      bio,
-    })
-  }
+  await updateDoc(userRef, {
+    displayName,
+    bio,
+    photoURL,
+  })
 
-  return userRef
+  return userId
 }
 
 export function useUpdateUser({
@@ -57,13 +48,12 @@ export function useUpdateUser({
 }) {
   return useMutation({
     mutationFn: updateUser,
-    onSuccess: (userRef) => {
+    onSuccess: (userId) => {
       // TODO: change state update logic
-      // TODO: query is done before mutation, fix it.
       queryClient.invalidateQueries({
-        queryKey: UserKeys.USER(userRef.id),
+        queryKey: UserKeys.USER(userId),
       })
-      onSuccess(userRef.id)
+      onSuccess(userId)
     },
     onError: (error: Error) => {
       onError(error)
