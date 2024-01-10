@@ -3,9 +3,8 @@ import { UserKeys } from '../../../utils/query-key'
 import { Collections, User } from '../../../utils/firestore-collections-docs'
 import { useCustomInfiniteQuery } from '../common/useCustomInfiniteQuery'
 
-// FIXME: cannot search words in between or words at the end, when T is typed, Hell_KITTY, and kitkat is not showing up.
-// FIXME: case-sensitive search => case-insensitive
-// FIXME: cannot search korean words
+// TODOE: cannot search words in between e.g. when T is typed, Hell_KITTY, and kitkat is not showing up
+// TODO: case-sensitive search => case-insensitive
 export function useInfiniteSearchUsers(searchKeyword: string) {
   return useCustomInfiniteQuery<User[], User>({
     queryKey: UserKeys.SEARCH(searchKeyword),
@@ -15,14 +14,15 @@ export function useInfiniteSearchUsers(searchKeyword: string) {
         perPage: 3,
         countQuery: query(
           Collections.USERS(),
+          orderBy('displayName'),
           where('displayName', '>=', searchKeyword),
-          where('displayName', '<=', `${searchKeyword}~`)
+          where('displayName', '<', `${searchKeyword}\uf8ff`)
         ),
         dataQuery: query(
           Collections.USERS(),
+          orderBy('displayName'),
           where('displayName', '>=', searchKeyword),
-          where('displayName', '<=', `${searchKeyword}~`),
-          orderBy('displayName', 'asc')
+          where('displayName', '<', `${searchKeyword}\uf8ff`)
         ),
       }).then((queryResult) => ({
         ...queryResult,
