@@ -15,7 +15,6 @@ import NoFollowingsYet from '../../common/placeholder/user-list-modal/empty-moda
 
 export default function ProfileHeader() {
   const { userId } = useParams()
-  // TODO: use stale data isStale
   const { data: user } = useUser(userId!)
   const isCurrentUser = auth.currentUser!.uid === userId
 

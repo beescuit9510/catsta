@@ -32,7 +32,6 @@ export default function UserAvatar({
           <Link to={`/${userId}`}>
             <Text>{displayName}</Text>
           </Link>
-          {/* TODO: refactor code */}
           <Text fontSize={12}>
             {presence?.connections
               ? bio
