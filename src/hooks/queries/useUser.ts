@@ -12,11 +12,11 @@ async function user(userId: string) {
   return snapshot.data()
 }
 
-// TODO: return undefined, find out why it returns undefined
 export function useUser(userId: string) {
   return useQuery({
     queryKey: UserKeys.USER(userId),
     queryFn: () => user(userId),
+    retry: false,
   })
 }
 
