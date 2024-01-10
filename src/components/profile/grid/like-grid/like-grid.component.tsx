@@ -1,4 +1,4 @@
-import { Grid, Stack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
 import LikeGridItem from './like-grid-item.component'
 import { auth } from '../../../../utils/firebase'
@@ -7,6 +7,7 @@ import MyLikeGridPlaceholder from '../../../common/placeholder/grid/like-grid/my
 import LikeGridPlaceholder from '../../../common/placeholder/grid/like-grid/like-grid-placeholder.component copy'
 import useInfiniteLikes from '../../../../hooks/queries/infinite/useInfiniteLikes'
 import LoadMoreBtn from '../../../common/load-more-btn/load-more-btn.component'
+import ProfileGrid from '../profile-grid/profile-grid.component'
 
 export default function LikeGrid() {
   const { userId } = useParams()
@@ -23,7 +24,7 @@ export default function LikeGrid() {
           <LikeGridPlaceholder />
         ))}
 
-      <Grid templateColumns='repeat(3, 1fr)' gap={3}>
+      <ProfileGrid>
         {data?.pages
           .flatMap((page) => page.data)
           .map(({ post, like }) => (
@@ -34,7 +35,7 @@ export default function LikeGrid() {
               likedAt={like.createdAt}
             />
           ))}
-      </Grid>
+      </ProfileGrid>
       <LoadMoreBtn
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}

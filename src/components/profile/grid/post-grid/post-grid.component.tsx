@@ -1,4 +1,4 @@
-import { Grid, Stack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import PostGridItem from './post-grid-item.component'
 import { useParams } from 'react-router-dom'
 import { auth } from '../../../../utils/firebase'
@@ -7,6 +7,7 @@ import MyPostGridPlaceholder from '../../../common/placeholder/grid/post-grid/my
 import PostGridPlaceholder from '../../../common/placeholder/grid/post-grid/post-grid-placeholder.component'
 import useInfinitePosts from '../../../../hooks/queries/infinite/useInfinitePosts'
 import LoadMoreBtn from '../../../common/load-more-btn/load-more-btn.component'
+import ProfileGrid from '../profile-grid/profile-grid.component'
 
 export default function PostGrid() {
   const { userId } = useParams()
@@ -14,7 +15,6 @@ export default function PostGrid() {
     useInfinitePosts(userId!)
   const isEmpty = data?.pages!.at(0)!.data.length === 0
 
-  // TODO:shared code
   return (
     <Stack spacing={5}>
       {isEmpty &&
@@ -24,7 +24,7 @@ export default function PostGrid() {
           <PostGridPlaceholder />
         ))}
 
-      <Grid templateColumns='repeat(3, 1fr)' gap={3}>
+      <ProfileGrid>
         {data?.pages
           .flatMap((page) => page.data)
           .map((post) => (
@@ -36,7 +36,7 @@ export default function PostGrid() {
               comments={post.comments}
             />
           ))}
-      </Grid>
+      </ProfileGrid>
       <LoadMoreBtn
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
