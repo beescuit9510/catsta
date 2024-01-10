@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { updateDoc } from 'firebase/firestore'
 import { queryClient } from '../../main'
 import { UserKeys } from '../../utils/query-key'
-import { Docs } from '../../utils/firestore-collections-docs'
+import { Docs, User } from '../../utils/firestore-collections-docs'
 import { uploadImage } from './common/uploadImage'
 
 type UpdateUser = {
@@ -33,10 +33,10 @@ export async function updateUser(
   await updateDoc(userRef, {
     displayName,
     bio,
-    photoURL,
+    photoURL: photoURL!,
   })
 
-  return userId
+  return { userId, displayName, bio, photoURL: photoURL! }
 }
 
 export function useUpdateUser({
@@ -48,12 +48,15 @@ export function useUpdateUser({
 }) {
   return useMutation({
     mutationFn: updateUser,
-    onSuccess: (userId) => {
-      // TODO: change state update logic
-      queryClient.invalidateQueries({
-        queryKey: UserKeys.USER(userId),
-      })
-      onSuccess(userId)
+    onSuccess: (user) => {
+      queryClient.setQueryData<User>(
+        UserKeys.USER(user.userId),
+        (oldQueryData) => {
+          if (!oldQueryData) return oldQueryData
+          return { ...oldQueryData, ...user }
+        }
+      )
+      onSuccess(user.userId)
     },
     onError: (error: Error) => {
       onError(error)
