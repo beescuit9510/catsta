@@ -15,7 +15,7 @@ export default function RedirectRoute() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setLoading(false)
 
-      if (user && location.pathname === '/auth') {
+      if (user && location.pathname.startsWith('/auth')) {
         navigate('/')
       }
       if (!user && location.pathname === '/') {
