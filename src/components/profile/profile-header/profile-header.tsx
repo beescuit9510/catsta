@@ -1,4 +1,4 @@
-import { Flex, Stack, Text, useColorModeValue } from '@chakra-ui/react'
+import { Button, Flex, Stack, Text } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
 import { useUser } from '../../../hooks/queries/useUser'
 import { auth } from '../../../utils/firebase'
@@ -39,17 +39,16 @@ export default function ProfileHeader() {
 
           <>
             <Flex gap={5}>
-              <Text
-                display={'flex'}
-                variant={'link'}
-                fontWeight={'400'}
-                color={useColorModeValue('black', 'whiteAlpha.900')}
+              <Button
+                variant={'profile-link'}
+                cursor={'text'}
+                _hover={{ textDecoration: 'none' }}
               >
                 <Text as={'span'} fontWeight={'900'} mr={'0.25em'}>
                   {user!.posts}
                 </Text>
                 Posts
-              </Text>
+              </Button>
               <UserListModal
                 counts={user!.followers.length}
                 caption={'followers'}

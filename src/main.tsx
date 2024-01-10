@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import { ButtonProps, ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 import type { GlobalStyleProps } from '@chakra-ui/theme-tools'
 import { extendTheme } from '@chakra-ui/react'
@@ -21,14 +21,21 @@ const theme = extendTheme({
     },
     Button: {
       variants: {
-        'go-link': (props: ButtonProps) => ({
+        'profile-link': (props) => ({
+          ...theme.components.Button.variants.link(props),
+          display: 'flex',
+          fontWeight: '400',
+          color: props.colorMode === 'light' ? 'black' : 'whiteAlpha.900',
+        }),
+
+        'go-link': (props) => ({
           ...theme.components.Button.variants.link(props),
           color: 'twitter.500',
           _hover: {
             color: 'twitter.700',
           },
         }),
-        'go-link-light': (props: ButtonProps) => ({
+        'go-link-light': (props) => ({
           ...theme.components.Button.variants.link(props),
           color: 'twitter.500',
           _hover: {
@@ -37,7 +44,7 @@ const theme = extendTheme({
           fontWeight: '500',
         }),
 
-        post: (props: ButtonProps) => ({
+        post: (props) => ({
           ...theme.components.Button.variants.link(props),
           color: 'twitter.500',
           _hover: {

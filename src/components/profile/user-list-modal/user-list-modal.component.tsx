@@ -4,7 +4,6 @@ import {
   ModalHeader,
   Stack,
   Text,
-  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
@@ -40,7 +39,7 @@ function UserList({
     </>
   )
 }
-// TODO: fix code error
+
 export default function UserListModal({
   counts,
   caption,
@@ -63,13 +62,7 @@ export default function UserListModal({
 
   return (
     <>
-      <Button
-        display={'flex'}
-        variant={'link'}
-        onClick={onOpen}
-        fontWeight={'400'}
-        color={useColorModeValue('black', 'whiteAlpha.900')}
-      >
+      <Button variant={'profile-link'} onClick={onOpen}>
         <Text fontWeight={'900'} mr={'0.25em'}>
           {counts}
         </Text>
