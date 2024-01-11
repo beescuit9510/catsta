@@ -14,23 +14,30 @@ Instagram Clone Project
 
 [Catstagram](https://casta2.web.app)
 
-## Video
+## Screenshots
+<img width="1822" alt="Screenshot 2024-01-11 at 3 34 47 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/fd4bbacd-bc7e-420e-916d-c2fd352b65d4">
+<img width="580" alt="Screenshot 2024-01-11 at 3 38 23 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/32269055-c99e-4620-91ed-86fd305be6c3">
+<img width="624" alt="Screenshot 2024-01-11 at 3 38 08 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/c1b70b71-e3a5-49ef-8232-6037b56945f8">
 
-<!-- [![Watch the video](https://i.stack.imgur.com/Vp2cE.png)](./readme/Screen Recording 2024-01-11 at 1.03.16 PM.mov) -->
+## Videos
 
- <!-- autoplay loop muted playsinline -->
-<video>
-  <source src="./readme/Screen%20Recording%202024-01-11%20at%201.03.16%E2%80%AFPM.mov" type="video/mp4">
-</video>
+### Click it to play the video
+[![YouTube Video](https://github.com/beescuit9510/catsta/assets/79363424/fd4bbacd-bc7e-420e-916d-c2fd352b65d4)](https://www.youtube.com/watch?v=3vKFYoYIhYo)
+
+### Click it to play the video
+[![YouTube Video](https://github.com/beescuit9510/catsta/assets/79363424/c1b70b71-e3a5-49ef-8232-6037b56945f8)](https://youtu.be/z-uH3g_xTU4)
+
+
 
 ## Table of Contents
 
-- [Catstagram: Features and Intro](#Catstagram)
-- [Catstagram: Demo](#Demo)
+- [Catstagram: Features and Intro](#catstagram)
+- [Catstagram: Demo](#demo)
+- [Screenshots](#screenshots)
+- [Videos](#videos)
 - [Table of Contents](#table-of-contents)
 - [Tech Stack](#tech-stack)
-- [Usage](#Usage)
-- [Screenshots](#Screenshots)
+- [Usage](#usage)
 
 ## Tech Stack
 
@@ -143,7 +150,3 @@ service firebase.storage {
   }
 }
 ```
-
-## Screenshots
-
-No Screenshots! I know you do not want to create an account just to check the demo, so you might want to quickly look through the screenshots. **But, I really think you should check the [Catstagram](https://catsta-be684.web.app//) out!**
