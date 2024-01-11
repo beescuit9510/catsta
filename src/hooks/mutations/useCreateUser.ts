@@ -15,8 +15,6 @@ async function createUser({ email, password, username, confirm }: CreateUser) {
   if (!email) throw new Error('Email is required')
   if (!username) throw new Error('Username is required')
   if (!password) throw new Error('Password is required')
-  if (username.includes(' '))
-    throw new Error('Space is not allowed in Username')
   if (confirm !== password) throw new Error('Those passwords must match')
 
   return createUserWithEmailAndPassword(auth, email, password).then(
