@@ -14,23 +14,18 @@ Instagram Clone Project
 
 [Catstagram](https://casta2.web.app)
 
-## Video
+## Videos
 
-<!-- [![Watch the video](https://i.stack.imgur.com/Vp2cE.png)](./readme/Screen Recording 2024-01-11 at 1.03.16 PM.mov) -->
-
- <!-- autoplay loop muted playsinline -->
-<video>
-  <source src="./readme/Screen%20Recording%202024-01-11%20at%201.03.16%E2%80%AFPM.mov" type="video/mp4">
-</video>
+https://github.com/beescuit9510/test1/assets/79363424/062541ab-f0ff-4a66-8279-29c45a8139a6
 
 ## Table of Contents
 
-- [Catstagram: Features and Intro](#Catstagram)
-- [Catstagram: Demo](#Demo)
+- [Catstagram: Features and Intro](#catstagram)
+- [Catstagram: Demo](#demo)
+- [Videos](#videos)
 - [Table of Contents](#table-of-contents)
 - [Tech Stack](#tech-stack)
-- [Usage](#Usage)
-- [Screenshots](#Screenshots)
+- [Usage](#usage)
 
 ## Tech Stack
 
@@ -143,7 +138,3 @@ service firebase.storage {
   }
 }
 ```
-
-## Screenshots
-
-No Screenshots! I know you do not want to create an account just to check the demo, so you might want to quickly look through the screenshots. **But, I really think you should check the [Catstagram](https://catsta-be684.web.app//) out!**
