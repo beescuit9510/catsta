@@ -16,7 +16,8 @@ Instagram Clone Project
 
 ## Videos
 
-https://github.com/beescuit9510/catsta/assets/79363424/903f9c21-96c6-45d6-bc83-3147b8163920
+https://github.com/beescuit9510/catsta/assets/79363424/68997260-76b1-493c-8df3-5ebe0cdfff7d
+
 
 https://github.com/beescuit9510/test1/assets/79363424/062541ab-f0ff-4a66-8279-29c45a8139a6
 
