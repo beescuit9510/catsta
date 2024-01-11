@@ -1,3 +1,5 @@
+<!-- TODO: create korean version -->
+
 # Catstagram
 
 Instagram Clone Project
@@ -10,7 +12,16 @@ Instagram Clone Project
 
 ## Demo
 
-[Catstagram](https://catsta-be684.web.app//)
+[Catstagram](https://casta2.web.app)
+
+## Video
+
+<!-- [![Watch the video](https://i.stack.imgur.com/Vp2cE.png)](./readme/Screen Recording 2024-01-11 at 1.03.16 PM.mov) -->
+
+ <!-- autoplay loop muted playsinline -->
+<video>
+  <source src="./readme/Screen%20Recording%202024-01-11%20at%201.03.16%E2%80%AFPM.mov" type="video/mp4">
+</video>
 
 ## Table of Contents
 
