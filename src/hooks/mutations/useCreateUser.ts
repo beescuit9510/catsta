@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../utils/firebase'
 import { useMutation } from '@tanstack/react-query'
 import { setUserDoc } from './common/setUserDoc'
+import { useNavigate } from 'react-router-dom'
 
 type CreateUser = {
   email: string
@@ -19,12 +20,18 @@ async function createUser({ email, password, username, confirm }: CreateUser) {
   if (confirm !== password) throw new Error('Those passwords must match')
 
   return createUserWithEmailAndPassword(auth, email, password).then(
-    ({ user }) => setUserDoc({ id: user.uid, displayName: user.displayName })
+    ({ user }) => setUserDoc({ id: user.uid, displayName: username })
   )
 }
 
 export default function useCreateUser() {
+  const navigate = useNavigate()
+
   return useMutation({
     mutationFn: createUser,
+
+    onSuccess: () => {
+      navigate('/')
+    },
   })
 }
