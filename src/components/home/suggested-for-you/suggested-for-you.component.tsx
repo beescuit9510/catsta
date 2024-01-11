@@ -17,12 +17,9 @@ export default function SuggestedForYou() {
           position={'sticky'}
           top={'5%'}
           gap={5}
+          w={'300px'}
         >
-          <Flex
-            w={'300px'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-          >
+          <Flex justifyContent={'space-between'} alignItems={'center'}>
             <Text fontWeight={'600'}>Suggested for you</Text>
             {hasNextPage && (
               <Button

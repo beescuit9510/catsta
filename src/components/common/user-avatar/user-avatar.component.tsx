@@ -23,14 +23,14 @@ export default function UserAvatar({
   const presence = useUserPresence(userId)
 
   return (
-    <Flex justifyContent={'space-between'} alignItems={'center'}>
+    <Flex justifyContent={'space-between'} alignItems={'center'} gap={5}>
       <Flex justifyContent={'space-between'} alignItems={'center'} gap={2}>
         <BasicAvatar src={photoURL}>
           {presence?.connections && <AvatarOnlineBadge />}
         </BasicAvatar>
         <Flex direction={'column'} alignItems={'flex-start'}>
           <Link to={`/${userId}`}>
-            <Text>{displayName}</Text>
+            <Text noOfLines={2}>{displayName}</Text>
           </Link>
           <Text fontSize={12}>
             {presence?.connections
