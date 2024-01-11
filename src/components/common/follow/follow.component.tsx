@@ -20,6 +20,7 @@ export default function Follow({
 
   return (
     <Button
+      variant={'go-link'}
       isLoading={isPending}
       isDisabled={isPending}
       onClick={() => mutate()}
