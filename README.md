@@ -14,17 +14,26 @@ Instagram Clone Project
 
 [Catstagram](https://casta2.web.app)
 
+## Screenshots
+<img width="1822" alt="Screenshot 2024-01-11 at 3 34 47 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/fd4bbacd-bc7e-420e-916d-c2fd352b65d4">
+<img width="580" alt="Screenshot 2024-01-11 at 3 38 23 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/32269055-c99e-4620-91ed-86fd305be6c3">
+<img width="624" alt="Screenshot 2024-01-11 at 3 38 08 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/c1b70b71-e3a5-49ef-8232-6037b56945f8">
+
 ## Videos
 
-https://github.com/beescuit9510/catsta/assets/79363424/68997260-76b1-493c-8df3-5ebe0cdfff7d
+### Click it to play the video
+[![YouTube Video](https://github.com/beescuit9510/catsta/assets/79363424/fd4bbacd-bc7e-420e-916d-c2fd352b65d4)](https://www.youtube.com/watch?v=3vKFYoYIhYo)
+
+### Click it to play the video
+[![YouTube Video](https://github.com/beescuit9510/catsta/assets/79363424/c1b70b71-e3a5-49ef-8232-6037b56945f8)](https://youtu.be/z-uH3g_xTU4)
 
 
-https://github.com/beescuit9510/test1/assets/79363424/062541ab-f0ff-4a66-8279-29c45a8139a6
 
 ## Table of Contents
 
 - [Catstagram: Features and Intro](#catstagram)
 - [Catstagram: Demo](#demo)
+- [Screenshots](#screenshots)
 - [Videos](#videos)
 - [Table of Contents](#table-of-contents)
 - [Tech Stack](#tech-stack)
