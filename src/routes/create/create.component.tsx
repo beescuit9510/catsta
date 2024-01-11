@@ -7,8 +7,10 @@ import BasicImage from '../../components/common/basic-image/basic-image.componen
 import PageContainer from '../../components/common/page-container/page-container.component'
 import Error from '../error-boundary/error.component'
 import ImageInput from '../../components/common/image-input/image-Input.component'
+import { useNavigate } from 'react-router-dom'
 
 export default function Create() {
+  const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [file, setFile] = useState<File | null>(null)
   const [photoURL, setPhotoURL] = useState('')
@@ -21,7 +23,10 @@ export default function Create() {
       content,
       userId: auth.currentUser!.uid,
     },
-    onSuccess: () => toast('success', 'Successfully saved.'),
+    onSuccess: (postId) => {
+      toast('success', 'Successfully saved.')
+      navigate(`/posts/${postId}`)
+    },
     onError: () => toast('error', 'Sorry, unexpected error has occured.'),
   })
 
