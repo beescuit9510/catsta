@@ -2,11 +2,10 @@ import SidebarItem from '../sidebar-item/sidebar-item.component'
 import { AiFillHome } from 'react-icons/ai'
 import { FaSearch } from 'react-icons/fa'
 import { FaRegSquarePlus } from 'react-icons/fa6'
-import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
 import { useUser } from '../../../hooks/queries/useUser'
 import { auth } from '../../../utils/firebase'
 import { BiLogOut } from 'react-icons/bi'
-import { Icon, useColorMode } from '@chakra-ui/react'
+import { Avatar, Icon, useColorMode } from '@chakra-ui/react'
 import { MdDarkMode } from 'react-icons/md'
 import { IoIosSunny } from 'react-icons/io'
 
@@ -27,7 +26,7 @@ export function ProfileItem() {
 
   return (
     <SidebarItem
-      leftElement={<BasicAvatar src={currentUser!.photoURL} size={'sm'} />}
+      leftElement={<Avatar src={currentUser!.photoURL} size={'sm'} />}
       to={`/${currentUser!.id}`}
       text='Profile'
     />

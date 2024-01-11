@@ -1,6 +1,5 @@
-import { Flex, Stack, Text, useColorModeValue } from '@chakra-ui/react'
+import { Avatar, Flex, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import BasicAvatar from '../../common/basic-avatar/basic-avatar.component'
 import BasicDate from '../../common/basic-date/basic-date.component'
 
 export default function Comment({
@@ -20,7 +19,7 @@ export default function Comment({
 
   return (
     <Flex gap={'0.5rem'}>
-      <BasicAvatar src={photoURL} />
+      <Avatar src={photoURL} />
       <Stack gap={0}>
         <Flex gap={2} alignItems={'flex-start'}>
           <Link to={`/${userId}`}>

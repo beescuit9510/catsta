@@ -1,6 +1,6 @@
+import { Avatar } from '@chakra-ui/react'
 import useUserPresence from '../../../../hooks/useUserPresence'
 import AvatarOnlineBadge from '../../../common/avatar-online-badge/avatar-online-badge.component'
-import BasicAvatar from '../../../common/basic-avatar/basic-avatar.component'
 
 export default function ProfileAvatar({
   photoURL,
@@ -12,7 +12,7 @@ export default function ProfileAvatar({
   const presence = useUserPresence(userId!)
 
   return (
-    <BasicAvatar size={{ base: 'xl', md: '2xl' }} src={photoURL}>
+    <Avatar size={{ base: 'xl', md: '2xl' }} src={photoURL}>
       {presence?.connections && (
         <AvatarOnlineBadge
           boxSize='0.75em'
@@ -21,6 +21,6 @@ export default function ProfileAvatar({
           bottom={'0.15em'}
         />
       )}
-    </BasicAvatar>
+    </Avatar>
   )
 }

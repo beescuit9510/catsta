@@ -1,6 +1,5 @@
 import { useRef } from 'react'
-import BasicAvatar from '../../../common/basic-avatar/basic-avatar.component'
-import { AvatarBadge, IconButton, Stack } from '@chakra-ui/react'
+import { Avatar, AvatarBadge, IconButton, Stack } from '@chakra-ui/react'
 import { IoClose } from 'react-icons/io5'
 import ImageInput from '../../../common/image-input/image-Input.component'
 
@@ -17,7 +16,7 @@ export default function AvatarEdit({
 
   return (
     <Stack>
-      <BasicAvatar
+      <Avatar
         size='xl'
         src={photoURL}
         onClick={() => inputRef.current?.click()}
@@ -37,7 +36,7 @@ export default function AvatarEdit({
             event.stopPropagation()
           }}
         />
-      </BasicAvatar>
+      </Avatar>
       <ImageInput
         inputRef={inputRef}
         setFile={setFile}

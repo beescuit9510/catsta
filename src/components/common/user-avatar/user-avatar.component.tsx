@@ -1,10 +1,9 @@
-import { Flex, Text } from '@chakra-ui/react'
+import { Avatar, Flex, Text } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { useCachedUser } from '../../../hooks/queries/useUser'
 import { auth } from '../../../utils/firebase'
 import Follow from '../follow/follow.component'
 import useUserPresence from '../../../hooks/useUserPresence'
-import BasicAvatar from '../basic-avatar/basic-avatar.component'
 import BasicDate from '../basic-date/basic-date.component'
 import AvatarOnlineBadge from '../avatar-online-badge/avatar-online-badge.component'
 
@@ -25,9 +24,9 @@ export default function UserAvatar({
   return (
     <Flex justifyContent={'space-between'} alignItems={'center'} gap={5}>
       <Flex justifyContent={'space-between'} alignItems={'center'} gap={2}>
-        <BasicAvatar src={photoURL}>
+        <Avatar src={photoURL}>
           {presence?.connections && <AvatarOnlineBadge />}
-        </BasicAvatar>
+        </Avatar>
         <Flex direction={'column'} alignItems={'flex-start'}>
           <Link to={`/${userId}`}>
             <Text noOfLines={2}>{displayName}</Text>

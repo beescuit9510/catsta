@@ -1,8 +1,23 @@
 import { mode } from '@chakra-ui/theme-tools'
 import { extendTheme } from '@chakra-ui/react'
 
+import { avatarAnatomy } from '@chakra-ui/anatomy'
+import { createMultiStyleConfigHelpers } from '@chakra-ui/react'
+
+const { definePartsStyle, defineMultiStyleConfig } =
+  createMultiStyleConfigHelpers(avatarAnatomy.keys)
+
+const baseStyle = definePartsStyle({
+  container: {
+    bg: 'teal.500',
+  },
+})
+
+const avatarTheme = defineMultiStyleConfig({ baseStyle })
+
 export const theme = extendTheme({
   components: {
+    Avatar: avatarTheme,
     Text: {
       variants: {
         placeholder: () => ({
