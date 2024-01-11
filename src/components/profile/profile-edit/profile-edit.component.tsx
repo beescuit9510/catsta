@@ -25,12 +25,21 @@ export default function ProfileEdit({ userId }: { userId: string }) {
   const toast = useShowToast()
 
   const { mutate, isPending } = useUpdateUser({
-    onSuccess: () => toast('success', 'Successfully saved.'),
-    onError: () => toast('error', 'Sorry, unexpected error has occured.'),
+    onSuccess: () => {
+      toast('success', 'Successfully saved.')
+      onClose()
+    },
+    onError: () => {
+      toast('error', 'Sorry, unexpected error has occured.')
+      onClose()
+    },
   })
 
   const onSave = () => {
-    if (file) mutate({ userId, file, displayName, bio })
+    if (!displayName?.trim())
+      return toast('warning', 'Display name cannot be empty.')
+    if (!bio?.trim()) return toast('warning', 'Bio cannot be empty.')
+    if (file) return mutate({ userId, file, displayName, bio })
     else mutate({ userId, photoURL, displayName, bio })
   }
 
