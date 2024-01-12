@@ -12,9 +12,9 @@ type CreateUser = {
 }
 
 async function createUser({ email, password, username, confirm }: CreateUser) {
-  if (!email) throw new Error('Email is required')
-  if (!username) throw new Error('Username is required')
-  if (!password) throw new Error('Password is required')
+  if (!email.trim()) throw new Error('Email is required')
+  if (!username.trim()) throw new Error('Username is required')
+  if (!password.trim()) throw new Error('Password is required')
   if (confirm !== password) throw new Error('Those passwords must match')
 
   return createUserWithEmailAndPassword(auth, email, password).then(
