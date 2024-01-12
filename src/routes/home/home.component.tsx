@@ -1,5 +1,5 @@
 import Feed from '../../components/home/feed/feed.component'
-import { Container, Flex, Show } from '@chakra-ui/react'
+import { Container, Flex, Hide, Show } from '@chakra-ui/react'
 import SuggestedForYou from '../../components/home/suggested-for-you/suggested-for-you.component'
 import { Suspense } from 'react'
 import PostLoader from '../../components/common/loader/post-loader.component'
@@ -15,11 +15,20 @@ export default function Home() {
       size='lg'
     >
       <Flex gap={5} flex={1}>
-        <Container size={'lg'} flex={1}>
-          <Suspense fallback={<PostLoader length={3} />}>
-            <Feed />
-          </Suspense>
-        </Container>
+        <Show above='md'>
+          <Container size={'lg'} flex={1}>
+            <Suspense fallback={<PostLoader length={3} />}>
+              <Feed />
+            </Suspense>
+          </Container>
+        </Show>
+        <Hide above='md'>
+          <Flex width={'95%'} marginX={'auto'} justifyItems={'center'}>
+            <Suspense fallback={<PostLoader length={3} />}>
+              <Feed />
+            </Suspense>
+          </Flex>
+        </Hide>
 
         <Show above='md'>
           <SuggestedForYou />

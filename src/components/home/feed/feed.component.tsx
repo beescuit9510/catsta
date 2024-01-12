@@ -62,7 +62,9 @@ export default function Feed() {
                 <Stack>
                   <Flex gap={2}>
                     <Text fontWeight={'700'}>{user.displayName}</Text>
-                    <Text>{post.content}</Text>
+                    <Text wordBreak={'break-word'} noOfLines={5}>
+                      {post.content}
+                    </Text>
                   </Flex>
                 </Stack>
               </Stack>
