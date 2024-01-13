@@ -8,6 +8,7 @@ export const UserKeys = {
   FOLLOWINGS: (userId: string) => ['users', userId, 'followings'] as const,
   FOLLOWERS: (userId: string) => ['users', userId, 'followers'] as const,
   SUGGESTED_USERS: () => ['users', 'suggested'] as const,
+  NOTIFICATIONS: () => ['users', 'notifications'] as const,
 }
 
 export const PostKeys = {

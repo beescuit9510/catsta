@@ -5,6 +5,9 @@ import { PostKeys, UserKeys } from '../../utils/query-key'
 import { Collections, Docs, Post } from '../../utils/firestore-collections-docs'
 import { InfiniteQuery } from '../queries/common/useCustomInfiniteQuery'
 import { UserComment } from '../queries/infinite/useInfiniteComments'
+import { addNotificationDoc } from './common/addNotificationDoc'
+import { auth } from '../../utils/firebase'
+import { useCachedUser } from '../queries/useUser'
 
 type CreateComment = {
   postId: string
@@ -44,10 +47,23 @@ export default function useCreateComment({
   userId,
   content,
 }: CreateComment) {
+  const currentUser = useCachedUser(auth.currentUser!.uid)
+
   return useMutation({
     mutationFn: () => createComment({ postId, userId, content }),
 
     onSuccess: (comment) => {
+      addNotificationDoc({
+        action: 'createdComment',
+        sender: {
+          userId: currentUser!.id,
+          photoURL: currentUser!.photoURL,
+          displayName: currentUser!.displayName,
+        },
+        postId,
+        comment: content,
+      })
+
       queryClient.setQueryData<InfiniteData<InfiniteQuery<Post[]>>>(
         UserKeys.POSTS(userId),
         (oldQueryData) => {

@@ -4,6 +4,7 @@ import {
   CreateItem,
   HomeItem,
   LogoutItem,
+  NotificiationItem,
   ProfileItem,
   SearchItem,
   ToggleColorMode,
@@ -63,6 +64,7 @@ export function MobileBottomBar() {
       <HomeItem />
       <SearchItem />
       <CreateItem />
+      <NotificiationItem />
       <ProfileItem />
       <LogoutItem />
     </MobileFlex>

@@ -9,6 +9,7 @@ import Profile from './routes/profile/profile.component'
 import Search from './routes/search/search.component'
 import Create from './routes/create/create.component'
 import Post from './routes/post/post.component'
+import Notificiation from './routes/notification/notification.component'
 
 function App() {
   const router = createBrowserRouter([
@@ -22,6 +23,7 @@ function App() {
             { index: true, element: <Home /> },
             { path: '/search', element: <Search /> },
             { path: '/create', element: <Create /> },
+            { path: '/notification', element: <Notificiation /> },
             {
               path: '/:userId',
               element: <Profile />,

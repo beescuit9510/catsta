@@ -1,12 +1,14 @@
 import { InfiniteData, useMutation } from '@tanstack/react-query'
 import { arrayUnion, runTransaction } from 'firebase/firestore'
-import { firestore } from '../../utils/firebase'
+import { auth, firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { PostKeys, UserKeys } from '../../utils/query-key'
 import { Docs } from '../../utils/firestore-collections-docs'
 import { UserPost } from '../queries/usePost'
 import { PostUser } from '../queries/infinite/useInfiniteFeed'
 import { InfiniteQuery } from '../queries/common/useCustomInfiniteQuery'
+import { addNotificationDoc } from './common/addNotificationDoc'
+import { useCachedUser } from '../queries/useUser'
 
 async function like(postId: string, userId: string) {
   return runTransaction(firestore, async (transaction) => {
@@ -32,9 +34,21 @@ export default function useLike({
   onSuccess?: () => void
   onError?: () => void
 }) {
+  const currentUser = useCachedUser(auth.currentUser!.uid)
+
   return useMutation({
     mutationFn: () => like(postId, userId),
     onSuccess: () => {
+      addNotificationDoc({
+        action: 'likedPost',
+        sender: {
+          userId: currentUser!.id,
+          photoURL: currentUser!.photoURL,
+          displayName: currentUser!.displayName,
+        },
+        postId,
+      })
+
       queryClient.setQueryData<InfiniteData<InfiniteQuery<PostUser[]>>>(
         UserKeys.FEED,
         (oldQueryData) => {

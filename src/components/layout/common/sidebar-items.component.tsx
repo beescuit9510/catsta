@@ -5,9 +5,11 @@ import { FaRegSquarePlus } from 'react-icons/fa6'
 import { useUser } from '../../../hooks/queries/useUser'
 import { auth } from '../../../utils/firebase'
 import { BiLogOut } from 'react-icons/bi'
-import { Avatar, Icon, useColorMode } from '@chakra-ui/react'
+import { Avatar, Box, Icon, Text, useColorMode } from '@chakra-ui/react'
 import { MdDarkMode } from 'react-icons/md'
 import { IoIosSunny } from 'react-icons/io'
+import { GrNotification } from 'react-icons/gr'
+import useNotifications from '../../../hooks/useNotifications'
 
 export function HomeItem() {
   return <SidebarItem leftIcon={AiFillHome} to='/' text='Home' />
@@ -19,6 +21,36 @@ export function SearchItem() {
 
 export function CreateItem() {
   return <SidebarItem leftIcon={FaRegSquarePlus} to='/create' text='Create' />
+}
+
+export function NotificiationItem() {
+  const count = useNotifications()
+
+  return (
+    <SidebarItem
+      leftElement={
+        <Box position={'relative'}>
+          <Icon as={GrNotification} fontSize={'1.25rem'} />
+          {count !== 0 && (
+            <Text
+              position={'absolute'}
+              top={'-25%'}
+              left={'50%'}
+              bg='red'
+              color={'white'}
+              borderRadius={'9999px'}
+              px={'0.3rem'}
+              fontSize={'0.75rem'}
+            >
+              {count}
+            </Text>
+          )}
+        </Box>
+      }
+      to='/notification'
+      text='Notificiation'
+    />
+  )
 }
 
 export function ProfileItem() {

@@ -4,6 +4,7 @@ import {
   CreateItem,
   HomeItem,
   LogoutItem,
+  NotificiationItem,
   ProfileItem,
   SearchItem,
   ToggleColorMode,
@@ -57,6 +58,7 @@ export default function Sidebar() {
         <HomeItem />
         <SearchItem />
         <CreateItem />
+        <NotificiationItem />
         <ProfileItem />
       </Stack>
 

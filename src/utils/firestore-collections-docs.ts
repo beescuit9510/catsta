@@ -41,6 +41,29 @@ export type Comment = {
   createdAt: number
 }
 
+export type Notification = {
+  id: string
+  userId: string
+  createdAt: number
+  readAt: number | null
+  action: NotificationAction
+
+  sender: {
+    userId: string
+    photoURL: string
+    displayName: string
+  }
+
+  post: {
+    postId: string
+    photoURL: string
+    content: string
+    comment: string | null
+  } | null
+}
+
+export type NotificationAction = 'likedPost' | 'following' | 'createdComment'
+
 function assignTypes<T extends object>() {
   return {
     toFirestore(doc: T): DocumentData {
@@ -68,6 +91,11 @@ export const Collections = {
     collection(firestore, 'posts', postId, 'comments').withConverter(
       assignTypes<Comment>()
     ),
+
+  NOTIFICATIONS: (userId: string) =>
+    collection(firestore, 'users', userId, 'notifications').withConverter(
+      assignTypes<Notification>()
+    ),
 }
 
 export const Docs = {
@@ -86,4 +114,13 @@ export const Docs = {
     doc(firestore, 'posts', postId, 'comments', commentId).withConverter(
       assignTypes<Comment>()
     ),
+
+  NOTIFICATION: (userId: string, notificationId: string) =>
+    doc(
+      firestore,
+      'users',
+      userId,
+      'notifications',
+      notificationId
+    ).withConverter(assignTypes<Notification>()),
 }

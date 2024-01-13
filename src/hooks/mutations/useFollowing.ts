@@ -4,6 +4,8 @@ import { auth, firestore } from '../../utils/firebase'
 import { queryClient } from '../../main'
 import { UserKeys } from '../../utils/query-key'
 import { Docs, User } from '../../utils/firestore-collections-docs'
+import { addNotificationDoc } from './common/addNotificationDoc'
+import { useCachedUser } from '../queries/useUser'
 
 async function following(followingUserId: string) {
   const currentUserId = auth.currentUser!.uid
@@ -19,10 +21,22 @@ async function following(followingUserId: string) {
 
 export default function useFollowing(followingUserId: string) {
   const currentUserId = auth.currentUser!.uid
+  const currentUser = useCachedUser(currentUserId)
+
   return useMutation({
     mutationFn: () => following(followingUserId),
 
     onSuccess: () => {
+      addNotificationDoc({
+        userId: followingUserId,
+        action: 'following',
+        sender: {
+          userId: currentUser!.id,
+          photoURL: currentUser!.photoURL,
+          displayName: currentUser!.displayName,
+        },
+      })
+
       queryClient.setQueryData(
         UserKeys.USER(currentUserId),
         (oldQueryData: User) => {
