@@ -1,11 +1,11 @@
 import { Divider } from '@chakra-ui/react'
-import useInfiniteNotifications from '../../hooks/queries/infinite/useInfiniteNotifications'
+import useInfiniteNotifications from '../../../hooks/queries/infinite/useInfiniteNotifications'
 import { Fragment, useEffect } from 'react'
-import { auth } from '../../utils/firebase'
-import useReadNotification from '../../hooks/mutations/useReadNotification'
-import useHasFocus from '../../hooks/useHasFocus'
-import LoadMoreBtn from '../../components/common/load-more-btn/load-more-btn.component'
-import { Body, Content, Header } from './common/notifications'
+import { auth } from '../../../utils/firebase'
+import useReadNotification from '../../../hooks/mutations/useReadNotification'
+import useHasFocus from '../../../hooks/useHasFocus'
+import LoadMoreBtn from '../../common/load-more-btn/load-more-btn.component'
+import { Body, Content, Header } from '../common/notifications'
 
 const Actions = {
   following: 'is following you!',

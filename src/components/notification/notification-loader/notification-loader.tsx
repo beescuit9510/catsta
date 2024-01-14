@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Content } from './common/notifications'
+import { Content } from '../common/notifications'
 import {
   Divider,
   Flex,

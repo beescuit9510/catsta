@@ -1,7 +1,7 @@
-import { Avatar, Flex, Stack, Text } from '@chakra-ui/react'
+import { Avatar, Flex, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import BasicImage from '../../../components/common/basic-image/basic-image.component'
+import BasicImage from '../../common/basic-image/basic-image.component'
 
 export function Header({
   photoURL,
@@ -61,12 +61,15 @@ export function Content({
   readYet: boolean
   children: React.ReactNode
 }) {
+  const readYetBg = useColorModeValue('gray.100', 'whiteAlpha.200')
+  const readBg = useColorModeValue('white', 'black')
+
   return (
     <Stack
       borderRadius={'19px'}
       py={'1rem'}
       px={'1rem'}
-      bg={readYet ? 'gray.100' : 'white'}
+      bg={readYet ? readYetBg : readBg}
       transition={'all 0.250s ease'}
     >
       {children}

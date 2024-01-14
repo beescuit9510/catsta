@@ -2,8 +2,8 @@ import { Stack } from '@chakra-ui/react'
 import Error from '../error-boundary/error.component'
 import PageContainer from '../../components/common/page-container/page-container.component'
 import { Suspense } from 'react'
-import NotificationList from './notification-list'
-import NotificationLoader from './notification-loader'
+import NotificationList from '../../components/notification/notification-list/notification-list'
+import NotificationLoader from '../../components/notification/notification-loader/notification-loader'
 
 export default function Notificiation() {
   return (
