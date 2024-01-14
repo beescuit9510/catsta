@@ -5,7 +5,7 @@ import { FaRegSquarePlus } from 'react-icons/fa6'
 import { useUser } from '../../../hooks/queries/useUser'
 import { auth } from '../../../utils/firebase'
 import { BiLogOut } from 'react-icons/bi'
-import { Avatar, Box, Icon, Text, useColorMode } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Icon, Text, useColorMode } from '@chakra-ui/react'
 import { MdDarkMode } from 'react-icons/md'
 import { IoIosSunny } from 'react-icons/io'
 import { GrNotification } from 'react-icons/gr'
@@ -29,7 +29,7 @@ export function NotificiationItem() {
   return (
     <SidebarItem
       leftElement={
-        <Box position={'relative'}>
+        <Flex justifyContent={'center'} position={'relative'}>
           <Icon as={GrNotification} fontSize={'1.25rem'} />
           {count !== 0 && (
             <Text
@@ -45,7 +45,7 @@ export function NotificiationItem() {
               {count}
             </Text>
           )}
-        </Box>
+        </Flex>
       }
       to='/notification'
       text='Notificiation'
