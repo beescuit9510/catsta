@@ -1,12 +1,11 @@
 import { Button, Flex, Show, Stack, Text } from '@chakra-ui/react'
 import UserAvatarLoader from '../../common/user-avatar-loader/user-avatar-loader.component'
-import { Suspense, useState } from 'react'
+import { Suspense } from 'react'
 import SuggestedUsers from '../suggested-users/suggested-user.component'
+import { useIntiniteSuggestedUsers } from '../../../hooks/queries/infinite/useInfiniteSuggestedUsers'
 
 export default function SuggestedForYou() {
-  const [hasNextPage, setHasNextPage] = useState(true)
-  const [fetchNext, setFetchNext] = useState(false)
-
+  const { hasNextPage, fetchNextPage } = useIntiniteSuggestedUsers()
   return (
     <Show above='lg'>
       <Flex>
@@ -23,7 +22,7 @@ export default function SuggestedForYou() {
             <Text fontWeight={'600'}>Suggested for you</Text>
             {hasNextPage && (
               <Button
-                onClick={() => setFetchNext(true)}
+                onClick={() => fetchNextPage()}
                 size={'sm'}
                 variant={'ghost'}
               >
@@ -39,10 +38,7 @@ export default function SuggestedForYou() {
               </Stack>
             }
           >
-            <SuggestedUsers
-              setHasNextPage={setHasNextPage}
-              fetchNext={fetchNext}
-            />
+            <SuggestedUsers />
           </Suspense>
         </Flex>
       </Flex>

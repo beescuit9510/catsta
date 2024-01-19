@@ -2,25 +2,9 @@ import { Stack } from '@chakra-ui/react'
 import UserAvatar from '../../common/user-avatar/user-avatar.component'
 import UserAvatarLoader from '../../common/user-avatar-loader/user-avatar-loader.component'
 import { useIntiniteSuggestedUsers } from '../../../hooks/queries/infinite/useInfiniteSuggestedUsers'
-import { useEffect } from 'react'
 
-export default function SuggestedUsers({
-  setHasNextPage,
-  fetchNext,
-}: {
-  setHasNextPage: (hasNextPage: boolean) => void
-  fetchNext: boolean
-}) {
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useIntiniteSuggestedUsers()
-
-  useEffect(() => {
-    setHasNextPage(hasNextPage)
-  }, [hasNextPage])
-
-  useEffect(() => {
-    if (fetchNext) fetchNextPage()
-  }, [fetchNext])
+export default function SuggestedUsers() {
+  const { data, isFetchingNextPage } = useIntiniteSuggestedUsers()
 
   return (
     <>
