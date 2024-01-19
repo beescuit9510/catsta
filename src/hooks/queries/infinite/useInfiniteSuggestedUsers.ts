@@ -1,9 +1,14 @@
 import { orderBy, query } from 'firebase/firestore'
 import { Collections, User } from '../../../utils/firestore-collections-docs'
 import { UserKeys } from '../../../utils/query-key'
-import { useCustomInfiniteQuery } from '../common/useCustomInfiniteQuery'
+import {
+  UseCustomInfiniteQueryOptions,
+  useCustomInfiniteQuery,
+} from '../common/useCustomInfiniteQuery'
 
-export function useIntiniteSuggestedUsers() {
+export function useIntiniteSuggestedUsers(
+  options?: UseCustomInfiniteQueryOptions
+) {
   return useCustomInfiniteQuery<User[], User>({
     queryKey: UserKeys.SUGGESTED_USERS(),
 
@@ -16,5 +21,7 @@ export function useIntiniteSuggestedUsers() {
         ...queryResult,
         data: queryResult.docs.map((doc) => doc.data()),
       })),
+
+    ...options,
   })
 }

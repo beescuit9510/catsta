@@ -5,7 +5,10 @@ import SuggestedUsers from '../suggested-users/suggested-user.component'
 import { useIntiniteSuggestedUsers } from '../../../hooks/queries/infinite/useInfiniteSuggestedUsers'
 
 export default function SuggestedForYou() {
-  const { hasNextPage, fetchNextPage } = useIntiniteSuggestedUsers()
+  const { hasNextPage, fetchNextPage } = useIntiniteSuggestedUsers({
+    suspense: false,
+  })
+
   return (
     <Show above='lg'>
       <Flex>

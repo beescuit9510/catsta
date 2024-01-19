@@ -20,10 +20,10 @@ export default function SuggestedUsers() {
               bio={user.bio}
             />
           ))}
+        {isFetchingNextPage && (
+          <UserAvatarLoader length={data!.pages.at(0)!.perPage} />
+        )}
       </Stack>
-      {isFetchingNextPage && (
-        <UserAvatarLoader length={data!.pages.at(0)!.perPage} />
-      )}
     </>
   )
 }

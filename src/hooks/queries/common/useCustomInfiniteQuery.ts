@@ -8,7 +8,12 @@ import {
   query,
   startAfter,
 } from 'firebase/firestore'
-import { QueryKey, useInfiniteQuery } from '@tanstack/react-query'
+import {
+  InfiniteData,
+  QueryKey,
+  UseInfiniteQueryOptions,
+  useInfiniteQuery,
+} from '@tanstack/react-query'
 
 type QueryParam = {
   perPage: number
@@ -69,14 +74,30 @@ export interface InfiniteQuery<QueryResult> {
   data: QueryResult
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type UseCustomInfiniteQueryOptions<QueryResult = any> = Omit<
+  UseInfiniteQueryOptions<
+    InfiniteQuery<QueryResult>,
+    Error,
+    InfiniteData<InfiniteQuery<QueryResult>, unknown>,
+    InfiniteQuery<QueryResult>,
+    QueryKey,
+    unknown
+  >,
+  'initialPageParam' | 'queryKey' | 'queryFn' | 'getNextPageParam'
+> & { suspense?: boolean }
+
 export function useCustomInfiniteQuery<QueryResult, QueryFnResut>({
   queryKey,
   queryFn,
+  ...options
 }: {
   queryKey: QueryKey
   queryFn: QueryFn<QueryResult, QueryFnResut>
-}) {
+} & UseCustomInfiniteQueryOptions<QueryResult>) {
   const query = useInfiniteQuery<InfiniteQuery<QueryResult>>({
+    ...options,
+
     initialPageParam: null,
 
     queryKey,
