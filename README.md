@@ -11,14 +11,26 @@ Instagram Clone Project
 5. dark mode & light mode
 
 ## Demo
-
 [Catstagram](https://casta2.web.app)
+
+
+I provide you with an email and password for testing so that you do not have to hassle with signing up on your own.
+```
+email : test@gmail.com
+pw : 12345!@#
+```
+
 
 ## Screenshots
 <img width="1822" alt="Screenshot 2024-01-11 at 3 34 47 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/fd4bbacd-bc7e-420e-916d-c2fd352b65d4">
-<img width="580" alt="Screenshot 2024-01-11 at 3 38 23 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/32269055-c99e-4620-91ed-86fd305be6c3">
-<img width="624" alt="Screenshot 2024-01-11 at 3 38 08 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/c1b70b71-e3a5-49ef-8232-6037b56945f8">
 
+<img width="580" alt="Screenshot 2024-01-11 at 3 38 23 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/32269055-c99e-4620-91ed-86fd305be6c3">
+
+<!-- 
+<img width="624" alt="Screenshot 2024-01-11 at 3 38 08 PM" src="https://github.com/beescuit9510/catsta/assets/79363424/c1b70b71-e3a5-49ef-8232-6037b56945f8">
+-->
+
+<!-- 
 ## Videos
 
 ### Click it to play the video
@@ -26,7 +38,7 @@ Instagram Clone Project
 
 ### Click it to play the video
 [![YouTube Video](https://github.com/beescuit9510/catsta/assets/79363424/c1b70b71-e3a5-49ef-8232-6037b56945f8)](https://youtu.be/z-uH3g_xTU4)
-
+ -->
 
 
 ## Table of Contents
@@ -34,7 +46,6 @@ Instagram Clone Project
 - [Catstagram: Features and Intro](#catstagram)
 - [Catstagram: Demo](#demo)
 - [Screenshots](#screenshots)
-- [Videos](#videos)
 - [Table of Contents](#table-of-contents)
 - [Tech Stack](#tech-stack)
 - [Usage](#usage)
